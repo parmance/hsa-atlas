@@ -1,0 +1,168 @@
+
+topd = /home/linehill/work/math-atlas/AtlasBase
+ext  = /home/linehill/work/math-atlas/atlas-src/xextract
+extF = $(ext) -langF -lnlen71 -Remtblank -llwarn2 -LAPACK1 $(incs)
+ext9 = $(ext) -langF -lnlen132 -RemtBlank $(incs)
+extC = $(ext) -langC -lnlen79 -Remtblank -llwarn2 $(incs)
+extM = $(ext) -langM -lnlen79 -llwarn2 $(incs)
+incs = -def topd /home/linehill/work/math-atlas/AtlasBase \
+       -def incd /home/linehill/work/math-atlas/AtlasBase/Clint \
+       -def ext  /home/linehill/work/math-atlas/atlas-src/xextract \
+       -def BASEdir /home/linehill/work/math-atlas/AtlasBase/Antoine/ \
+       -def basd /home/linehill/work/math-atlas/AtlasBase/Clint
+
+default: all
+force_build:
+basd = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdRCW = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdAPP = /home/linehill/work/math-atlas/AtlasBase/Antoine
+basdSTU = /home/linehill/work/math-atlas/AtlasBase/Students
+incf = /home/linehill/work/math-atlas/AtlasBase/gen.inc
+
+############################################################################
+## Reference Level 1 BLAS ####################### AP March 200 #############
+############################################################################
+#
+basf = $(basdAPP)/atlrefblas.base
+extc = $(extC) -b $(basf)
+#
+############################################################################
+#
+fil = \
+   ATL_srefaxpy.c    ATL_srefcopy.c    ATL_srefdot.c      ATL_srefrotg.c     \
+   ATL_srefrot.c     ATL_srefrotmg.c   ATL_srefrotm.c     ATL_srefscal.c     \
+   ATL_srefswap.c    ATL_isrefamax.c   ATL_srefnrm2.c     ATL_srefasum.c     \
+   ATL_drefaxpy.c    ATL_drefcopy.c    ATL_drefdot.c      ATL_drefrotg.c     \
+   ATL_drefrot.c     ATL_drefrotmg.c   ATL_drefrotm.c     ATL_drefscal.c     \
+   ATL_drefswap.c    ATL_idrefamax.c   ATL_drefnrm2.c     ATL_drefasum.c     \
+   ATL_crefaxpy.c    ATL_crefcopy.c    ATL_crefrotg.c     ATL_crefscal.c     \
+   ATL_csrefrot.c    ATL_csrefscal.c   ATL_crefswap.c     ATL_icrefamax.c    \
+   ATL_screfnrm2.c   ATL_screfasum.c   ATL_crefdotu_sub.c ATL_crefdotc_sub.c \
+   ATL_zrefaxpy.c    ATL_zrefcopy.c    ATL_zrefrotg.c     ATL_zrefscal.c     \
+   ATL_zdrefrot.c    ATL_zdrefscal.c   ATL_zrefswap.c     ATL_izrefamax.c    \
+   ATL_dzrefnrm2.c   ATL_dzrefasum.c   ATL_zrefdotu_sub.c ATL_zrefdotc_sub.c \
+   ATL_dsrefdot.c    ATL_sdsrefdot.c
+#
+all  : $(fil)
+#
+kill :
+	rm -f $(fil)
+#
+############################################################################
+## Reference Level 1 BLAS ##################################################
+############################################################################
+#
+ATL_srefrotg.c                        : $(basf)
+	$(extc) -o $@ rout=rotg         type=real
+ATL_drefrotg.c                        : $(basf)
+	$(extc) -o $@ rout=rotg         type=dble
+ATL_crefrotg.c                        : $(basf)
+	$(extc) -o $@ rout=rotg         type=cplx
+ATL_zrefrotg.c                        : $(basf)
+	$(extc) -o $@ rout=rotg         type=zplx
+#
+ATL_srefrotmg.c                       : $(basf)
+	$(extc) -o $@ rout=rotmg        type=real
+ATL_drefrotmg.c                       : $(basf)
+	$(extc) -o $@ rout=rotmg        type=dble
+#
+ATL_srefnrm2.c                        : $(basf)
+	$(extc) -o $@ rout=nrm2         type=real
+ATL_drefnrm2.c                        : $(basf)
+	$(extc) -o $@ rout=nrm2         type=dble
+ATL_screfnrm2.c                       : $(basf)
+	$(extc) -o $@ rout=nrm2         type=cplx
+ATL_dzrefnrm2.c                       : $(basf)
+	$(extc) -o $@ rout=nrm2         type=zplx
+#
+ATL_srefasum.c                        : $(basf)
+	$(extc) -o $@ rout=asum         type=real
+ATL_drefasum.c                        : $(basf)
+	$(extc) -o $@ rout=asum         type=dble
+ATL_screfasum.c                       : $(basf)
+	$(extc) -o $@ rout=asum         type=cplx
+ATL_dzrefasum.c                       : $(basf)
+	$(extc) -o $@ rout=asum         type=zplx
+#
+ATL_isrefamax.c                       : $(basf)
+	$(extc) -o $@ rout=amax         type=real
+ATL_idrefamax.c                       : $(basf)
+	$(extc) -o $@ rout=amax         type=dble
+ATL_icrefamax.c                       : $(basf)
+	$(extc) -o $@ rout=amax         type=cplx
+ATL_izrefamax.c                       : $(basf)
+	$(extc) -o $@ rout=amax         type=zplx
+#
+ATL_srefscal.c                        : $(basf)
+	$(extc) -o $@ rout=scal         type=real
+ATL_drefscal.c                        : $(basf)
+	$(extc) -o $@ rout=scal         type=dble
+ATL_crefscal.c                        : $(basf)
+	$(extc) -o $@ rout=scal         type=cplx
+ATL_zrefscal.c                        : $(basf)
+	$(extc) -o $@ rout=scal         type=zplx
+ATL_csrefscal.c                       : $(basf)
+	$(extc) -o $@ rout=scal         type=chex
+ATL_zdrefscal.c                       : $(basf)
+	$(extc) -o $@ rout=scal         type=zhex
+#
+ATL_srefaxpy.c                        : $(basf)
+	$(extc) -o $@ rout=axpy         type=real
+ATL_drefaxpy.c                        : $(basf)
+	$(extc) -o $@ rout=axpy         type=dble
+ATL_crefaxpy.c                        : $(basf)
+	$(extc) -o $@ rout=axpy         type=cplx
+ATL_zrefaxpy.c                        : $(basf)
+	$(extc) -o $@ rout=axpy         type=zplx
+#
+ATL_srefcopy.c                        : $(basf)
+	$(extc) -o $@ rout=copy         type=real
+ATL_drefcopy.c                        : $(basf)
+	$(extc) -o $@ rout=copy         type=dble
+ATL_crefcopy.c                        : $(basf)
+	$(extc) -o $@ rout=copy         type=cplx
+ATL_zrefcopy.c                        : $(basf)
+	$(extc) -o $@ rout=copy         type=zplx
+#
+ATL_srefswap.c                        : $(basf)
+	$(extc) -o $@ rout=swap         type=real
+ATL_drefswap.c                        : $(basf)
+	$(extc) -o $@ rout=swap         type=dble
+ATL_crefswap.c                        : $(basf)
+	$(extc) -o $@ rout=swap         type=cplx
+ATL_zrefswap.c                        : $(basf)
+	$(extc) -o $@ rout=swap         type=zplx
+#
+ATL_srefrot.c                         : $(basf)
+	$(extc) -o $@ rout=rot          type=real
+ATL_drefrot.c                         : $(basf)
+	$(extc) -o $@ rout=rot          type=dble
+ATL_csrefrot.c                        : $(basf)
+	$(extc) -o $@ rout=rot          type=cplx
+ATL_zdrefrot.c                        : $(basf)
+	$(extc) -o $@ rout=rot          type=zplx
+#
+ATL_srefrotm.c                        : $(basf)
+	$(extc) -o $@ rout=rotm         type=real
+ATL_drefrotm.c                        : $(basf)
+	$(extc) -o $@ rout=rotm         type=dble
+#
+ATL_srefdot.c                         : $(basf)
+	$(extc) -o $@ rout=dot          type=real
+ATL_drefdot.c                         : $(basf)
+	$(extc) -o $@ rout=dot          type=dble
+ATL_crefdotu_sub.c                    : $(basf)
+	$(extc) -o $@ rout=dot          type=cplx
+ATL_crefdotc_sub.c                    : $(basf)
+	$(extc) -o $@ rout=dot          type=chex
+ATL_zrefdotu_sub.c                    : $(basf)
+	$(extc) -o $@ rout=dot          type=zplx
+ATL_zrefdotc_sub.c                    : $(basf)
+	$(extc) -o $@ rout=dot          type=zhex
+#
+ATL_dsrefdot.c                        : $(basf)
+	$(extc) -o $@ rout=dsdot        type=real
+ATL_sdsrefdot.c                       : $(basf)
+	$(extc) -o $@ rout=sdsdot       type=dble
+#
+############################################################################

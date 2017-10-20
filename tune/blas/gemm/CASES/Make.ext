@@ -1,0 +1,348 @@
+
+topd = /home/linehill/work/math-atlas/AtlasBase
+ext  = /home/linehill/work/math-atlas/atlas-src/xextract
+extF = $(ext) -langF -lnlen71 -Remtblank -llwarn2 -LAPACK1 $(incs)
+ext9 = $(ext) -langF -lnlen132 -RemtBlank $(incs)
+extC = $(ext) -langC -lnlen79 -Remtblank -llwarn2 $(incs)
+extM = $(ext) -langM -lnlen79 -llwarn2 $(incs)
+incs = -def topd /home/linehill/work/math-atlas/AtlasBase \
+       -def incd /home/linehill/work/math-atlas/AtlasBase/Clint \
+       -def ext  /home/linehill/work/math-atlas/atlas-src/xextract \
+       -def BASEdir /home/linehill/work/math-atlas/AtlasBase/Antoine/ \
+       -def basd /home/linehill/work/math-atlas/AtlasBase/Clint
+
+default: all
+force_build:
+basd = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdRCW = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdAPP = /home/linehill/work/math-atlas/AtlasBase/Antoine
+basdSTU = /home/linehill/work/math-atlas/AtlasBase/Students
+incf = /home/linehill/work/math-atlas/AtlasBase/gen.inc
+
+basrwd = /home/linehill/work/math-atlas/AtlasBase/kernel/ClintWhaley
+basexd = /home/linehill/work/math-atlas/AtlasBase/kernel/external
+basfn = $(basdRCW)/atlas-kmm.base
+basrw = $(basrwd)/clint.base
+bascm = /home/linehill/work/math-atlas/AtlasBase/kernel/CammMaguire/camm.base
+basps = /home/linehill/work/math-atlas/AtlasBase/kernel/PeterSoendergaard/peter.base
+basex = $(basexd)/extern.base
+
+
+files = ATL_amm4x2xVL_simd.c ATL_amm4x3xVL_simd.c ATL_amm4x4xVL_simd.c \
+        ATL_amm4x5xVL_simd.c ATL_amm4x6xVL_simd.c ATL_amm8x2xVL_simd.c \
+        ATL_amm8x4xVL_simd.c ATL_amm8x5xVL_simd.c ATL_amm8x6xVL_simd.c \
+        ATL_cmm4x4x128_av.c ATL_dmm14x1x56_sse2pABC.c \
+        ATL_dmm14x1x56_sse2pABC_K.c ATL_dmm14x1x56_sse2pABC_MN.c \
+        ATL_dmm1x14x56_sse2pABC.c ATL_dmm1x6x72_sse2.c ATL_dmm2x1x24_5pABC.c \
+        ATL_dmm2x1x40_5pABC.c ATL_dmm2x2x128_sse2.c ATL_dmm2x2x2_sse2.c \
+        ATL_dmm2x4x256_fma4.c ATL_dmm4x1x44_4_sse2.c ATL_dmm4x1x90_x87.c \
+        ATL_dmm4x2x128_sse2.c ATL_dmm4x2x256_avx.c ATL_dmm4x2x4_avx.c \
+        ATL_dmm4x4x16_hppa.c ATL_dmm4x4x16r8_US.c ATL_dmm4x4x2_US.c \
+        ATL_dmm4x4x2_mips.c ATL_dmm4x4x2pf_arm.c ATL_dmm4x4x2pf_av.c \
+        ATL_dmm4x4x32_ppc.c ATL_dmm4x4x80_ppc.c ATL_dmm4x4x8_US.c \
+        ATL_dmm4x4xUR2_mips.c ATL_dmm4x4xUR3_mips.c ATL_dmm4x4xURx_mips.c \
+        ATL_dmm6x1x30_x87.c ATL_dmm6x1x60_sse2.c ATL_dmm6x1x60_sse2_32.c \
+        ATL_dmm6x1x60pABC.c ATL_dmm6x1x72_sse2.c ATL_dmm6x1x72_sse2_K.c \
+        ATL_dmm8x1x120_L1pf.c ATL_dmm8x1x120_sse2.c ATL_dmm8x4x2_vsx.c \
+        ATL_dmm_julian_gas_30.c ATL_dmm_sse2_80.c ATL_dmm_sse2_80M.c \
+        ATL_dmm_sse2_80N.c ATL_dmm_sse2_K.c ATL_gemm_SSE.c ATL_mm4x3x2p.c \
+        ATL_mm4x3x8p.c ATL_mm4x4x2US.c ATL_mm4x4x2US_MN.c ATL_mm4x4x2US_NB.c \
+        ATL_mm4x4x2_1_pref.c ATL_mm4x4x2_1_prefCU.c ATL_mm4x4x2rp.c \
+        ATL_mm4x4x4_av.c ATL_mm4x4x56_av.c ATL_mm4x4x8_av.c \
+        ATL_mm4x4x8_bpfab.c ATL_mm4x4x8_bpfabc.c ATL_mm4x4x8p.c \
+        ATL_mm6x8x8_1p.c ATL_mm8x8x2.c ATL_objdummy.c ATL_smm10x1x120_sse.c \
+        ATL_smm14x1x84_sse.c ATL_smm14x1x84_sseCU.c ATL_smm2x2x256_sse.c \
+        ATL_smm2x4x256_fma4.c ATL_smm4x1x256_sse.c ATL_smm4x1x60_4_sse2.c \
+        ATL_smm4x2x256_avx.c ATL_smm4x2x8_avx.c ATL_smm4x4x128_av.c \
+        ATL_smm4x4x16_US.c ATL_smm4x4x16_av.c ATL_smm4x4x16_hppa.c \
+        ATL_smm4x4x2_US.c ATL_smm4x4x2dld_arm.c ATL_smm4x4x2pf_arm.c \
+        ATL_smm4x4x4_av.c ATL_smm4x4x4_neon.c ATL_smm4x4x72_US.c \
+        ATL_smm4x4xURx_mips.c ATL_smm6x1x120_sse.c ATL_smm6x1x60_sse.c \
+        ATL_smm6x1x60_x87.c ATL_smm6x1x80_sse.c ATL_smm8x2x4_av.c \
+        ATL_smmMNCU_av.c ATL_smm_3dnow_100.c ATL_smm_3dnow_100M.c \
+        ATL_smm_3dnow_100N.c ATL_smm_3dnow_90.c ATL_smm_3dnow_K.c \
+        ATL_smm_sse1_56.c ATL_smm_sse1_56M.c ATL_smm_sse1_56N.c \
+        ATL_smm_sse1_60.c ATL_smm_sse1_60M.c ATL_smm_sse1_60N.c \
+        ATL_smm_sse1_64.c ATL_smm_sse1_64M.c ATL_smm_sse1_64N.c \
+        ATL_smm_sse1_K.c ATL_smm_sse2_112.c ATL_smm_sse2_112M.c \
+        ATL_smm_sse2_112N.c ccases.0 ccases.3DN ccases.SSE ccases.flg \
+        ccases.vnb dcases.0 dcases.3DN dcases.SSE dcases.flg dcases.vnb \
+        scases.0 scases.3DN scases.SSE scases.flg scases.vnb zcases.0 \
+        zcases.3DN zcases.SSE zcases.flg zcases.vnb
+
+all : $(files)
+
+scases.flg : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$@
+scases.SSE : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$@
+scases.3DN : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$@
+scases.0 : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$@
+scases.vnb : $(basdRCW)/gemmVNB.base $(incf)
+	$(extC) -b $(basdRCW)/gemmVNB.base -o $@ rout=$@
+dcases.flg : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$@
+dcases.SSE : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$@
+dcases.3DN : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$@
+dcases.0 : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$@
+dcases.vnb : $(basdRCW)/gemmVNB.base $(incf)
+	$(extC) -b $(basdRCW)/gemmVNB.base -o $@ rout=$@
+ccases.flg : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$@
+ccases.SSE : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$@
+ccases.3DN : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$@
+ccases.0 : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$@
+ccases.vnb : $(basdRCW)/gemmVNB.base $(incf)
+	$(extC) -b $(basdRCW)/gemmVNB.base -o $@ rout=$@
+zcases.flg : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$@
+zcases.SSE : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$@
+zcases.3DN : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$@
+zcases.0 : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$@
+zcases.vnb : $(basdRCW)/gemmVNB.base $(incf)
+	$(extC) -b $(basdRCW)/gemmVNB.base -o $@ rout=$@
+ATL_dmm4x2x128_sse2.c : $(basrwd)/clint_sse.base $(incf)
+	$(extC) -b $(basrwd)/clint_sse.base -o $@ rout=$*
+ATL_dmm8x1x120_L1pf.c : $(basrwd)/clint_sse.base $(incf)
+	$(extC) -b $(basrwd)/clint_sse.base -o $@ rout=$*
+ATL_dmm2x2x2_sse2.c : $(basrwd)/clint_sse.base $(incf)
+	$(extC) -b $(basrwd)/clint_sse.base -o $@ rout=$*
+ATL_dmm2x2x128_sse2.c : $(basrwd)/clint_sse.base $(incf)
+	$(extC) -b $(basrwd)/clint_sse.base -o $@ rout=$*
+ATL_smm2x2x256_sse.c : $(basrwd)/clint_sse.base $(incf)
+	$(extC) -b $(basrwd)/clint_sse.base -o $@ rout=$*
+ATL_dmm4x2x256_avx.c : $(basrwd)/clint_sse.base $(incf)
+	$(extC) -b $(basrwd)/clint_sse.base -o $@ rout=$*
+ATL_smm4x2x256_avx.c : $(basrwd)/clint_sse.base $(incf)
+	$(extC) -b $(basrwd)/clint_sse.base -o $@ rout=$*
+ATL_dmm2x4x256_fma4.c : $(basrwd)/clint_sse.base $(incf)
+	$(extC) -b $(basrwd)/clint_sse.base -o $@ rout=$*
+ATL_smm2x4x256_fma4.c : $(basrwd)/clint_sse.base $(incf)
+	$(extC) -b $(basrwd)/clint_sse.base -o $@ rout=$*
+ATL_amm4x6xVL_simd.c : $(basrwd)/clint_sse.base $(incf)
+	$(extC) -def nu 6 -b $(basrwd)/clint_sse.base -o $@ rout=ATL_amm4xUxVL_simd
+ATL_amm4x5xVL_simd.c : $(basrwd)/clint_sse.base $(incf)
+	$(extC) -def nu 5 -b $(basrwd)/clint_sse.base -o $@ rout=ATL_amm4xUxVL_simd
+ATL_amm4x4xVL_simd.c : $(basrwd)/clint_sse.base $(incf)
+	$(extC) -def nu 4 -b $(basrwd)/clint_sse.base -o $@ rout=ATL_amm4xUxVL_simd
+ATL_amm4x3xVL_simd.c : $(basrwd)/clint_sse.base $(incf)
+	$(extC) -def nu 3 -b $(basrwd)/clint_sse.base -o $@ rout=ATL_amm4xUxVL_simd
+ATL_amm4x2xVL_simd.c : $(basrwd)/clint_sse.base $(incf)
+	$(extC) -def nu 2 -b $(basrwd)/clint_sse.base -o $@ rout=ATL_amm4xUxVL_simd
+ATL_amm8x6xVL_simd.c : $(basrwd)/clint_sse.base $(incf)
+	$(extC) -def nu 6 -b $(basrwd)/clint_sse.base -o $@ rout=ATL_amm8xUxVL_simd
+ATL_amm8x5xVL_simd.c : $(basrwd)/clint_sse.base $(incf)
+	$(extC) -def nu 5 -b $(basrwd)/clint_sse.base -o $@ rout=ATL_amm8xUxVL_simd
+ATL_amm8x4xVL_simd.c : $(basrwd)/clint_sse.base $(incf)
+	$(extC) -def nu 4 -b $(basrwd)/clint_sse.base -o $@ rout=ATL_amm8xUxVL_simd
+ATL_amm8x2xVL_simd.c : $(basrwd)/clint_sse.base $(incf)
+	$(extC) -def nu 2 -b $(basrwd)/clint_sse.base -o $@ rout=ATL_amm8xUxVL_simd
+
+ATL_dmm_sse2_80.c : $(basps) $(incf)
+	$(extC) -b $(basps) -o $@ rout=$* -def rout $*
+ATL_dmm_sse2_80M.c : $(basps) $(incf)
+	$(extC) -b $(basps) -o $@ rout=$* -def rout $*
+ATL_dmm_sse2_80N.c : $(basps) $(incf)
+	$(extC) -b $(basps) -o $@ rout=$* -def rout $*
+ATL_dmm_sse2_K.c : $(basps) $(incf)
+	$(extC) -b $(basps) -o $@ rout=$* -def rout $*
+ATL_smm_3dnow_100.c : $(basps) $(incf)
+	$(extC) -b $(basps) -o $@ rout=$* -def rout $*
+ATL_smm_3dnow_100M.c : $(basps) $(incf)
+	$(extC) -b $(basps) -o $@ rout=$* -def rout $*
+ATL_smm_3dnow_100N.c : $(basps) $(incf)
+	$(extC) -b $(basps) -o $@ rout=$* -def rout $*
+ATL_smm_3dnow_K.c : $(basps) $(incf)
+	$(extC) -b $(basps) -o $@ rout=$* -def rout $*
+ATL_smm_sse1_56.c : $(basps) $(incf)
+	$(extC) -b $(basps) -o $@ rout=$* -def rout $*
+ATL_smm_sse1_60.c : $(basps) $(incf)
+	$(extC) -b $(basps) -o $@ rout=$* -def rout $*
+ATL_smm_sse1_64.c : $(basps) $(incf)
+	$(extC) -b $(basps) -o $@ rout=$* -def rout $*
+ATL_smm_sse1_56M.c : $(basps) $(incf)
+	$(extC) -b $(basps) -o $@ rout=$* -def rout $*
+ATL_smm_sse1_56N.c : $(basps) $(incf)
+	$(extC) -b $(basps) -o $@ rout=$* -def rout $*
+ATL_smm_sse1_60M.c : $(basps) $(incf)
+	$(extC) -b $(basps) -o $@ rout=$* -def rout $*
+ATL_smm_sse1_60N.c : $(basps) $(incf)
+	$(extC) -b $(basps) -o $@ rout=$* -def rout $*
+ATL_smm_sse1_64M.c : $(basps) $(incf)
+	$(extC) -b $(basps) -o $@ rout=$* -def rout $*
+ATL_smm_sse1_64N.c : $(basps) $(incf)
+	$(extC) -b $(basps) -o $@ rout=$* -def rout $*
+ATL_smm_sse1_K.c : $(basps) $(incf)
+	$(extC) -b $(basps) -o $@ rout=$* -def rout $*
+ATL_smm_sse2_112.c : $(basps) $(incf)
+	$(extC) -b $(basps) -o $@ rout=$* -def rout $*
+ATL_smm_sse2_112M.c : $(basps) $(incf)
+	$(extC) -b $(basps) -o $@ rout=$* -def rout $*
+ATL_smm_sse2_112N.c : $(basps) $(incf)
+	$(extC) -b $(basps) -o $@ rout=$* -def rout $*
+ATL_dmm_julian_gas_30.c : $(basps) $(incf)
+	$(extC) -b $(basps) -o $@ rout=$* -def rout $*
+
+ATL_gemm_SSE.c : $(bascm) $(incf)
+	$(extC) -b $(bascm) -o $@ rout=$* -def rout $*
+
+ATL_mm6x8x8_1p.c : $(basrw) $(incf)
+	$(extC) -b $(basrw) -o $@ rout=$* -def rout $*
+ATL_mm4x3x8p.c : $(basrw) $(incf)
+	$(extC) -b $(basrw) -o $@ rout=$* -def rout $*
+ATL_mm4x3x2p.c : $(basrw) $(incf)
+	$(extC) -b $(basrw) -o $@ rout=$* -def rout $*
+ATL_mm4x4x2rp.c : $(basrw) $(incf)
+	$(extC) -b $(basrw) -o $@ rout=$* -def rout $*
+ATL_mm4x4x8p.c : $(basrw) $(incf)
+	$(extC) -b $(basrw) -o $@ rout=$* -def rout $*
+ATL_mm4x4x4_av.c : $(basrw) $(incf)
+	$(extC) -b $(basrw) -o $@ rout=$* -def rout $*
+ATL_mm4x4x56_av.c : $(basrw) $(incf)
+	$(extC) -b $(basrw) -o $@ rout=$* -def rout $*
+ATL_mm4x4x8_av.c : $(basrw) $(incf)
+	$(extC) -b $(basrw) -o $@ rout=$* -def rout $*
+ATL_dmm4x4x2pf_av.c : $(basrw) $(incf)
+	$(extC) -b $(basrw) -o $@ rout=$* -def rout $*
+ATL_smm4x4x16_av.c : $(basrw) $(incf)
+	$(extC) -b $(basrw) -o $@ rout=$* -def rout $*
+ATL_smm4x4x4_av.c : $(basrw) $(incf)
+	$(extC) -b $(basrw) -o $@ rout=$* -def rout $*
+ATL_smmMNCU_av.c : $(basrw) $(incf)
+	$(extC) -b $(basrw) -o $@ rout=$* -def rout $*
+ATL_smm4x4x2_US.c : $(basrw) $(incf)
+	$(extC) -b $(basrw) -o $@ rout=$* -def rout $*
+ATL_mm4x4x8_bpfab.c : $(basrw) $(incf)
+	$(extC) -b $(basrw) -o $@ rout=$* -def rout $*
+ATL_mm4x4x8_bpfabc.c : $(basrw) $(incf)
+	$(extC) -b $(basrw) -o $@ rout=$* -def rout $*
+ATL_mm8x8x2.c : $(basrw) $(incf)
+	$(extC) -b $(basrw) -o $@ rout=$* -def rout $*
+ATL_smm4x4x16_US.c : $(basrw) $(incf)
+	$(extC) -b $(basrw) -o $@ rout=$* -def rout $*
+ATL_smm4x4x72_US.c : $(basrw) $(incf)
+	$(extC) -b $(basrw) -o $@ rout=$* -def rout $*
+ATL_dmm4x4x16r8_US.c : $(basrw) $(incf)
+	$(extC) -b $(basrw) -o $@ rout=$* -def rout $*
+ATL_dmm4x4x2_US.c : $(basrw) $(incf)
+	$(extC) -b $(basrw) -o $@ rout=$* -def rout $*
+ATL_dmm4x4x8_US.c : $(basrw) $(incf)
+	$(extC) -b $(basrw) -o $@ rout=$* -def rout $*
+ATL_dmm4x4xUR2_mips.c : $(basrw) $(incf)
+	$(extC) -b $(basrw) -o $@ rout=$* -def rout $*
+ATL_dmm4x4x2_mips.c : $(basrw) $(incf)
+	$(extC) -b $(basrw) -o $@ rout=$* -def rout $*
+ATL_dmm4x4xUR3_mips.c : $(basrw) $(incf)
+	$(extC) -b $(basrw) -o $@ rout=$* -def rout $*
+ATL_dmm4x4xURx_mips.c : $(basrw) $(incf)
+	$(extC) -b $(basrw) -o $@ rout=$* -def rout $*
+ATL_smm4x4xURx_mips.c : $(basrw) $(incf)
+	$(extC) -b $(basrw) -o $@ rout=$* -def rout $*
+ATL_objdummy.c : $(basrw) $(incf)
+	$(extC) -b $(basrw) -o $@ rout=$* -def rout $*
+ATL_smm6x1x60_sse.c : $(basrw) $(incf)
+	$(extC) -b $(basrw) -o $@ rout=$* -def rout $*
+ATL_dmm2x1x40_5pABC.c : $(basrw) $(incf)
+	$(extC) -b $(basrw) -o $@ rout=$* -def rout $*
+ATL_dmm2x1x24_5pABC.c : $(basrw) $(incf)
+	$(extC) -b $(basrw) -o $@ rout=$* -def rout $*
+ATL_dmm6x1x72_sse2.c : $(basrw) $(incf)
+	$(extC) -b $(basrw) -o $@ rout=$* -def rout $*
+ATL_dmm6x1x60pABC.c : $(basrw) $(incf)
+	$(extC) -b $(basrw) -o $@ rout=$* -def rout $*
+ATL_dmm6x1x60_sse2.c : $(basrw) $(incf)
+	$(extC) -b $(basrw) -o $@ rout=$* -def rout $*
+ATL_dmm1x6x72_sse2.c : $(basrw) $(incf)
+	$(extC) -b $(basrw) -o $@ rout=$* -def rout $*
+ATL_dmm6x1x72_sse2_K.c : $(basrw) $(incf)
+	$(extC) -b $(basrw) -o $@ rout=$* -def rout $*
+ATL_dmm6x1x30_x87.c : $(basrw) $(incf)
+	$(extC) -b $(basrw) -o $@ rout=$* -def rout $*
+ATL_smm6x1x60_x87.c : $(basrw) $(incf)
+	$(extC) -b $(basrw) -o $@ rout=$* -def rout $*
+ATL_smm_3dnow_90.c : $(basrw) $(incf)
+	$(extC) -b $(basrw) -o $@ rout=$* -def rout $*
+ATL_dmm14x1x56_sse2pABC.c : $(basrw) $(incf)
+	$(extC) -b $(basrw) -o $@ rout=$* -def rout $*
+ATL_dmm14x1x56_sse2pABC_K.c : $(basrw) $(incf)
+	$(extC) -b $(basrw) -o $@ rout=$* -def rout $*
+ATL_dmm14x1x56_sse2pABC_MN.c : $(basrw) $(incf)
+	$(extC) -b $(basrw) -o $@ rout=$* -def rout $*
+ATL_smm14x1x84_sse.c : $(basrw) $(incf)
+	$(extC) -b $(basrw) -o $@ rout=$* -def rout $*
+ATL_smm14x1x84_sseCU.c : $(basrw) $(incf)
+	$(extC) -b $(basrw) -o $@ rout=$* -def rout $*
+ATL_dmm1x14x56_sse2pABC.c : $(basrw) $(incf)
+	$(extC) -b $(basrw) -o $@ rout=$* -def rout $*
+ATL_dmm6x1x60_sse2_32.c : $(basrw) $(incf)
+	$(extC) -b $(basrw) -o $@ rout=$* -def rout $*
+ATL_smm6x1x120_sse.c : $(basrw) $(incf)
+	$(extC) -b $(basrw) -o $@ rout=$* -def rout $*
+ATL_smm6x1x80_sse.c : $(basrw) $(incf)
+	$(extC) -b $(basrw) -o $@ rout=$* -def rout $*
+ATL_smm4x4x16_hppa.c : $(basrw) $(incf)
+	$(extC) -b $(basrw) -o $@ rout=$* -def rout $*
+ATL_dmm4x4x16_hppa.c : $(basrw) $(incf)
+	$(extC) -b $(basrw) -o $@ rout=$* -def rout $*
+ATL_dmm4x1x44_4_sse2.c : $(basrw) $(incf)
+	$(extC) -b $(basrw) -o $@ rout=$* -def rout $*
+ATL_smm4x1x60_4_sse2.c : $(basrw) $(incf)
+	$(extC) -b $(basrw) -o $@ rout=$* -def rout $*
+ATL_dmm4x4x32_ppc.c : $(basrw) $(incf)
+	$(extC) -b $(basrw) -o $@ rout=$* -def rout $*
+ATL_dmm4x1x90_x87.c : $(basrw) $(incf)
+	$(extC) -b $(basrw) -o $@ rout=$* -def rout $*
+ATL_dmm8x1x120_sse2.c : $(basrw) $(incf)
+	$(extC) -b $(basrw) -o $@ rout=$* -def rout $*
+ATL_smm10x1x120_sse.c : $(basrw) $(incf)
+	$(extC) -b $(basrw) -o $@ rout=$* -def rout $*
+ATL_dmm4x4x80_ppc.c : $(basrw) $(incf)
+	$(extC) -b $(basrw) -o $@ rout=$* -def rout $*
+ATL_smm4x4x128_av.c : $(basrw) $(incf)
+	$(extC) -b $(basrw) -o $@ rout=$* -def rout $*
+ATL_smm4x1x256_sse.c : $(basrw) $(incf)
+	$(extC) -b $(basrw) -o $@ rout=$* -def rout $*
+ATL_dmm4x2x4_avx.c : $(basrw) $(incf)
+	$(extC) -b $(basrw) -o $@ rout=$* -def rout $*
+ATL_smm4x2x8_avx.c : $(basrw) $(incf)
+	$(extC) -b $(basrw) -o $@ rout=$* -def rout $*
+ATL_cmm4x4x128_av.c : $(basrw) $(incf)
+	$(extC) -b $(basrw) -o $@ rout=$* -def rout $*
+ATL_smm4x4x2pf_arm.c : $(basrw) $(incf)
+	$(extC) -b $(basrw) -o $@ rout=$* -def rout $*
+ATL_dmm4x4x2pf_arm.c : $(basrw) $(incf)
+	$(extC) -b $(basrw) -o $@ rout=$* -def rout $*
+ATL_smm4x4x2dld_arm.c : $(basrw) $(incf)
+	$(extC) -b $(basrw) -o $@ rout=$* -def rout $*
+
+ATL_mm4x4x2_1_pref.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* -def rout $*
+ATL_mm4x4x2_1_prefCU.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* -def rout $*
+ATL_mm4x4x2US.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* -def rout $*
+ATL_mm4x4x2US_NB.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* -def rout $*
+ATL_mm4x4x2US_MN.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* -def rout $*
+
+
+ATL_smm4x4x4_neon.c : $(basex) $(basexd)/ATL_smm4x4x4_neon.c
+	$(extC) -b $(basex) -o $@ rout=$* -def rout $*
+ATL_smm8x2x4_av.c : $(basrwd)/ATL_smm8x2x4_av.c
+	cp $(basrwd)/ATL_smm8x2x4_av.c .
+ATL_dmm8x4x2_vsx.c : $(basrwd)/ATL_dmm8x4x2_vsx.c
+	cp $(basrwd)/ATL_dmm8x4x2_vsx.c .
+Make.ext : $(topd)/make.base
+	$(extM) -o Make.ext -b $(topd)/make.base rout=ATLAS/tune/blas/gemm/CASES

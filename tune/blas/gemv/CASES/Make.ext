@@ -1,0 +1,128 @@
+
+topd = /home/linehill/work/math-atlas/AtlasBase
+ext  = /home/linehill/work/math-atlas/atlas-src/xextract
+extF = $(ext) -langF -lnlen71 -Remtblank -llwarn2 -LAPACK1 $(incs)
+ext9 = $(ext) -langF -lnlen132 -RemtBlank $(incs)
+extC = $(ext) -langC -lnlen79 -Remtblank -llwarn2 $(incs)
+extM = $(ext) -langM -lnlen79 -llwarn2 $(incs)
+incs = -def topd /home/linehill/work/math-atlas/AtlasBase \
+       -def incd /home/linehill/work/math-atlas/AtlasBase/Clint \
+       -def ext  /home/linehill/work/math-atlas/atlas-src/xextract \
+       -def BASEdir /home/linehill/work/math-atlas/AtlasBase/Antoine/ \
+       -def basd /home/linehill/work/math-atlas/AtlasBase/Clint
+
+default: all
+force_build:
+basd = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdRCW = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdAPP = /home/linehill/work/math-atlas/AtlasBase/Antoine
+basdSTU = /home/linehill/work/math-atlas/AtlasBase/Students
+incf = /home/linehill/work/math-atlas/AtlasBase/gen.inc
+
+basfn = $(basdRCW)/atlas-lvl2.base
+bascm = /home/linehill/work/math-atlas/AtlasBase/kernel/CammMaguire/camm.base
+files = ATL_cgemvN_1x1_1.c ATL_cgemvN_1x1_1a.c ATL_cgemvN_2x2_0.c \
+        ATL_cgemvN_4x2_1.c ATL_cgemvN_mm.c ATL_cgemvT_1x1_1.c \
+        ATL_cgemvT_2x2_0.c ATL_cgemvT_2x4_1.c ATL_cgemvT_mm.c \
+        ATL_dgemvkT_sse3_14x1.c ATL_dgemvkT_sse3_4x1.c ATL_gemvN_16x2_1.c \
+        ATL_gemvN_16x4_1.c ATL_gemvN_1x1_1.c ATL_gemvN_1x1_1a.c \
+        ATL_gemvN_32x4_1.c ATL_gemvN_4x2_0.c ATL_gemvN_4x4_1.c \
+        ATL_gemvN_8x32_2.c ATL_gemvN_8x4_1.c ATL_gemvN_SSE.c \
+        ATL_gemvN_dummy.c ATL_gemvN_dummy2.c ATL_gemvN_mm.c ATL_gemvT_1x1_1.c \
+        ATL_gemvT_2x16_1.c ATL_gemvT_2x8_0.c ATL_gemvT_4x16_1.c \
+        ATL_gemvT_4x8_1.c ATL_gemvT_SSE.c ATL_gemvT_dummy.c \
+        ATL_gemvT_dummy2.c ATL_gemvT_mm.c ATL_gemv_SSE.c ccases.dsc \
+        dcases.dsc scases.dsc zcases.dsc
+
+all : $(files)
+kill : 
+	rm -f $(files)
+
+ATL_sger2K_NEON_lda4.S : /home/linehill/work/math-atlas/AtlasBase/kernel/external/extern.base /home/linehill/work/math-atlas/AtlasBase/kernel/external/ATL_sger2K_NEON_lda4.S
+	$(extC) -b /home/linehill/work/math-atlas/AtlasBase/kernel/external/extern.base -o $@ rout=$@ \
+                -def rout $@
+ATL_sger2K_NEON.S : /home/linehill/work/math-atlas/AtlasBase/kernel/external/extern.base /home/linehill/work/math-atlas/AtlasBase/kernel/external/ATL_sger2K_NEON.S
+	$(extC) -b /home/linehill/work/math-atlas/AtlasBase/kernel/external/extern.base -o $@ rout=$@ \
+                -def rout $@
+ATL_gerk_vx4_vsx.c : $(topd)/kernel/external/ATL_gerk_vx4_vsx.c
+	cp -f $(topd)/kernel/external/ATL_gerk_vx4_vsx.c .
+ATL_cgemvN_4x2_1.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_cgemvN_2x2_0.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_cgemvN_mm.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_gemvN_4x4_1.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_gemvN_4x2_0.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_gemvN_mm.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_gemvN_8x32_2.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_gemvN_8x4_1.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_gemvN_16x2_1.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_gemvN_16x4_1.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_gemvN_32x4_1.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_cgemvT_2x4_1.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_cgemvT_2x2_0.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_cgemvT_mm.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_gemvT_4x8_1.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_gemvT_2x8_0.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_gemvT_mm.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_gemvT_4x16_1.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_gemvT_2x16_1.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_gemvN_1x1_1a.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_cgemvN_1x1_1a.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_gemvN_1x1_1.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_gemvT_1x1_1.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_cgemvN_1x1_1.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_cgemvT_1x1_1.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_gemvN_dummy.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_gemvT_dummy.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_gemvN_dummy2.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_gemvT_dummy2.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+
+Make.ext : $(topd)/make.base
+	$(extM) -b $(topd)/make.base -o $@ rout=atlas/tune/blas/gemv/cases
+scases.dsc: $(basfn)
+	$(extC) -b $(basfn) -o $@ rout=mvscases.dsc
+dcases.dsc: $(basfn)
+	$(extC) -b $(basfn) -o $@ rout=mvdcases.dsc
+ccases.dsc: $(basfn)
+	$(extC) -b $(basfn) -o $@ rout=mvccases.dsc
+zcases.dsc: $(basfn)
+	$(extC) -b $(basfn) -o $@ rout=mvzcases.dsc
+
+ATL_dgemvkT_sse3_4x1.c : $(basd)/atlas-l2k.base $(incf)
+	$(extC) -b $(basd)/atlas-l2k.base -o $@ rout=$*  mu=0 nu=0
+ATL_dgemvkT_sse3_14x1.c : $(basd)/atlas-l2k.base $(incf)
+	$(extC) -b $(basd)/atlas-l2k.base -o $@ rout=$*  mu=0 nu=0
+ATL_gemv_SSE.c : $(bascm) $(incf)
+	$(extC) -b $(bascm) -o $@ rout=$* -def rout $*
+ATL_gemvT_SSE.c : $(bascm) $(incf)
+	$(extC) -b $(bascm) -o $@ rout=$* -def rout $*
+ATL_gemvN_SSE.c : $(bascm) $(incf)
+	$(extC) -b $(bascm) -o $@ rout=$* -def rout $*

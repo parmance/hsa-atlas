@@ -1,0 +1,109 @@
+
+topd = /home/linehill/work/math-atlas/AtlasBase
+ext  = /home/linehill/work/math-atlas/atlas-src/xextract
+extF = $(ext) -langF -lnlen71 -Remtblank -llwarn2 -LAPACK1 $(incs)
+ext9 = $(ext) -langF -lnlen132 -RemtBlank $(incs)
+extC = $(ext) -langC -lnlen79 -Remtblank -llwarn2 $(incs)
+extM = $(ext) -langM -lnlen79 -llwarn2 $(incs)
+incs = -def topd /home/linehill/work/math-atlas/AtlasBase \
+       -def incd /home/linehill/work/math-atlas/AtlasBase/Clint \
+       -def ext  /home/linehill/work/math-atlas/atlas-src/xextract \
+       -def BASEdir /home/linehill/work/math-atlas/AtlasBase/Antoine/ \
+       -def basd /home/linehill/work/math-atlas/AtlasBase/Clint
+
+default: all
+force_build:
+basd = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdRCW = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdAPP = /home/linehill/work/math-atlas/AtlasBase/Antoine
+basdSTU = /home/linehill/work/math-atlas/AtlasBase/Students
+incf = /home/linehill/work/math-atlas/AtlasBase/gen.inc
+
+basfn = $(basdRCW)/atlas-tl1.base
+
+files = asumsrch.c asumtest.c asumtime.c axpbysrch.c axpbytest.c axpbytime.c \
+        axpysrch.c axpytest.c axpytime.c copysrch.c copytest.c copytime.c \
+        cpscsrch.c cpsctest.c cpsctime.c dotsrch.c dottest.c dottime.c \
+        iamaxsrch.c iamaxtest.c iamaxtime.c nrm2srch.c nrm2test.c nrm2time.c \
+        rotsrch.c rottest.c rottime.c scalsrch.c scaltest.c scaltime.c \
+        setsrch.c settest.c settime.c swapsrch.c swaptest.c swaptime.c
+
+all : $(files)
+kill :
+	rm -f $(files)
+
+rottime.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* which=example
+rottest.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* which=example
+rotsrch.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* which=example
+axpbytime.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* which=example
+axpbytest.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* which=example
+axpbysrch.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* which=example
+settime.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* which=example
+settest.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* which=example
+setsrch.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* which=example
+cpsctime.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* which=example
+cpsctest.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* which=example
+cpscsrch.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* which=example
+nrm2time.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* which=example
+nrm2test.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* which=example
+nrm2srch.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* which=example
+asumtime.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* which=example
+asumtest.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* which=example
+asumsrch.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* which=example
+dottime.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* which=example
+dottest.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* which=example
+dotsrch.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* which=example
+swaptime.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* which=example
+swaptest.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* which=example
+swapsrch.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* which=example
+scaltime.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* which=example
+scaltest.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* which=example
+scalsrch.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* which=example
+copytime.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* which=example
+copytest.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* which=example
+copysrch.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* which=example
+axpytime.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* which=example
+axpytest.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* which=example
+axpysrch.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* which=example
+iamaxtime.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* which=example
+iamaxtest.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* which=example
+iamaxsrch.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* which=example
+
+Make.ext : $(topd)/make.base
+	$(extM) -b $(topd)/make.base -o Make.ext rout=atlas/tune/blas/level1

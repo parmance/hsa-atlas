@@ -1,0 +1,45 @@
+
+topd = /home/linehill/work/math-atlas/AtlasBase
+ext  = /home/linehill/work/math-atlas/atlas-src/xextract
+extF = $(ext) -langF -lnlen71 -Remtblank -llwarn2 -LAPACK1 $(incs)
+ext9 = $(ext) -langF -lnlen132 -RemtBlank $(incs)
+extC = $(ext) -langC -lnlen79 -Remtblank -llwarn2 $(incs)
+extM = $(ext) -langM -lnlen79 -llwarn2 $(incs)
+incs = -def topd /home/linehill/work/math-atlas/AtlasBase \
+       -def incd /home/linehill/work/math-atlas/AtlasBase/Clint \
+       -def ext  /home/linehill/work/math-atlas/atlas-src/xextract \
+       -def BASEdir /home/linehill/work/math-atlas/AtlasBase/Antoine/ \
+       -def basd /home/linehill/work/math-atlas/AtlasBase/Clint
+
+default: all
+force_build:
+basd = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdRCW = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdAPP = /home/linehill/work/math-atlas/AtlasBase/Antoine
+basdSTU = /home/linehill/work/math-atlas/AtlasBase/Students
+incf = /home/linehill/work/math-atlas/AtlasBase/gen.inc
+
+basfn = $(basdRCW)/extest.base
+
+files = r1test.c r2test.c mvntest.c mvttest.c RUN_qrtest_pt.sh RUN_ormtst.sh
+
+all : $(files)
+kill : 
+	rm -f $(files)
+
+RUN_ormtst.sh : /home/linehill/work/math-atlas/AtlasBase/Students/qr.base
+	$(extM) -b /home/linehill/work/math-atlas/AtlasBase/Students/qr.base -o $@ rout=$@
+	chmod u+rwx $@
+RUN_qrtest_pt.sh : /home/linehill/work/math-atlas/AtlasBase/Students/qr.base
+	$(extM) -b /home/linehill/work/math-atlas/AtlasBase/Students/qr.base -o $@ rout=$@
+	chmod u+rwx $@
+mvttest.c : $(basfn)
+	$(extC) -b $(basfn) -o $@ rout=$*
+mvntest.c : $(basfn)
+	$(extC) -b $(basfn) -o $@ rout=$*
+r1test.c : $(basfn)
+	$(extC) -b $(basfn) -o $@ rout=$*
+r2test.c : $(basfn)
+	$(extC) -b $(basfn) -o $@ rout=r2ktest
+Make.ext : $(topd)/make.base
+	$(extM) -b $(topd)/make.base -o Make.ext rout=atlas/extest

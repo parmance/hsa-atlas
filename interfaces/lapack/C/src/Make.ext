@@ -1,0 +1,176 @@
+
+topd = /home/linehill/work/math-atlas/AtlasBase
+ext  = /home/linehill/work/math-atlas/atlas-src/xextract
+extF = $(ext) -langF -lnlen71 -Remtblank -llwarn2 -LAPACK1 $(incs)
+ext9 = $(ext) -langF -lnlen132 -RemtBlank $(incs)
+extC = $(ext) -langC -lnlen79 -Remtblank -llwarn2 $(incs)
+extM = $(ext) -langM -lnlen79 -llwarn2 $(incs)
+incs = -def topd /home/linehill/work/math-atlas/AtlasBase \
+       -def incd /home/linehill/work/math-atlas/AtlasBase/Clint \
+       -def ext  /home/linehill/work/math-atlas/atlas-src/xextract \
+       -def BASEdir /home/linehill/work/math-atlas/AtlasBase/Antoine/ \
+       -def basd /home/linehill/work/math-atlas/AtlasBase/Clint
+
+default: all
+force_build:
+basd = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdRCW = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdAPP = /home/linehill/work/math-atlas/AtlasBase/Antoine
+basdSTU = /home/linehill/work/math-atlas/AtlasBase/Students
+incf = /home/linehill/work/math-atlas/AtlasBase/gen.inc
+
+basfn = $(basdRCW)/atlas-clp.base
+
+files = clapack_cgelqf.c clapack_cgels.c clapack_cgeqlf.c clapack_cgeqrf.c \
+        clapack_cgerqf.c clapack_cgesv.c clapack_cgetrf.c clapack_cgetri.c \
+        clapack_cgetrs.c clapack_clauum.c clapack_cposv.c clapack_cpotrf.c \
+        clapack_cpotri.c clapack_cpotrs.c clapack_ctrtri.c clapack_dgelqf.c \
+        clapack_dgels.c clapack_dgeqlf.c clapack_dgeqrf.c clapack_dgerqf.c \
+        clapack_dgesv.c clapack_dgetrf.c clapack_dgetri.c clapack_dgetrs.c \
+        clapack_dlamch.c clapack_dlauum.c clapack_dposv.c clapack_dpotrf.c \
+        clapack_dpotri.c clapack_dpotrs.c clapack_dtrtri.c clapack_ilaenv.c \
+        clapack_sgelqf.c clapack_sgels.c clapack_sgeqlf.c clapack_sgeqrf.c \
+        clapack_sgerqf.c clapack_sgesv.c clapack_sgetrf.c clapack_sgetri.c \
+        clapack_sgetrs.c clapack_slamch.c clapack_slauum.c clapack_sposv.c \
+        clapack_spotrf.c clapack_spotri.c clapack_spotrs.c clapack_strtri.c \
+        clapack_zgelqf.c clapack_zgels.c clapack_zgeqlf.c clapack_zgeqrf.c \
+        clapack_zgerqf.c clapack_zgesv.c clapack_zgetrf.c clapack_zgetri.c \
+        clapack_zgetrs.c clapack_zlauum.c clapack_zposv.c clapack_zpotrf.c \
+        clapack_zpotri.c clapack_zpotrs.c clapack_ztrtri.c
+
+all : $(files)
+kill : 
+	rm -f $(files)
+
+clapack_sgetri.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=clapack_getri type=SREAL
+clapack_spotri.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=clapack_potri type=SREAL
+clapack_slauum.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=clapack_lauum type=SREAL
+clapack_strtri.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=clapack_trtri type=SREAL
+clapack_spotrs.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=clapack_potrs type=SREAL
+clapack_spotrf.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=clapack_potrf type=SREAL
+clapack_sposv.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=clapack_posv type=SREAL
+clapack_sgetrs.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=clapack_getrs type=SREAL
+clapack_sgetrf.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=clapack_getrf type=SREAL
+clapack_sgesv.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=clapack_gesv type=SREAL
+clapack_sgels.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=clapack_gels type=SREAL
+clapack_sgelqf.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=clapack_gelqf type=SREAL
+clapack_sgeqlf.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=clapack_geqlf type=SREAL
+clapack_sgerqf.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=clapack_gerqf type=SREAL
+clapack_sgeqrf.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=clapack_geqrf type=SREAL
+clapack_slamch.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=clapack_lamch type=SREAL
+clapack_dgetri.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=clapack_getri type=DREAL
+clapack_dpotri.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=clapack_potri type=DREAL
+clapack_dlauum.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=clapack_lauum type=DREAL
+clapack_dtrtri.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=clapack_trtri type=DREAL
+clapack_dpotrs.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=clapack_potrs type=DREAL
+clapack_dpotrf.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=clapack_potrf type=DREAL
+clapack_dposv.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=clapack_posv type=DREAL
+clapack_dgetrs.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=clapack_getrs type=DREAL
+clapack_dgetrf.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=clapack_getrf type=DREAL
+clapack_dgesv.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=clapack_gesv type=DREAL
+clapack_dgels.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=clapack_gels type=DREAL
+clapack_dgelqf.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=clapack_gelqf type=DREAL
+clapack_dgeqlf.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=clapack_geqlf type=DREAL
+clapack_dgerqf.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=clapack_gerqf type=DREAL
+clapack_dgeqrf.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=clapack_geqrf type=DREAL
+clapack_dlamch.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=clapack_lamch type=DREAL
+clapack_cgetri.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=clapack_getri type=SCPLX
+clapack_cpotri.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=clapack_potri type=SCPLX
+clapack_clauum.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=clapack_lauum type=SCPLX
+clapack_ctrtri.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=clapack_trtri type=SCPLX
+clapack_cpotrs.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=clapack_potrs type=SCPLX
+clapack_cpotrf.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=clapack_potrf type=SCPLX
+clapack_cposv.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=clapack_posv type=SCPLX
+clapack_cgetrs.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=clapack_getrs type=SCPLX
+clapack_cgetrf.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=clapack_getrf type=SCPLX
+clapack_cgesv.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=clapack_gesv type=SCPLX
+clapack_cgels.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=clapack_gels type=SCPLX
+clapack_cgelqf.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=clapack_gelqf type=SCPLX
+clapack_cgeqlf.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=clapack_geqlf type=SCPLX
+clapack_cgerqf.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=clapack_gerqf type=SCPLX
+clapack_cgeqrf.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=clapack_geqrf type=SCPLX
+clapack_clamch.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=clapack_lamch type=SCPLX
+clapack_zgetri.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=clapack_getri type=DCPLX
+clapack_zpotri.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=clapack_potri type=DCPLX
+clapack_zlauum.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=clapack_lauum type=DCPLX
+clapack_ztrtri.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=clapack_trtri type=DCPLX
+clapack_zpotrs.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=clapack_potrs type=DCPLX
+clapack_zpotrf.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=clapack_potrf type=DCPLX
+clapack_zposv.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=clapack_posv type=DCPLX
+clapack_zgetrs.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=clapack_getrs type=DCPLX
+clapack_zgetrf.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=clapack_getrf type=DCPLX
+clapack_zgesv.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=clapack_gesv type=DCPLX
+clapack_zgels.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=clapack_gels type=DCPLX
+clapack_zgelqf.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=clapack_gelqf type=DCPLX
+clapack_zgeqlf.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=clapack_geqlf type=DCPLX
+clapack_zgerqf.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=clapack_gerqf type=DCPLX
+clapack_zgeqrf.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=clapack_geqrf type=DCPLX
+clapack_zlamch.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=clapack_lamch type=DCPLX
+clapack_ilaenv.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=clapack_ilaenv type=int
+Make.ext : $(topd)/make.base
+	$(extM) -b $(topd)/make.base -o Make.ext rout=atlas/interfaces/lapack/c/src

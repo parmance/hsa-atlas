@@ -1,0 +1,126 @@
+
+topd = /home/linehill/work/math-atlas/AtlasBase
+ext  = /home/linehill/work/math-atlas/atlas-src/xextract
+extF = $(ext) -langF -lnlen71 -Remtblank -llwarn2 -LAPACK1 $(incs)
+ext9 = $(ext) -langF -lnlen132 -RemtBlank $(incs)
+extC = $(ext) -langC -lnlen79 -Remtblank -llwarn2 $(incs)
+extM = $(ext) -langM -lnlen79 -llwarn2 $(incs)
+incs = -def topd /home/linehill/work/math-atlas/AtlasBase \
+       -def incd /home/linehill/work/math-atlas/AtlasBase/Clint \
+       -def ext  /home/linehill/work/math-atlas/atlas-src/xextract \
+       -def BASEdir /home/linehill/work/math-atlas/AtlasBase/Antoine/ \
+       -def basd /home/linehill/work/math-atlas/AtlasBase/Clint
+
+default: all
+force_build:
+basd = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdRCW = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdAPP = /home/linehill/work/math-atlas/AtlasBase/Antoine
+basdSTU = /home/linehill/work/math-atlas/AtlasBase/Students
+incf = /home/linehill/work/math-atlas/AtlasBase/gen.inc
+
+basfn = $(basdRCW)/atlas-tl1.base
+files = auxiliary.c axpbytst.c c_c2chke.c c_c3chke.c c_cblas1.c c_cblas2.c \
+        c_cblas3.c c_cblat1.f c_cblat2.dat c_cblat2.f c_cblat3.dat c_cblat3.f \
+        c_d2chke.c c_d3chke.c c_dblas1.c c_dblas2.c c_dblas3.c c_dblat1.f \
+        c_dblat2.dat c_dblat2.f c_dblat3.dat c_dblat3.f c_rblas3.c c_s2chke.c \
+        c_s3chke.c c_sblas1.c c_sblas2.c c_sblas3.c c_sblat1.f c_sblat2.dat \
+        c_sblat2.f c_sblat3.dat c_sblat3.f c_xerbla.c c_z2chke.c c_z3chke.c \
+        c_zblas1.c c_zblas2.c c_zblas3.c c_zblat1.f c_zblat2.dat c_zblat2.f \
+        c_zblat3.dat c_zblat3.f cblas_xerbla.c settst.c
+
+all : $(files)
+
+auxiliary.c : $(basdRCW)/misc/CBLATST/auxiliary.c
+	cp $(basdRCW)/misc/CBLATST/auxiliary.c .
+c_cblat3.dat : $(basdRCW)/misc/CBLATST/c_cblat3.dat
+	cp $(basdRCW)/misc/CBLATST/c_cblat3.dat .
+c_dblat2.f : $(basdRCW)/misc/CBLATST/c_dblat2.f
+	cp $(basdRCW)/misc/CBLATST/c_dblat2.f .
+c_sblat1.f : $(basdRCW)/misc/CBLATST/c_sblat1.f
+	cp $(basdRCW)/misc/CBLATST/c_sblat1.f .
+c_zblas2.c : $(basdRCW)/misc/CBLATST/c_zblas2.c
+	cp $(basdRCW)/misc/CBLATST/c_zblas2.c .
+c_c2chke.c : $(basdRCW)/misc/CBLATST/c_c2chke.c
+	cp $(basdRCW)/misc/CBLATST/c_c2chke.c .
+c_cblat3.f : $(basdRCW)/misc/CBLATST/c_cblat3.f
+	cp $(basdRCW)/misc/CBLATST/c_cblat3.f .
+c_dblat3.dat : $(basdRCW)/misc/CBLATST/c_dblat3.dat
+	cp $(basdRCW)/misc/CBLATST/c_dblat3.dat .
+c_sblat2.dat : $(basdRCW)/misc/CBLATST/c_sblat2.dat
+	cp $(basdRCW)/misc/CBLATST/c_sblat2.dat .
+c_zblas3.c : $(basdRCW)/misc/CBLATST/c_zblas3.c
+	cp $(basdRCW)/misc/CBLATST/c_zblas3.c .
+c_c3chke.c : $(basdRCW)/misc/CBLATST/c_c3chke.c
+	cp $(basdRCW)/misc/CBLATST/c_c3chke.c .
+c_d2chke.c : $(basdRCW)/misc/CBLATST/c_d2chke.c
+	cp $(basdRCW)/misc/CBLATST/c_d2chke.c .
+c_dblat3.f : $(basdRCW)/misc/CBLATST/c_dblat3.f
+	cp $(basdRCW)/misc/CBLATST/c_dblat3.f .
+c_sblat2.f : $(basdRCW)/misc/CBLATST/c_sblat2.f
+	cp $(basdRCW)/misc/CBLATST/c_sblat2.f .
+c_zblat1.f : $(basdRCW)/misc/CBLATST/c_zblat1.f
+	cp $(basdRCW)/misc/CBLATST/c_zblat1.f .
+c_cblas1.c : $(basdRCW)/misc/CBLATST/c_cblas1.c
+	cp $(basdRCW)/misc/CBLATST/c_cblas1.c .
+c_d3chke.c : $(basdRCW)/misc/CBLATST/c_d3chke.c
+	cp $(basdRCW)/misc/CBLATST/c_d3chke.c .
+c_rblas3.c : $(basdRCW)/misc/CBLATST/c_rblas3.c
+	cp $(basdRCW)/misc/CBLATST/c_rblas3.c .
+c_sblat3.dat : $(basdRCW)/misc/CBLATST/c_sblat3.dat
+	cp $(basdRCW)/misc/CBLATST/c_sblat3.dat .
+c_zblat2.dat : $(basdRCW)/misc/CBLATST/c_zblat2.dat
+	cp $(basdRCW)/misc/CBLATST/c_zblat2.dat .
+c_cblas2.c : $(basdRCW)/misc/CBLATST/c_cblas2.c
+	cp $(basdRCW)/misc/CBLATST/c_cblas2.c .
+c_dblas1.c : $(basdRCW)/misc/CBLATST/c_dblas1.c
+	cp $(basdRCW)/misc/CBLATST/c_dblas1.c .
+c_s2chke.c : $(basdRCW)/misc/CBLATST/c_s2chke.c
+	cp $(basdRCW)/misc/CBLATST/c_s2chke.c .
+c_sblat3.f : $(basdRCW)/misc/CBLATST/c_sblat3.f
+	cp $(basdRCW)/misc/CBLATST/c_sblat3.f .
+c_zblat2.f : $(basdRCW)/misc/CBLATST/c_zblat2.f
+	cp $(basdRCW)/misc/CBLATST/c_zblat2.f .
+c_cblas3.c : $(basdRCW)/misc/CBLATST/c_cblas3.c
+	cp $(basdRCW)/misc/CBLATST/c_cblas3.c .
+c_dblas2.c : $(basdRCW)/misc/CBLATST/c_dblas2.c
+	cp $(basdRCW)/misc/CBLATST/c_dblas2.c .
+c_s3chke.c : $(basdRCW)/misc/CBLATST/c_s3chke.c
+	cp $(basdRCW)/misc/CBLATST/c_s3chke.c .
+c_xerbla.c : $(basdRCW)/misc/CBLATST/c_xerbla.c
+	cp $(basdRCW)/misc/CBLATST/c_xerbla.c .
+c_zblat3.dat : $(basdRCW)/misc/CBLATST/c_zblat3.dat
+	cp $(basdRCW)/misc/CBLATST/c_zblat3.dat .
+c_cblat1.f : $(basdRCW)/misc/CBLATST/c_cblat1.f
+	cp $(basdRCW)/misc/CBLATST/c_cblat1.f .
+c_dblas3.c : $(basdRCW)/misc/CBLATST/c_dblas3.c
+	cp $(basdRCW)/misc/CBLATST/c_dblas3.c .
+c_sblas1.c : $(basdRCW)/misc/CBLATST/c_sblas1.c
+	cp $(basdRCW)/misc/CBLATST/c_sblas1.c .
+c_z2chke.c : $(basdRCW)/misc/CBLATST/c_z2chke.c
+	cp $(basdRCW)/misc/CBLATST/c_z2chke.c .
+c_zblat3.f : $(basdRCW)/misc/CBLATST/c_zblat3.f
+	cp $(basdRCW)/misc/CBLATST/c_zblat3.f .
+c_cblat2.dat : $(basdRCW)/misc/CBLATST/c_cblat2.dat
+	cp $(basdRCW)/misc/CBLATST/c_cblat2.dat .
+c_dblat1.f : $(basdRCW)/misc/CBLATST/c_dblat1.f
+	cp $(basdRCW)/misc/CBLATST/c_dblat1.f .
+c_sblas2.c : $(basdRCW)/misc/CBLATST/c_sblas2.c
+	cp $(basdRCW)/misc/CBLATST/c_sblas2.c .
+c_z3chke.c : $(basdRCW)/misc/CBLATST/c_z3chke.c
+	cp $(basdRCW)/misc/CBLATST/c_z3chke.c .
+cblas_xerbla.c : $(basdRCW)/misc/CBLATST/cblas_xerbla.c
+	cp $(basdRCW)/misc/CBLATST/cblas_xerbla.c .
+c_cblat2.f : $(basdRCW)/misc/CBLATST/c_cblat2.f
+	cp $(basdRCW)/misc/CBLATST/c_cblat2.f .
+c_dblat2.dat : $(basdRCW)/misc/CBLATST/c_dblat2.dat
+	cp $(basdRCW)/misc/CBLATST/c_dblat2.dat .
+c_sblas3.c : $(basdRCW)/misc/CBLATST/c_sblas3.c
+	cp $(basdRCW)/misc/CBLATST/c_sblas3.c .
+c_zblas1.c : $(basdRCW)/misc/CBLATST/c_zblas1.c
+	cp $(basdRCW)/misc/CBLATST/c_zblas1.c .
+settst.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+axpbytst.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+

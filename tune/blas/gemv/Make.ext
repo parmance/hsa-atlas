@@ -1,0 +1,63 @@
+
+topd = /home/linehill/work/math-atlas/AtlasBase
+ext  = /home/linehill/work/math-atlas/atlas-src/xextract
+extF = $(ext) -langF -lnlen71 -Remtblank -llwarn2 -LAPACK1 $(incs)
+ext9 = $(ext) -langF -lnlen132 -RemtBlank $(incs)
+extC = $(ext) -langC -lnlen79 -Remtblank -llwarn2 $(incs)
+extM = $(ext) -langM -lnlen79 -llwarn2 $(incs)
+incs = -def topd /home/linehill/work/math-atlas/AtlasBase \
+       -def incd /home/linehill/work/math-atlas/AtlasBase/Clint \
+       -def ext  /home/linehill/work/math-atlas/atlas-src/xextract \
+       -def BASEdir /home/linehill/work/math-atlas/AtlasBase/Antoine/ \
+       -def basd /home/linehill/work/math-atlas/AtlasBase/Clint
+
+default: all
+force_build:
+basd = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdRCW = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdAPP = /home/linehill/work/math-atlas/AtlasBase/Antoine
+basdSTU = /home/linehill/work/math-atlas/AtlasBase/Students
+incf = /home/linehill/work/math-atlas/AtlasBase/gen.inc
+
+basfn = $(basdRCW)/atlas-lvl2.base
+
+files = atlas-l2g.base mvktime.c mvnhgen.c mvnksearch.c mvnktest.c mvntest.c \
+        mvthgen.c mvtksearch.c mvtktest.c mvttest.c
+
+all : $(files)
+kill :
+	rm -f $(files)
+
+mvnksearch.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* which=example
+mvtksearch.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* which=example
+mvnhgen.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* which=example
+mvthgen.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* which=example
+mvtktest.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* which=example
+mvktime.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* which=example
+mvnktest.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* which=example
+mvttest.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* which=example
+mvntest.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* which=example
+
+Make.ext : $(topd)/make.base
+	$(extM) -b $(topd)/make.base -o Make.ext rout=atlas/tune/blas/gemv
+atlas-l2g.base : $(basdRCW)/atlas-l2g.base
+	cp -f $(basdRCW)/atlas-l2g.base .
+mvgen_sse.c : $(basdRCW)/atlas-gen.base $(incf)
+	$(extC) -b $(basdRCW)/atlas-gen.base -o $@ rout=$*
+emit_rmvT.c : $(basdRCW)/atlas-gen.base $(incf)
+	$(extC) -b $(basdRCW)/atlas-gen.base -o $@ rout=$*
+emit_head.c : $(basdRCW)/atlas-gen.base $(incf)
+	$(extC) -b $(basdRCW)/atlas-gen.base -o $@ rout=$*
+
+Make.ext : $(topd)/make.base
+	$(extM) -b $(topd)/make.base -o Make.ext rout=atlas/tune/blas/gemv
+

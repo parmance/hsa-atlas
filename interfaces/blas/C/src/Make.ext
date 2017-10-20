@@ -1,0 +1,402 @@
+
+topd = /home/linehill/work/math-atlas/AtlasBase
+ext  = /home/linehill/work/math-atlas/atlas-src/xextract
+extF = $(ext) -langF -lnlen71 -Remtblank -llwarn2 -LAPACK1 $(incs)
+ext9 = $(ext) -langF -lnlen132 -RemtBlank $(incs)
+extC = $(ext) -langC -lnlen79 -Remtblank -llwarn2 $(incs)
+extM = $(ext) -langM -lnlen79 -llwarn2 $(incs)
+incs = -def topd /home/linehill/work/math-atlas/AtlasBase \
+       -def incd /home/linehill/work/math-atlas/AtlasBase/Clint \
+       -def ext  /home/linehill/work/math-atlas/atlas-src/xextract \
+       -def BASEdir /home/linehill/work/math-atlas/AtlasBase/Antoine/ \
+       -def basd /home/linehill/work/math-atlas/AtlasBase/Clint
+
+default: all
+force_build:
+basd = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdRCW = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdAPP = /home/linehill/work/math-atlas/AtlasBase/Antoine
+basdSTU = /home/linehill/work/math-atlas/AtlasBase/Students
+incf = /home/linehill/work/math-atlas/AtlasBase/gen.inc
+
+basfn = $(basdRCW)/cblas.base
+basf1 = $(basdRCW)/cblas-lvl1.base
+basf2 = $(basdRCW)/cblas-lvl2.base
+
+files = catlas_caxpby.c catlas_cset.c catlas_daxpby.c catlas_dset.c \
+        catlas_saxpby.c catlas_sset.c catlas_zaxpby.c catlas_zset.c \
+        cblas_caxpy.c cblas_ccopy.c cblas_cdotc.c cblas_cdotu.c cblas_cgbmv.c \
+        cblas_cgemm.c cblas_cgemv.c cblas_cger2c.c cblas_cger2u.c \
+        cblas_cgerc.c cblas_cgeru.c cblas_chbmv.c cblas_chemm.c cblas_chemv.c \
+        cblas_cher.c cblas_cher2.c cblas_cher2k.c cblas_cherk.c cblas_chpmv.c \
+        cblas_chpr.c cblas_chpr2.c cblas_crotg.c cblas_cscal.c cblas_csrot.c \
+        cblas_csscal.c cblas_cswap.c cblas_csymm.c cblas_csyr2k.c \
+        cblas_csyrk.c cblas_ctbmv.c cblas_ctbsv.c cblas_ctpmv.c cblas_ctpsv.c \
+        cblas_ctrmm.c cblas_ctrmv.c cblas_ctrsm.c cblas_ctrsv.c cblas_dasum.c \
+        cblas_daxpy.c cblas_dcopy.c cblas_ddot.c cblas_dgbmv.c cblas_dgemm.c \
+        cblas_dgemv.c cblas_dger.c cblas_dger2.c cblas_dnrm2.c cblas_drot.c \
+        cblas_drotg.c cblas_drotm.c cblas_drotmg.c cblas_dsbmv.c \
+        cblas_dscal.c cblas_dsdot.c cblas_dspmv.c cblas_dspr.c cblas_dspr2.c \
+        cblas_dswap.c cblas_dsymm.c cblas_dsymv.c cblas_dsyr.c cblas_dsyr2.c \
+        cblas_dsyr2k.c cblas_dsyrk.c cblas_dtbmv.c cblas_dtbsv.c \
+        cblas_dtpmv.c cblas_dtpsv.c cblas_dtrmm.c cblas_dtrmv.c cblas_dtrsm.c \
+        cblas_dtrsv.c cblas_dzasum.c cblas_dznrm2.c cblas_errprn.c \
+        cblas_icamax.c cblas_idamax.c cblas_isamax.c cblas_izamax.c \
+        cblas_sasum.c cblas_saxpy.c cblas_scasum.c cblas_scnrm2.c \
+        cblas_scopy.c cblas_sdot.c cblas_sdsdot.c cblas_sgbmv.c cblas_sgemm.c \
+        cblas_sgemv.c cblas_sger.c cblas_sger2.c cblas_snrm2.c cblas_srot.c \
+        cblas_srotg.c cblas_srotm.c cblas_srotmg.c cblas_ssbmv.c \
+        cblas_sscal.c cblas_sspmv.c cblas_sspr.c cblas_sspr2.c cblas_sswap.c \
+        cblas_ssymm.c cblas_ssymv.c cblas_ssyr.c cblas_ssyr2.c cblas_ssyr2k.c \
+        cblas_ssyrk.c cblas_stbmv.c cblas_stbsv.c cblas_stpmv.c cblas_stpsv.c \
+        cblas_strmm.c cblas_strmv.c cblas_strsm.c cblas_strsv.c \
+        cblas_xerbla.c cblas_zaxpy.c cblas_zcopy.c cblas_zdotc.c \
+        cblas_zdotu.c cblas_zdrot.c cblas_zdscal.c cblas_zgbmv.c \
+        cblas_zgemm.c cblas_zgemv.c cblas_zger2c.c cblas_zger2u.c \
+        cblas_zgerc.c cblas_zgeru.c cblas_zhbmv.c cblas_zhemm.c cblas_zhemv.c \
+        cblas_zher.c cblas_zher2.c cblas_zher2k.c cblas_zherk.c cblas_zhpmv.c \
+        cblas_zhpr.c cblas_zhpr2.c cblas_zrotg.c cblas_zscal.c cblas_zswap.c \
+        cblas_zsymm.c cblas_zsyr2k.c cblas_zsyrk.c cblas_ztbmv.c \
+        cblas_ztbsv.c cblas_ztpmv.c cblas_ztpsv.c cblas_ztrmm.c cblas_ztrmv.c \
+        cblas_ztrsm.c cblas_ztrsv.c
+
+all : $(files)
+Make.ext : $(topd)/make.base
+	$(extM) -b $(topd)/make.base -o Make.ext rout=atlas/interfaces/blas/c/src
+
+clapack_ilaenv.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o clapack_ilaenv.c rout=clapack_ilaenv type=none
+cblas_xerbla.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o cblas_xerbla.c rout=cblas_xerbla type=none
+cblas_errprn.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o cblas_errprn.c rout=cblas_errprn type=none
+
+#
+# Level 3 extractors
+#
+cblas_strsm.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=trsm type=SREAL
+cblas_strmm.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=trmm type=SREAL
+cblas_ssyr2k.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=syr2k type=SREAL
+cblas_ssyrk.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=syrk type=SREAL
+cblas_ssymm.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=symm type=SREAL
+cblas_sgemm.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=gemm type=SREAL
+cblas_dtrsm.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=trsm type=DREAL
+cblas_dtrmm.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=trmm type=DREAL
+cblas_dsyr2k.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=syr2k type=DREAL
+cblas_dsyrk.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=syrk type=DREAL
+cblas_dsymm.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=symm type=DREAL
+cblas_dgemm.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=gemm type=DREAL
+cblas_ctrsm.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=trsm type=SCPLX
+cblas_ctrmm.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=trmm type=SCPLX
+cblas_csyr2k.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=syr2k type=SCPLX
+cblas_csyrk.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=syrk type=SCPLX
+cblas_csymm.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=symm type=SCPLX
+cblas_cgemm.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=gemm type=SCPLX
+cblas_ztrsm.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=trsm type=DCPLX
+cblas_ztrmm.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=trmm type=DCPLX
+cblas_zsyr2k.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=syr2k type=DCPLX
+cblas_zsyrk.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=syrk type=DCPLX
+cblas_zsymm.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=symm type=DCPLX
+cblas_zgemm.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=gemm type=DCPLX
+cblas_cher2k.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=her2k type=SCPLX
+cblas_cherk.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=herk type=SCPLX
+cblas_chemm.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=hemm type=SCPLX
+cblas_zher2k.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=her2k type=DCPLX
+cblas_zherk.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=herk type=DCPLX
+cblas_zhemm.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=hemm type=DCPLX
+#
+# Level 2 extractors
+#
+cblas_stpsv.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=tpsv type=SREAL
+cblas_stbsv.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=tbsv type=SREAL
+cblas_strsv.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=trsv type=SREAL
+cblas_stpmv.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=tpmv type=SREAL
+cblas_stbmv.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=tbmv type=SREAL
+cblas_strmv.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=trmv type=SREAL
+cblas_sspmv.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=spmv type=SREAL
+cblas_ssbmv.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=sbmv type=SREAL
+cblas_ssymv.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=symv type=SREAL
+cblas_sgbmv.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=gbmv type=SREAL
+cblas_sgemv.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=gemv type=SREAL
+cblas_sger2.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=ger2 type=SREAL
+cblas_sspr2.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=spr2 type=SREAL
+cblas_ssyr2.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=syr2 type=SREAL
+cblas_sspr.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=spr type=SREAL
+cblas_ssyr.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=syr type=SREAL
+cblas_sger.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=ger type=SREAL
+cblas_dtpsv.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=tpsv type=DREAL
+cblas_dtbsv.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=tbsv type=DREAL
+cblas_dtrsv.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=trsv type=DREAL
+cblas_dtpmv.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=tpmv type=DREAL
+cblas_dtbmv.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=tbmv type=DREAL
+cblas_dtrmv.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=trmv type=DREAL
+cblas_dspmv.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=spmv type=DREAL
+cblas_dsbmv.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=sbmv type=DREAL
+cblas_dsymv.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=symv type=DREAL
+cblas_dgbmv.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=gbmv type=DREAL
+cblas_dgemv.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=gemv type=DREAL
+cblas_dger2.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=ger2 type=DREAL
+cblas_dspr2.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=spr2 type=DREAL
+cblas_dsyr2.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=syr2 type=DREAL
+cblas_dspr.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=spr type=DREAL
+cblas_dsyr.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=syr type=DREAL
+cblas_dger.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=ger type=DREAL
+cblas_ctpsv.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=tpsv type=SCPLX
+cblas_ctbsv.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=tbsv type=SCPLX
+cblas_ctrsv.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=trsv type=SCPLX
+cblas_ctpmv.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=tpmv type=SCPLX
+cblas_ctbmv.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=tbmv type=SCPLX
+cblas_ctrmv.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=trmv type=SCPLX
+cblas_chpmv.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=hpmv type=SCPLX
+cblas_chbmv.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=hbmv type=SCPLX
+cblas_chemv.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=hemv type=SCPLX
+cblas_cgbmv.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=gbmv type=SCPLX
+cblas_cgemv.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=gemv type=SCPLX
+cblas_chpr2.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=hpr2 type=SCPLX
+cblas_cher2.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=her2 type=SCPLX
+cblas_chpr.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=hpr type=SCPLX
+cblas_cher.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=her type=SCPLX
+cblas_cger2c.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=ger2c type=SCPLX
+cblas_cger2u.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=ger2u type=SCPLX
+cblas_cgerc.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=gerc type=SCPLX
+cblas_cgeru.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=geru type=SCPLX
+cblas_ztpsv.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=tpsv type=DCPLX
+cblas_ztbsv.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=tbsv type=DCPLX
+cblas_ztrsv.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=trsv type=DCPLX
+cblas_ztpmv.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=tpmv type=DCPLX
+cblas_ztbmv.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=tbmv type=DCPLX
+cblas_ztrmv.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=trmv type=DCPLX
+cblas_zhpmv.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=hpmv type=DCPLX
+cblas_zhbmv.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=hbmv type=DCPLX
+cblas_zhemv.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=hemv type=DCPLX
+cblas_zgbmv.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=gbmv type=DCPLX
+cblas_zgemv.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=gemv type=DCPLX
+cblas_zhpr2.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=hpr2 type=DCPLX
+cblas_zher2.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=her2 type=DCPLX
+cblas_zhpr.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=hpr type=DCPLX
+cblas_zher.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=her type=DCPLX
+cblas_zger2c.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=ger2c type=DCPLX
+cblas_zger2u.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=ger2u type=DCPLX
+cblas_zgerc.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=gerc type=DCPLX
+cblas_zgeru.c : $(basf2) $(incf)
+	$(extC) -b $(basf2) -o $@ rout=geru type=DCPLX
+#
+# Level 1 Extractors
+#
+cblas_dzasum.c : $(basf1) $(incf)
+	$(extC) -b $(basf1) -o $@ rout=asum type=DCPLX
+cblas_scasum.c : $(basf1) $(incf)
+	$(extC) -b $(basf1) -o $@ rout=asum type=SCPLX
+cblas_dznrm2.c : $(basf1) $(incf)
+	$(extC) -b $(basf1) -o $@ rout=nrm2 type=DCPLX
+cblas_scnrm2.c : $(basf1) $(incf)
+	$(extC) -b $(basf1) -o $@ rout=nrm2 type=SCPLX
+cblas_zdrot.c : $(basf1) $(incf)
+	$(extC) -b $(basf1) -o $@ rout=rot type=DCPLX
+cblas_csrot.c : $(basf1) $(incf)
+	$(extC) -b $(basf1) -o $@ rout=rot type=SCPLX
+cblas_zdscal.c : $(basf1) $(incf)
+	$(extC) -b $(basf1) -o $@ rout=crscal type=DCPLX
+cblas_csscal.c : $(basf1) $(incf)
+	$(extC) -b $(basf1) -o $@ rout=crscal type=SCPLX
+cblas_dsdot.c : $(basf1) $(incf)
+	$(extC) -b $(basf1) -o $@ rout=dsdot type=SREAL
+cblas_sdsdot.c : $(basf1) $(incf)
+	$(extC) -b $(basf1) -o $@ rout=sdsdot type=SREAL
+cblas_sasum.c : $(basf1) $(incf)
+	$(extC) -b $(basf1) -o $@ rout=asum type=SREAL
+cblas_snrm2.c : $(basf1) $(incf)
+	$(extC) -b $(basf1) -o $@ rout=nrm2 type=SREAL
+cblas_sdot.c : $(basf1) $(incf)
+	$(extC) -b $(basf1) -o $@ rout=dot type=SREAL
+cblas_saxpy.c : $(basf1) $(incf)
+	$(extC) -b $(basf1) -o $@ rout=axpy type=SREAL
+cblas_scopy.c : $(basf1) $(incf)
+	$(extC) -b $(basf1) -o $@ rout=copy type=SREAL
+cblas_sscal.c : $(basf1) $(incf)
+	$(extC) -b $(basf1) -o $@ rout=scal type=SREAL
+cblas_sswap.c : $(basf1) $(incf)
+	$(extC) -b $(basf1) -o $@ rout=swap type=SREAL
+cblas_srotm.c : $(basf1) $(incf)
+	$(extC) -b $(basf1) -o $@ rout=rotm type=SREAL
+cblas_srot.c : $(basf1) $(incf)
+	$(extC) -b $(basf1) -o $@ rout=rot type=SREAL
+cblas_srotmg.c : $(basf1) $(incf)
+	$(extC) -b $(basf1) -o $@ rout=rotmg type=SREAL
+cblas_srotg.c : $(basf1) $(incf)
+	$(extC) -b $(basf1) -o $@ rout=rotg type=SREAL
+cblas_isamax.c : $(basf1) $(incf)
+	$(extC) -b $(basf1) -o $@ rout=iamax type=SREAL
+cblas_dasum.c : $(basf1) $(incf)
+	$(extC) -b $(basf1) -o $@ rout=asum type=DREAL
+cblas_dnrm2.c : $(basf1) $(incf)
+	$(extC) -b $(basf1) -o $@ rout=nrm2 type=DREAL
+cblas_ddot.c : $(basf1) $(incf)
+	$(extC) -b $(basf1) -o $@ rout=dot type=DREAL
+cblas_daxpy.c : $(basf1) $(incf)
+	$(extC) -b $(basf1) -o $@ rout=axpy type=DREAL
+cblas_dcopy.c : $(basf1) $(incf)
+	$(extC) -b $(basf1) -o $@ rout=copy type=DREAL
+cblas_dscal.c : $(basf1) $(incf)
+	$(extC) -b $(basf1) -o $@ rout=scal type=DREAL
+cblas_dswap.c : $(basf1) $(incf)
+	$(extC) -b $(basf1) -o $@ rout=swap type=DREAL
+cblas_drotm.c : $(basf1) $(incf)
+	$(extC) -b $(basf1) -o $@ rout=rotm type=DREAL
+cblas_drot.c : $(basf1) $(incf)
+	$(extC) -b $(basf1) -o $@ rout=rot type=DREAL
+cblas_drotmg.c : $(basf1) $(incf)
+	$(extC) -b $(basf1) -o $@ rout=rotmg type=DREAL
+cblas_drotg.c : $(basf1) $(incf)
+	$(extC) -b $(basf1) -o $@ rout=rotg type=DREAL
+cblas_idamax.c : $(basf1) $(incf)
+	$(extC) -b $(basf1) -o $@ rout=iamax type=DREAL
+cblas_icamax.c : $(basf1) $(incf)
+	$(extC) -b $(basf1) -o $@ rout=iamax type=SCPLX
+cblas_cdotu.c : $(basf1) $(incf)
+	$(extC) -b $(basf1) -o $@ rout=dotu type=SCPLX
+cblas_cdotc.c : $(basf1) $(incf)
+	$(extC) -b $(basf1) -o $@ rout=dotc type=SCPLX
+cblas_caxpy.c : $(basf1) $(incf)
+	$(extC) -b $(basf1) -o $@ rout=axpy type=SCPLX
+cblas_ccopy.c : $(basf1) $(incf)
+	$(extC) -b $(basf1) -o $@ rout=copy type=SCPLX
+cblas_cscal.c : $(basf1) $(incf)
+	$(extC) -b $(basf1) -o $@ rout=scal type=SCPLX
+cblas_cswap.c : $(basf1) $(incf)
+	$(extC) -b $(basf1) -o $@ rout=swap type=SCPLX
+cblas_crotg.c : $(basf1) $(incf)
+	$(extC) -b $(basf1) -o $@ rout=rotg type=SCPLX
+cblas_izamax.c : $(basf1) $(incf)
+	$(extC) -b $(basf1) -o $@ rout=iamax type=DCPLX
+cblas_zdotu.c : $(basf1) $(incf)
+	$(extC) -b $(basf1) -o $@ rout=dotu type=DCPLX
+cblas_zdotc.c : $(basf1) $(incf)
+	$(extC) -b $(basf1) -o $@ rout=dotc type=DCPLX
+cblas_zaxpy.c : $(basf1) $(incf)
+	$(extC) -b $(basf1) -o $@ rout=axpy type=DCPLX
+cblas_zcopy.c : $(basf1) $(incf)
+	$(extC) -b $(basf1) -o $@ rout=copy type=DCPLX
+cblas_zscal.c : $(basf1) $(incf)
+	$(extC) -b $(basf1) -o $@ rout=scal type=DCPLX
+cblas_zswap.c : $(basf1) $(incf)
+	$(extC) -b $(basf1) -o $@ rout=swap type=DCPLX
+cblas_zrotg.c : $(basf1) $(incf)
+	$(extC) -b $(basf1) -o $@ rout=rotg type=DCPLX
+catlas_sset.c : $(basf1) $(incf)
+	$(extC) -b $(basf1) -o $@ rout=set type=SREAL
+catlas_saxpby.c : $(basf1) $(incf)
+	$(extC) -b $(basf1) -o $@ rout=axpby type=SREAL
+catlas_dset.c : $(basf1) $(incf)
+	$(extC) -b $(basf1) -o $@ rout=set type=DREAL
+catlas_daxpby.c : $(basf1) $(incf)
+	$(extC) -b $(basf1) -o $@ rout=axpby type=DREAL
+catlas_cset.c : $(basf1) $(incf)
+	$(extC) -b $(basf1) -o $@ rout=set type=SCPLX
+catlas_caxpby.c : $(basf1) $(incf)
+	$(extC) -b $(basf1) -o $@ rout=axpby type=SCPLX
+catlas_zset.c : $(basf1) $(incf)
+	$(extC) -b $(basf1) -o $@ rout=set type=DCPLX
+catlas_zaxpby.c : $(basf1) $(incf)
+	$(extC) -b $(basf1) -o $@ rout=axpby type=DCPLX

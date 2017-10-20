@@ -1,0 +1,115 @@
+
+topd = /home/linehill/work/math-atlas/AtlasBase
+ext  = /home/linehill/work/math-atlas/atlas-src/xextract
+extF = $(ext) -langF -lnlen71 -Remtblank -llwarn2 -LAPACK1 $(incs)
+ext9 = $(ext) -langF -lnlen132 -RemtBlank $(incs)
+extC = $(ext) -langC -lnlen79 -Remtblank -llwarn2 $(incs)
+extM = $(ext) -langM -lnlen79 -llwarn2 $(incs)
+incs = -def topd /home/linehill/work/math-atlas/AtlasBase \
+       -def incd /home/linehill/work/math-atlas/AtlasBase/Clint \
+       -def ext  /home/linehill/work/math-atlas/atlas-src/xextract \
+       -def BASEdir /home/linehill/work/math-atlas/AtlasBase/Antoine/ \
+       -def basd /home/linehill/work/math-atlas/AtlasBase/Clint
+
+default: all
+force_build:
+basd = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdRCW = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdAPP = /home/linehill/work/math-atlas/AtlasBase/Antoine
+basdSTU = /home/linehill/work/math-atlas/AtlasBase/Students
+incf = /home/linehill/work/math-atlas/AtlasBase/gen.inc
+
+basfn = $(basdRCW)/atlas.base
+
+files = ATL_AgemmXX.c ATL_CNBmm_b0.c ATL_CNBmm_b1.c ATL_CNBmm_bX.c \
+        ATL_GetNB.c ATL_GetNCNB.c ATL_IBJBmm.c ATL_IBNBmm.c ATL_MBJBmm.c \
+        ATL_NCmmIJK.c ATL_NCmmIJK_c.c ATL_NCmmJIK.c ATL_NCmmJIK_c.c \
+        ATL_asrc2blk_NB.c ATL_cNCmmIJK.c ATL_cNCmmIJK_c.c ATL_cNCmmJIK.c \
+        ATL_cNCmmJIK_c.c ATL_ccol2blk.c ATL_cmmIJK.c ATL_cmmJIK.c \
+        ATL_cmmJITcp.c ATL_cmmJKI.c ATL_col2blk.c ATL_crow2blkT.c ATL_gemm.c \
+        ATL_gemmXX.c ATL_gereal2cplx.c ATL_mmBPP.c ATL_mmIJK.c ATL_mmJIK.c \
+        ATL_mmJITcp.c ATL_mmJKI.c ATL_mmK.c ATL_putblk.c ATL_row2blkT.c \
+        ATL_xerbla.c
+
+all : $(files)
+kill :
+	rm -f $(files)
+
+ATL_gemm.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_mmJIK.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_mmIJK.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_mmJKI.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_row2blkT.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_col2blk.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_asrc2blk_NB.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_xerbla.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_IBJBmm.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_MBJBmm.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_IBNBmm.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_putblk.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_gemmXX.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_AgemmXX.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_GetNB.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_GetNCNB.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_ccol2blk.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_cmmJIK.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_cmmIJK.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_cmmJKI.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_crow2blkT.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_NCmmJIK.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_NCmmIJK.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_NCmmJIK_c.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_NCmmIJK_c.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_mmBPP.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_mmK.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_mmJITcp.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_cmmJITcp.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_cNCmmJIK.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_cNCmmIJK.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_cNCmmJIK_c.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_cNCmmIJK_c.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_CNBmm_b0.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_CNBmm_b1.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_CNBmm_bX.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_gereal2cplx.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+
+Make.ext : $(topd)/make.base
+	$(extM) -b $(topd)/make.base -o Make.ext rout=atlas/src/blas/gemm
+

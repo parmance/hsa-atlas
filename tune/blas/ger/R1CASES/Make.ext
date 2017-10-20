@@ -1,0 +1,2871 @@
+
+topd = /home/linehill/work/math-atlas/AtlasBase
+ext  = /home/linehill/work/math-atlas/atlas-src/xextract
+extF = $(ext) -langF -lnlen71 -Remtblank -llwarn2 -LAPACK1 $(incs)
+ext9 = $(ext) -langF -lnlen132 -RemtBlank $(incs)
+extC = $(ext) -langC -lnlen79 -Remtblank -llwarn2 $(incs)
+extM = $(ext) -langM -lnlen79 -llwarn2 $(incs)
+incs = -def topd /home/linehill/work/math-atlas/AtlasBase \
+       -def incd /home/linehill/work/math-atlas/AtlasBase/Clint \
+       -def ext  /home/linehill/work/math-atlas/atlas-src/xextract \
+       -def BASEdir /home/linehill/work/math-atlas/AtlasBase/Antoine/ \
+       -def basd /home/linehill/work/math-atlas/AtlasBase/Clint
+
+default: all
+force_build:
+basd = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdRCW = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdAPP = /home/linehill/work/math-atlas/AtlasBase/Antoine
+basdSTU = /home/linehill/work/math-atlas/AtlasBase/Students
+incf = /home/linehill/work/math-atlas/AtlasBase/gen.inc
+
+basfn = $(basdRCW)/atlas-lvl2.base
+bascm = /home/linehill/work/math-atlas/AtlasBase/kernel/CammMaguire/camm.base
+files = ATL_cgerk_2x1p.c ATL_cgerk_8x4_sse3.c ATL_cgerk_axpy.c \
+        ATL_dgerk_4x8_sse.c ATL_dgerk_8x1_Cw.c ATL_gerk_1x4_0.c \
+        ATL_gerk_4x4_1.c ATL_gerk_8x4_0.c ATL_gerk_axpy.c ATL_gerk_vx4_vsx.c \
+        ATL_sgerk_8x4_sse.c ATL_zgerk_1x4_sse3.c cr1cases.idx dr1cases.idx \
+        sr1cases.idx zr1cases.idx
+
+all : $(files)
+kill : 
+	rm -f $(files)
+
+ATL_sger2K_NEON_lda4.S : /home/linehill/work/math-atlas/AtlasBase/kernel/external/extern.base /home/linehill/work/math-atlas/AtlasBase/kernel/external/ATL_sger2K_NEON_lda4.S
+	$(extC) -b /home/linehill/work/math-atlas/AtlasBase/kernel/external/extern.base -o $@ rout=$@ \
+                -def rout $@
+ATL_sger2K_NEON.S : /home/linehill/work/math-atlas/AtlasBase/kernel/external/extern.base /home/linehill/work/math-atlas/AtlasBase/kernel/external/ATL_sger2K_NEON.S
+	$(extC) -b /home/linehill/work/math-atlas/AtlasBase/kernel/external/extern.base -o $@ rout=$@ \
+                -def rout $@
+ATL_gerk_vx4_vsx.c : $(topd)/kernel/external/ATL_gerk_vx4_vsx.c
+	cp -f $(topd)/kernel/external/ATL_gerk_vx4_vsx.c .
+
+Make.ext : $(topd)/make.base
+	$(extM) -b $(topd)/make.base -o $@ rout=atlas/tune/blas/ger/r1cases
+expkern = ATL_dgerk_1x1_x87.c ATL_dgerk_1x1_sse.c  ATL_dgerk_2x1_sse.c \
+          ATL_dgerk_1x2_x87.c ATL_dgerk_1x2_sse.c  ATL_dgerk_2x2_sse.c \
+          ATL_dgerk_1x4_x87.c ATL_dgerk_1x4_sse.c  ATL_dgerk_2x4_sse.c \
+          ATL_dgerk_1x6_x87.c ATL_dgerk_1x6_sse.c  ATL_dgerk_2x6_sse.c \
+          ATL_dgerk_1x8_sse.c ATL_dgerk_2x8_sse.c \
+          ATL_dgerk_1x10_sse.c ATL_dgerk_2x10_sse.c \
+          ATL_dgerk_1x12_sse.c ATL_dgerk_2x12_sse.c \
+          ATL_dgerk_1x14_sse.c ATL_dgerk_2x14_sse.c \
+          ATL_dgerk_CLx1_touch.c ATL_dgerk_CLx2_touch.c ATL_dgerk_CLx4_touch.c \
+          ATL_dgerk_CLx6_touch.c ATL_dgerk_CLx8_touch.c \
+          ATL_dgerk_CLx10_touch.c ATL_dgerk_CLx12_touch.c \
+          ATL_dgerk_CLx14_touch.c \
+          ATL_gerCL_Fburst.c \
+          touch_1x1_nz.c touch_1x1_inc_nz.c touch_1x1_lp.c touch_1x1_dec_nz.c \
+          touch_1x14_nz.c touch_1x14_dec_nz.c  \
+          ATL_mvtch8x1pf.c ATL_r1tch8x1pf.c \
+          ATL_mvtch_128x14.c \
+          ATL_r1tch1_128x14.c ATL_r1tch2_128x14.c \
+          ATL_mvtch_120x14.c \
+          ATL_r1tch1_120x14.c ATL_r1tch2_120x14.c \
+          ATL_mvtch_112x14.c \
+          ATL_r1tch1_112x14.c ATL_r1tch2_112x14.c \
+          ATL_mvtch_104x14.c \
+          ATL_r1tch1_104x14.c ATL_r1tch2_104x14.c \
+          ATL_mvtch_96x14.c \
+          ATL_r1tch1_96x14.c ATL_r1tch2_96x14.c \
+          ATL_mvtch_88x14.c \
+          ATL_r1tch1_88x14.c ATL_r1tch2_88x14.c \
+          ATL_mvtch_80x14.c \
+          ATL_r1tch1_80x14.c ATL_r1tch2_80x14.c \
+          ATL_mvtch_72x14.c \
+          ATL_r1tch1_72x14.c ATL_r1tch2_72x14.c \
+          ATL_mvtch_64x14.c \
+          ATL_r1tch1_64x14.c ATL_r1tch2_64x14.c \
+          ATL_mvtch_56x14.c \
+          ATL_r1tch1_56x14.c ATL_r1tch2_56x14.c \
+          ATL_mvtch_48x14.c \
+          ATL_r1tch1_48x14.c ATL_r1tch2_48x14.c \
+          ATL_mvtch_40x14.c \
+          ATL_r1tch1_40x14.c ATL_r1tch2_40x14.c \
+          ATL_mvtch_32x14.c \
+          ATL_r1tch1_32x14.c ATL_r1tch2_32x14.c \
+          ATL_mvtch_24x14.c \
+          ATL_r1tch1_24x14.c ATL_r1tch2_24x14.c \
+          ATL_mvtch_16x14.c \
+          ATL_r1tch1_16x14.c ATL_r1tch2_16x14.c \
+          ATL_mvtch_8x14.c \
+          ATL_r1tch1_8x14.c ATL_r1tch2_8x14.c \
+          ATL_mvtch_128x13.c \
+          ATL_r1tch1_128x13.c ATL_r1tch2_128x13.c \
+          ATL_mvtch_120x13.c \
+          ATL_r1tch1_120x13.c ATL_r1tch2_120x13.c \
+          ATL_mvtch_112x13.c \
+          ATL_r1tch1_112x13.c ATL_r1tch2_112x13.c \
+          ATL_mvtch_104x13.c \
+          ATL_r1tch1_104x13.c ATL_r1tch2_104x13.c \
+          ATL_mvtch_96x13.c \
+          ATL_r1tch1_96x13.c ATL_r1tch2_96x13.c \
+          ATL_mvtch_88x13.c \
+          ATL_r1tch1_88x13.c ATL_r1tch2_88x13.c \
+          ATL_mvtch_80x13.c \
+          ATL_r1tch1_80x13.c ATL_r1tch2_80x13.c \
+          ATL_mvtch_72x13.c \
+          ATL_r1tch1_72x13.c ATL_r1tch2_72x13.c \
+          ATL_mvtch_64x13.c \
+          ATL_r1tch1_64x13.c ATL_r1tch2_64x13.c \
+          ATL_mvtch_56x13.c \
+          ATL_r1tch1_56x13.c ATL_r1tch2_56x13.c \
+          ATL_mvtch_48x13.c \
+          ATL_r1tch1_48x13.c ATL_r1tch2_48x13.c \
+          ATL_mvtch_40x13.c \
+          ATL_r1tch1_40x13.c ATL_r1tch2_40x13.c \
+          ATL_mvtch_32x13.c \
+          ATL_r1tch1_32x13.c ATL_r1tch2_32x13.c \
+          ATL_mvtch_24x13.c \
+          ATL_r1tch1_24x13.c ATL_r1tch2_24x13.c \
+          ATL_mvtch_16x13.c \
+          ATL_r1tch1_16x13.c ATL_r1tch2_16x13.c \
+          ATL_mvtch_8x13.c \
+          ATL_r1tch1_8x13.c ATL_r1tch2_8x13.c \
+          ATL_mvtch_128x12.c \
+          ATL_r1tch1_128x12.c ATL_r1tch2_128x12.c \
+          ATL_mvtch_120x12.c \
+          ATL_r1tch1_120x12.c ATL_r1tch2_120x12.c \
+          ATL_mvtch_112x12.c \
+          ATL_r1tch1_112x12.c ATL_r1tch2_112x12.c \
+          ATL_mvtch_104x12.c \
+          ATL_r1tch1_104x12.c ATL_r1tch2_104x12.c \
+          ATL_mvtch_96x12.c \
+          ATL_r1tch1_96x12.c ATL_r1tch2_96x12.c \
+          ATL_mvtch_88x12.c \
+          ATL_r1tch1_88x12.c ATL_r1tch2_88x12.c \
+          ATL_mvtch_80x12.c \
+          ATL_r1tch1_80x12.c ATL_r1tch2_80x12.c \
+          ATL_mvtch_72x12.c \
+          ATL_r1tch1_72x12.c ATL_r1tch2_72x12.c \
+          ATL_mvtch_64x12.c \
+          ATL_r1tch1_64x12.c ATL_r1tch2_64x12.c \
+          ATL_mvtch_56x12.c \
+          ATL_r1tch1_56x12.c ATL_r1tch2_56x12.c \
+          ATL_mvtch_48x12.c \
+          ATL_r1tch1_48x12.c ATL_r1tch2_48x12.c \
+          ATL_mvtch_40x12.c \
+          ATL_r1tch1_40x12.c ATL_r1tch2_40x12.c \
+          ATL_mvtch_32x12.c \
+          ATL_r1tch1_32x12.c ATL_r1tch2_32x12.c \
+          ATL_mvtch_24x12.c \
+          ATL_r1tch1_24x12.c ATL_r1tch2_24x12.c \
+          ATL_mvtch_16x12.c \
+          ATL_r1tch1_16x12.c ATL_r1tch2_16x12.c \
+          ATL_mvtch_8x12.c \
+          ATL_r1tch1_8x12.c ATL_r1tch2_8x12.c \
+          ATL_mvtch_128x11.c \
+          ATL_r1tch1_128x11.c ATL_r1tch2_128x11.c \
+          ATL_mvtch_120x11.c \
+          ATL_r1tch1_120x11.c ATL_r1tch2_120x11.c \
+          ATL_mvtch_112x11.c \
+          ATL_r1tch1_112x11.c ATL_r1tch2_112x11.c \
+          ATL_mvtch_104x11.c \
+          ATL_r1tch1_104x11.c ATL_r1tch2_104x11.c \
+          ATL_mvtch_96x11.c \
+          ATL_r1tch1_96x11.c ATL_r1tch2_96x11.c \
+          ATL_mvtch_88x11.c \
+          ATL_r1tch1_88x11.c ATL_r1tch2_88x11.c \
+          ATL_mvtch_80x11.c \
+          ATL_r1tch1_80x11.c ATL_r1tch2_80x11.c \
+          ATL_mvtch_72x11.c \
+          ATL_r1tch1_72x11.c ATL_r1tch2_72x11.c \
+          ATL_mvtch_64x11.c \
+          ATL_r1tch1_64x11.c ATL_r1tch2_64x11.c \
+          ATL_mvtch_56x11.c \
+          ATL_r1tch1_56x11.c ATL_r1tch2_56x11.c \
+          ATL_mvtch_48x11.c \
+          ATL_r1tch1_48x11.c ATL_r1tch2_48x11.c \
+          ATL_mvtch_40x11.c \
+          ATL_r1tch1_40x11.c ATL_r1tch2_40x11.c \
+          ATL_mvtch_32x11.c \
+          ATL_r1tch1_32x11.c ATL_r1tch2_32x11.c \
+          ATL_mvtch_24x11.c \
+          ATL_r1tch1_24x11.c ATL_r1tch2_24x11.c \
+          ATL_mvtch_16x11.c \
+          ATL_r1tch1_16x11.c ATL_r1tch2_16x11.c \
+          ATL_mvtch_8x11.c \
+          ATL_r1tch1_8x11.c ATL_r1tch2_8x11.c \
+          ATL_mvtch_128x10.c \
+          ATL_r1tch1_128x10.c ATL_r1tch2_128x10.c \
+          ATL_mvtch_120x10.c \
+          ATL_r1tch1_120x10.c ATL_r1tch2_120x10.c \
+          ATL_mvtch_112x10.c \
+          ATL_r1tch1_112x10.c ATL_r1tch2_112x10.c \
+          ATL_mvtch_104x10.c \
+          ATL_r1tch1_104x10.c ATL_r1tch2_104x10.c \
+          ATL_mvtch_96x10.c \
+          ATL_r1tch1_96x10.c ATL_r1tch2_96x10.c \
+          ATL_mvtch_88x10.c \
+          ATL_r1tch1_88x10.c ATL_r1tch2_88x10.c \
+          ATL_mvtch_80x10.c \
+          ATL_r1tch1_80x10.c ATL_r1tch2_80x10.c \
+          ATL_mvtch_72x10.c \
+          ATL_r1tch1_72x10.c ATL_r1tch2_72x10.c \
+          ATL_mvtch_64x10.c \
+          ATL_r1tch1_64x10.c ATL_r1tch2_64x10.c \
+          ATL_mvtch_56x10.c \
+          ATL_r1tch1_56x10.c ATL_r1tch2_56x10.c \
+          ATL_mvtch_48x10.c \
+          ATL_r1tch1_48x10.c ATL_r1tch2_48x10.c \
+          ATL_mvtch_40x10.c \
+          ATL_r1tch1_40x10.c ATL_r1tch2_40x10.c \
+          ATL_mvtch_32x10.c \
+          ATL_r1tch1_32x10.c ATL_r1tch2_32x10.c \
+          ATL_mvtch_24x10.c \
+          ATL_r1tch1_24x10.c ATL_r1tch2_24x10.c \
+          ATL_mvtch_16x10.c \
+          ATL_r1tch1_16x10.c ATL_r1tch2_16x10.c \
+          ATL_mvtch_8x10.c \
+          ATL_r1tch1_8x10.c ATL_r1tch2_8x10.c \
+          ATL_mvtch_128x9.c \
+          ATL_r1tch1_128x9.c ATL_r1tch2_128x9.c \
+          ATL_mvtch_120x9.c \
+          ATL_r1tch1_120x9.c ATL_r1tch2_120x9.c \
+          ATL_mvtch_112x9.c \
+          ATL_r1tch1_112x9.c ATL_r1tch2_112x9.c \
+          ATL_mvtch_104x9.c \
+          ATL_r1tch1_104x9.c ATL_r1tch2_104x9.c \
+          ATL_mvtch_96x9.c \
+          ATL_r1tch1_96x9.c ATL_r1tch2_96x9.c \
+          ATL_mvtch_88x9.c \
+          ATL_r1tch1_88x9.c ATL_r1tch2_88x9.c \
+          ATL_mvtch_80x9.c \
+          ATL_r1tch1_80x9.c ATL_r1tch2_80x9.c \
+          ATL_mvtch_72x9.c \
+          ATL_r1tch1_72x9.c ATL_r1tch2_72x9.c \
+          ATL_mvtch_64x9.c \
+          ATL_r1tch1_64x9.c ATL_r1tch2_64x9.c \
+          ATL_mvtch_56x9.c \
+          ATL_r1tch1_56x9.c ATL_r1tch2_56x9.c \
+          ATL_mvtch_48x9.c \
+          ATL_r1tch1_48x9.c ATL_r1tch2_48x9.c \
+          ATL_mvtch_40x9.c \
+          ATL_r1tch1_40x9.c ATL_r1tch2_40x9.c \
+          ATL_mvtch_32x9.c \
+          ATL_r1tch1_32x9.c ATL_r1tch2_32x9.c \
+          ATL_mvtch_24x9.c \
+          ATL_r1tch1_24x9.c ATL_r1tch2_24x9.c \
+          ATL_mvtch_16x9.c \
+          ATL_r1tch1_16x9.c ATL_r1tch2_16x9.c \
+          ATL_mvtch_8x9.c \
+          ATL_r1tch1_8x9.c ATL_r1tch2_8x9.c \
+          ATL_mvtch_128x8.c \
+          ATL_r1tch1_128x8.c ATL_r1tch2_128x8.c \
+          ATL_mvtch_120x8.c \
+          ATL_r1tch1_120x8.c ATL_r1tch2_120x8.c \
+          ATL_mvtch_112x8.c \
+          ATL_r1tch1_112x8.c ATL_r1tch2_112x8.c \
+          ATL_mvtch_104x8.c \
+          ATL_r1tch1_104x8.c ATL_r1tch2_104x8.c \
+          ATL_mvtch_96x8.c \
+          ATL_r1tch1_96x8.c ATL_r1tch2_96x8.c \
+          ATL_mvtch_88x8.c \
+          ATL_r1tch1_88x8.c ATL_r1tch2_88x8.c \
+          ATL_mvtch_80x8.c \
+          ATL_r1tch1_80x8.c ATL_r1tch2_80x8.c \
+          ATL_mvtch_72x8.c \
+          ATL_r1tch1_72x8.c ATL_r1tch2_72x8.c \
+          ATL_mvtch_64x8.c \
+          ATL_r1tch1_64x8.c ATL_r1tch2_64x8.c \
+          ATL_mvtch_56x8.c \
+          ATL_r1tch1_56x8.c ATL_r1tch2_56x8.c \
+          ATL_mvtch_48x8.c \
+          ATL_r1tch1_48x8.c ATL_r1tch2_48x8.c \
+          ATL_mvtch_40x8.c \
+          ATL_r1tch1_40x8.c ATL_r1tch2_40x8.c \
+          ATL_mvtch_32x8.c \
+          ATL_r1tch1_32x8.c ATL_r1tch2_32x8.c \
+          ATL_mvtch_24x8.c \
+          ATL_r1tch1_24x8.c ATL_r1tch2_24x8.c \
+          ATL_mvtch_16x8.c \
+          ATL_r1tch1_16x8.c ATL_r1tch2_16x8.c \
+          ATL_mvtch_8x8.c \
+          ATL_r1tch1_8x8.c ATL_r1tch2_8x8.c \
+          ATL_mvtch_128x7.c \
+          ATL_r1tch1_128x7.c ATL_r1tch2_128x7.c \
+          ATL_mvtch_120x7.c \
+          ATL_r1tch1_120x7.c ATL_r1tch2_120x7.c \
+          ATL_mvtch_112x7.c \
+          ATL_r1tch1_112x7.c ATL_r1tch2_112x7.c \
+          ATL_mvtch_104x7.c \
+          ATL_r1tch1_104x7.c ATL_r1tch2_104x7.c \
+          ATL_mvtch_96x7.c \
+          ATL_r1tch1_96x7.c ATL_r1tch2_96x7.c \
+          ATL_mvtch_88x7.c \
+          ATL_r1tch1_88x7.c ATL_r1tch2_88x7.c \
+          ATL_mvtch_80x7.c \
+          ATL_r1tch1_80x7.c ATL_r1tch2_80x7.c \
+          ATL_mvtch_72x7.c \
+          ATL_r1tch1_72x7.c ATL_r1tch2_72x7.c \
+          ATL_mvtch_64x7.c \
+          ATL_r1tch1_64x7.c ATL_r1tch2_64x7.c \
+          ATL_mvtch_56x7.c \
+          ATL_r1tch1_56x7.c ATL_r1tch2_56x7.c \
+          ATL_mvtch_48x7.c \
+          ATL_r1tch1_48x7.c ATL_r1tch2_48x7.c \
+          ATL_mvtch_40x7.c \
+          ATL_r1tch1_40x7.c ATL_r1tch2_40x7.c \
+          ATL_mvtch_32x7.c \
+          ATL_r1tch1_32x7.c ATL_r1tch2_32x7.c \
+          ATL_mvtch_24x7.c \
+          ATL_r1tch1_24x7.c ATL_r1tch2_24x7.c \
+          ATL_mvtch_16x7.c \
+          ATL_r1tch1_16x7.c ATL_r1tch2_16x7.c \
+          ATL_mvtch_8x7.c \
+          ATL_r1tch1_8x7.c ATL_r1tch2_8x7.c \
+          ATL_mvtch_128x6.c \
+          ATL_r1tch1_128x6.c ATL_r1tch2_128x6.c \
+          ATL_mvtch_120x6.c \
+          ATL_r1tch1_120x6.c ATL_r1tch2_120x6.c \
+          ATL_mvtch_112x6.c \
+          ATL_r1tch1_112x6.c ATL_r1tch2_112x6.c \
+          ATL_mvtch_104x6.c \
+          ATL_r1tch1_104x6.c ATL_r1tch2_104x6.c \
+          ATL_mvtch_96x6.c \
+          ATL_r1tch1_96x6.c ATL_r1tch2_96x6.c \
+          ATL_mvtch_88x6.c \
+          ATL_r1tch1_88x6.c ATL_r1tch2_88x6.c \
+          ATL_mvtch_80x6.c \
+          ATL_r1tch1_80x6.c ATL_r1tch2_80x6.c \
+          ATL_mvtch_72x6.c \
+          ATL_r1tch1_72x6.c ATL_r1tch2_72x6.c \
+          ATL_mvtch_64x6.c \
+          ATL_r1tch1_64x6.c ATL_r1tch2_64x6.c \
+          ATL_mvtch_56x6.c \
+          ATL_r1tch1_56x6.c ATL_r1tch2_56x6.c \
+          ATL_mvtch_48x6.c \
+          ATL_r1tch1_48x6.c ATL_r1tch2_48x6.c \
+          ATL_mvtch_40x6.c \
+          ATL_r1tch1_40x6.c ATL_r1tch2_40x6.c \
+          ATL_mvtch_32x6.c \
+          ATL_r1tch1_32x6.c ATL_r1tch2_32x6.c \
+          ATL_mvtch_24x6.c \
+          ATL_r1tch1_24x6.c ATL_r1tch2_24x6.c \
+          ATL_mvtch_16x6.c \
+          ATL_r1tch1_16x6.c ATL_r1tch2_16x6.c \
+          ATL_mvtch_8x6.c \
+          ATL_r1tch1_8x6.c ATL_r1tch2_8x6.c \
+          ATL_mvtch_128x5.c \
+          ATL_r1tch1_128x5.c ATL_r1tch2_128x5.c \
+          ATL_mvtch_120x5.c \
+          ATL_r1tch1_120x5.c ATL_r1tch2_120x5.c \
+          ATL_mvtch_112x5.c \
+          ATL_r1tch1_112x5.c ATL_r1tch2_112x5.c \
+          ATL_mvtch_104x5.c \
+          ATL_r1tch1_104x5.c ATL_r1tch2_104x5.c \
+          ATL_mvtch_96x5.c \
+          ATL_r1tch1_96x5.c ATL_r1tch2_96x5.c \
+          ATL_mvtch_88x5.c \
+          ATL_r1tch1_88x5.c ATL_r1tch2_88x5.c \
+          ATL_mvtch_80x5.c \
+          ATL_r1tch1_80x5.c ATL_r1tch2_80x5.c \
+          ATL_mvtch_72x5.c \
+          ATL_r1tch1_72x5.c ATL_r1tch2_72x5.c \
+          ATL_mvtch_64x5.c \
+          ATL_r1tch1_64x5.c ATL_r1tch2_64x5.c \
+          ATL_mvtch_56x5.c \
+          ATL_r1tch1_56x5.c ATL_r1tch2_56x5.c \
+          ATL_mvtch_48x5.c \
+          ATL_r1tch1_48x5.c ATL_r1tch2_48x5.c \
+          ATL_mvtch_40x5.c \
+          ATL_r1tch1_40x5.c ATL_r1tch2_40x5.c \
+          ATL_mvtch_32x5.c \
+          ATL_r1tch1_32x5.c ATL_r1tch2_32x5.c \
+          ATL_mvtch_24x5.c \
+          ATL_r1tch1_24x5.c ATL_r1tch2_24x5.c \
+          ATL_mvtch_16x5.c \
+          ATL_r1tch1_16x5.c ATL_r1tch2_16x5.c \
+          ATL_mvtch_8x5.c \
+          ATL_r1tch1_8x5.c ATL_r1tch2_8x5.c \
+          ATL_mvtch_128x4.c \
+          ATL_r1tch1_128x4.c ATL_r1tch2_128x4.c \
+          ATL_mvtch_120x4.c \
+          ATL_r1tch1_120x4.c ATL_r1tch2_120x4.c \
+          ATL_mvtch_112x4.c \
+          ATL_r1tch1_112x4.c ATL_r1tch2_112x4.c \
+          ATL_mvtch_104x4.c \
+          ATL_r1tch1_104x4.c ATL_r1tch2_104x4.c \
+          ATL_mvtch_96x4.c \
+          ATL_r1tch1_96x4.c ATL_r1tch2_96x4.c \
+          ATL_mvtch_88x4.c \
+          ATL_r1tch1_88x4.c ATL_r1tch2_88x4.c \
+          ATL_mvtch_80x4.c \
+          ATL_r1tch1_80x4.c ATL_r1tch2_80x4.c \
+          ATL_mvtch_72x4.c \
+          ATL_r1tch1_72x4.c ATL_r1tch2_72x4.c \
+          ATL_mvtch_64x4.c \
+          ATL_r1tch1_64x4.c ATL_r1tch2_64x4.c \
+          ATL_mvtch_56x4.c \
+          ATL_r1tch1_56x4.c ATL_r1tch2_56x4.c \
+          ATL_mvtch_48x4.c \
+          ATL_r1tch1_48x4.c ATL_r1tch2_48x4.c \
+          ATL_mvtch_40x4.c \
+          ATL_r1tch1_40x4.c ATL_r1tch2_40x4.c \
+          ATL_mvtch_32x4.c \
+          ATL_r1tch1_32x4.c ATL_r1tch2_32x4.c \
+          ATL_mvtch_24x4.c \
+          ATL_r1tch1_24x4.c ATL_r1tch2_24x4.c \
+          ATL_mvtch_16x4.c \
+          ATL_r1tch1_16x4.c ATL_r1tch2_16x4.c \
+          ATL_mvtch_8x4.c \
+          ATL_r1tch1_8x4.c ATL_r1tch2_8x4.c \
+          ATL_mvtch_128x3.c \
+          ATL_r1tch1_128x3.c ATL_r1tch2_128x3.c \
+          ATL_mvtch_120x3.c \
+          ATL_r1tch1_120x3.c ATL_r1tch2_120x3.c \
+          ATL_mvtch_112x3.c \
+          ATL_r1tch1_112x3.c ATL_r1tch2_112x3.c \
+          ATL_mvtch_104x3.c \
+          ATL_r1tch1_104x3.c ATL_r1tch2_104x3.c \
+          ATL_mvtch_96x3.c \
+          ATL_r1tch1_96x3.c ATL_r1tch2_96x3.c \
+          ATL_mvtch_88x3.c \
+          ATL_r1tch1_88x3.c ATL_r1tch2_88x3.c \
+          ATL_mvtch_80x3.c \
+          ATL_r1tch1_80x3.c ATL_r1tch2_80x3.c \
+          ATL_mvtch_72x3.c \
+          ATL_r1tch1_72x3.c ATL_r1tch2_72x3.c \
+          ATL_mvtch_64x3.c \
+          ATL_r1tch1_64x3.c ATL_r1tch2_64x3.c \
+          ATL_mvtch_56x3.c \
+          ATL_r1tch1_56x3.c ATL_r1tch2_56x3.c \
+          ATL_mvtch_48x3.c \
+          ATL_r1tch1_48x3.c ATL_r1tch2_48x3.c \
+          ATL_mvtch_40x3.c \
+          ATL_r1tch1_40x3.c ATL_r1tch2_40x3.c \
+          ATL_mvtch_32x3.c \
+          ATL_r1tch1_32x3.c ATL_r1tch2_32x3.c \
+          ATL_mvtch_24x3.c \
+          ATL_r1tch1_24x3.c ATL_r1tch2_24x3.c \
+          ATL_mvtch_16x3.c \
+          ATL_r1tch1_16x3.c ATL_r1tch2_16x3.c \
+          ATL_mvtch_8x3.c \
+          ATL_r1tch1_8x3.c ATL_r1tch2_8x3.c \
+          ATL_mvtch_128x2.c \
+          ATL_r1tch1_128x2.c ATL_r1tch2_128x2.c \
+          ATL_mvtch_120x2.c \
+          ATL_r1tch1_120x2.c ATL_r1tch2_120x2.c \
+          ATL_mvtch_112x2.c \
+          ATL_r1tch1_112x2.c ATL_r1tch2_112x2.c \
+          ATL_mvtch_104x2.c \
+          ATL_r1tch1_104x2.c ATL_r1tch2_104x2.c \
+          ATL_mvtch_96x2.c \
+          ATL_r1tch1_96x2.c ATL_r1tch2_96x2.c \
+          ATL_mvtch_88x2.c \
+          ATL_r1tch1_88x2.c ATL_r1tch2_88x2.c \
+          ATL_mvtch_80x2.c \
+          ATL_r1tch1_80x2.c ATL_r1tch2_80x2.c \
+          ATL_mvtch_72x2.c \
+          ATL_r1tch1_72x2.c ATL_r1tch2_72x2.c \
+          ATL_mvtch_64x2.c \
+          ATL_r1tch1_64x2.c ATL_r1tch2_64x2.c \
+          ATL_mvtch_56x2.c \
+          ATL_r1tch1_56x2.c ATL_r1tch2_56x2.c \
+          ATL_mvtch_48x2.c \
+          ATL_r1tch1_48x2.c ATL_r1tch2_48x2.c \
+          ATL_mvtch_40x2.c \
+          ATL_r1tch1_40x2.c ATL_r1tch2_40x2.c \
+          ATL_mvtch_32x2.c \
+          ATL_r1tch1_32x2.c ATL_r1tch2_32x2.c \
+          ATL_mvtch_24x2.c \
+          ATL_r1tch1_24x2.c ATL_r1tch2_24x2.c \
+          ATL_mvtch_16x2.c \
+          ATL_r1tch1_16x2.c ATL_r1tch2_16x2.c \
+          ATL_mvtch_8x2.c \
+          ATL_r1tch1_8x2.c ATL_r1tch2_8x2.c \
+          ATL_mvtch_128x1.c \
+          ATL_r1tch1_128x1.c ATL_r1tch2_128x1.c \
+          ATL_mvtch_120x1.c \
+          ATL_r1tch1_120x1.c ATL_r1tch2_120x1.c \
+          ATL_mvtch_112x1.c \
+          ATL_r1tch1_112x1.c ATL_r1tch2_112x1.c \
+          ATL_mvtch_104x1.c \
+          ATL_r1tch1_104x1.c ATL_r1tch2_104x1.c \
+          ATL_mvtch_96x1.c \
+          ATL_r1tch1_96x1.c ATL_r1tch2_96x1.c \
+          ATL_mvtch_88x1.c \
+          ATL_r1tch1_88x1.c ATL_r1tch2_88x1.c \
+          ATL_mvtch_80x1.c \
+          ATL_r1tch1_80x1.c ATL_r1tch2_80x1.c \
+          ATL_mvtch_72x1.c \
+          ATL_r1tch1_72x1.c ATL_r1tch2_72x1.c \
+          ATL_mvtch_64x1.c \
+          ATL_r1tch1_64x1.c ATL_r1tch2_64x1.c \
+          ATL_mvtch_56x1.c \
+          ATL_r1tch1_56x1.c ATL_r1tch2_56x1.c \
+          ATL_mvtch_48x1.c \
+          ATL_r1tch1_48x1.c ATL_r1tch2_48x1.c \
+          ATL_mvtch_40x1.c \
+          ATL_r1tch1_40x1.c ATL_r1tch2_40x1.c \
+          ATL_mvtch_32x1.c \
+          ATL_r1tch1_32x1.c ATL_r1tch2_32x1.c \
+          ATL_mvtch_24x1.c \
+          ATL_r1tch1_24x1.c ATL_r1tch2_24x1.c \
+          ATL_mvtch_16x1.c \
+          ATL_r1tch1_16x1.c ATL_r1tch2_16x1.c \
+          ATL_mvtch_8x1.c \
+          ATL_r1tch1_8x1.c ATL_r1tch2_8x1.c \
+          ATL_gerCL_8backwardsx14.c ATL_mvtCL_8backwardsx14.c \
+          ATL_gerCL_8straightx14.c ATL_mvtCL_8straightx14.c \
+          ATL_gerCL_4backwardsx14.c ATL_mvtCL_4backwardsx14.c \
+          ATL_gerCL_4straightx14.c ATL_mvtCL_4straightx14.c \
+          ATL_gerCL_2backwardsx14.c ATL_mvtCL_2backwardsx14.c \
+          ATL_gerCL_2straightx14.c ATL_mvtCL_2straightx14.c \
+          ATL_gerCL_16backwardsx14.c ATL_mvtCL_16backwardsx14.c \
+          ATL_gerCL_16straightx14.c ATL_mvtCL_16straightx14.c \
+          ATL_gerCL_32backwardsx14.c ATL_mvtCL_32backwardsx14.c \
+          ATL_gerCL_32straightx14.c ATL_mvtCL_32straightx14.c \
+          ATL_mvtCL_1x14.c \
+          ATL_gerCL_8backwardsx12.c ATL_mvtCL_8backwardsx12.c \
+          ATL_gerCL_8straightx12.c ATL_mvtCL_8straightx12.c \
+          ATL_gerCL_4backwardsx12.c ATL_mvtCL_4backwardsx12.c \
+          ATL_gerCL_4straightx12.c ATL_mvtCL_4straightx12.c \
+          ATL_gerCL_2backwardsx12.c ATL_mvtCL_2backwardsx12.c \
+          ATL_gerCL_2straightx12.c ATL_mvtCL_2straightx12.c \
+          ATL_gerCL_16backwardsx12.c ATL_mvtCL_16backwardsx12.c \
+          ATL_gerCL_16straightx12.c ATL_mvtCL_16straightx12.c \
+          ATL_gerCL_32backwardsx12.c ATL_mvtCL_32backwardsx12.c \
+          ATL_gerCL_32straightx12.c ATL_mvtCL_32straightx12.c \
+          ATL_mvtCL_1x12.c \
+          ATL_gerCL_8backwardsx10.c ATL_mvtCL_8backwardsx10.c \
+          ATL_gerCL_8straightx10.c ATL_mvtCL_8straightx10.c \
+          ATL_gerCL_4backwardsx10.c ATL_mvtCL_4backwardsx10.c \
+          ATL_gerCL_4straightx10.c ATL_mvtCL_4straightx10.c \
+          ATL_gerCL_2backwardsx10.c ATL_mvtCL_2backwardsx10.c \
+          ATL_gerCL_2straightx10.c ATL_mvtCL_2straightx10.c \
+          ATL_gerCL_16backwardsx10.c ATL_mvtCL_16backwardsx10.c \
+          ATL_gerCL_16straightx10.c ATL_mvtCL_16straightx10.c \
+          ATL_gerCL_32backwardsx10.c ATL_mvtCL_32backwardsx10.c \
+          ATL_gerCL_32straightx10.c ATL_mvtCL_32straightx10.c \
+          ATL_mvtCL_1x10.c \
+          ATL_gerCL_8backwardsx8.c ATL_mvtCL_8backwardsx8.c \
+          ATL_gerCL_8straightx8.c ATL_mvtCL_8straightx8.c \
+          ATL_gerCL_4backwardsx8.c ATL_mvtCL_4backwardsx8.c \
+          ATL_gerCL_4straightx8.c ATL_mvtCL_4straightx8.c \
+          ATL_gerCL_2backwardsx8.c ATL_mvtCL_2backwardsx8.c \
+          ATL_gerCL_2straightx8.c ATL_mvtCL_2straightx8.c \
+          ATL_gerCL_16backwardsx8.c ATL_mvtCL_16backwardsx8.c \
+          ATL_gerCL_16straightx8.c ATL_mvtCL_16straightx8.c \
+          ATL_gerCL_32backwardsx8.c ATL_mvtCL_32backwardsx8.c \
+          ATL_gerCL_32straightx8.c ATL_mvtCL_32straightx8.c \
+          ATL_mvtCL_1x8.c \
+          ATL_gerCL_8backwardsx6.c ATL_mvtCL_8backwardsx6.c \
+          ATL_gerCL_8straightx6.c ATL_mvtCL_8straightx6.c \
+          ATL_gerCL_4backwardsx6.c ATL_mvtCL_4backwardsx6.c \
+          ATL_gerCL_4straightx6.c ATL_mvtCL_4straightx6.c \
+          ATL_gerCL_2backwardsx6.c ATL_mvtCL_2backwardsx6.c \
+          ATL_gerCL_2straightx6.c ATL_mvtCL_2straightx6.c \
+          ATL_gerCL_16backwardsx6.c ATL_mvtCL_16backwardsx6.c \
+          ATL_gerCL_16straightx6.c ATL_mvtCL_16straightx6.c \
+          ATL_gerCL_32backwardsx6.c ATL_mvtCL_32backwardsx6.c \
+          ATL_gerCL_32straightx6.c ATL_mvtCL_32straightx6.c \
+          ATL_mvtCL_1x6.c \
+          ATL_gerCL_8backwardsx4.c ATL_mvtCL_8backwardsx4.c \
+          ATL_gerCL_8straightx4.c ATL_mvtCL_8straightx4.c \
+          ATL_gerCL_4backwardsx4.c ATL_mvtCL_4backwardsx4.c \
+          ATL_gerCL_4straightx4.c ATL_mvtCL_4straightx4.c \
+          ATL_gerCL_2backwardsx4.c ATL_mvtCL_2backwardsx4.c \
+          ATL_gerCL_2straightx4.c ATL_mvtCL_2straightx4.c \
+          ATL_gerCL_16backwardsx4.c ATL_mvtCL_16backwardsx4.c \
+          ATL_gerCL_16straightx4.c ATL_mvtCL_16straightx4.c \
+          ATL_gerCL_32backwardsx4.c ATL_mvtCL_32backwardsx4.c \
+          ATL_gerCL_32straightx4.c ATL_mvtCL_32straightx4.c \
+          ATL_mvtCL_1x4.c \
+          ATL_gerCL_8backwardsx2.c ATL_mvtCL_8backwardsx2.c \
+          ATL_gerCL_8straightx2.c ATL_mvtCL_8straightx2.c \
+          ATL_gerCL_4backwardsx2.c ATL_mvtCL_4backwardsx2.c \
+          ATL_gerCL_4straightx2.c ATL_mvtCL_4straightx2.c \
+          ATL_gerCL_2backwardsx2.c ATL_mvtCL_2backwardsx2.c \
+          ATL_gerCL_2straightx2.c ATL_mvtCL_2straightx2.c \
+          ATL_gerCL_16backwardsx2.c ATL_mvtCL_16backwardsx2.c \
+          ATL_gerCL_16straightx2.c ATL_mvtCL_16straightx2.c \
+          ATL_gerCL_32backwardsx2.c ATL_mvtCL_32backwardsx2.c \
+          ATL_gerCL_32straightx2.c ATL_mvtCL_32straightx2.c \
+          ATL_mvtCL_1x2.c \
+          ATL_gerCL_8backwardsx1.c ATL_mvtCL_8backwardsx1.c \
+          ATL_gerCL_8straightx1.c ATL_mvtCL_8straightx1.c \
+          ATL_gerCL_4backwardsx1.c ATL_mvtCL_4backwardsx1.c \
+          ATL_gerCL_4straightx1.c ATL_mvtCL_4straightx1.c \
+          ATL_gerCL_2backwardsx1.c ATL_mvtCL_2backwardsx1.c \
+          ATL_gerCL_2straightx1.c ATL_mvtCL_2straightx1.c \
+          ATL_gerCL_16backwardsx1.c ATL_mvtCL_16backwardsx1.c \
+          ATL_gerCL_16straightx1.c ATL_mvtCL_16straightx1.c \
+          ATL_gerCL_32backwardsx1.c ATL_mvtCL_32backwardsx1.c \
+          ATL_gerCL_32straightx1.c ATL_mvtCL_32straightx1.c \
+          ATL_mvtCL_1x1.c \
+          dr1nucases.idx memgerF.idx memmvtF.idx memgerB.idx memmvtB.idx \
+          loop1x1.idx loop1x1_noop.idx mvtch_L2.idx mvtch.idx \
+          r1tch1_L2.idx r1tch1.idx r1tch2_L2.idx r1tch2.idx \
+          mvpf8x1_T1.idx r1pf8x1_T1.idx \
+          mvpf8x1_T0.idx r1pf8x1_T0.idx \
+          mvpf8x1_NTA.idx r1pf8x1_NTA.idx \
+          mvpf8x1_W.idx r1pf8x1_W.idx \
+          mvpf8x1_R.idx r1pf8x1_R.idx \
+          loop_L2M.sh loop_L2N.sh loop_L2M_noop.sh loop_L2N_noop.sh pftch_OOC.sh
+expk : $(expkern)
+touch_1x1_dec_nz.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=0 nu=0 -o $@ rout=$*
+touch_1x1_lp.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=0 nu=0 -o $@ rout=$*
+touch_1x1_inc_nz.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=0 nu=0 -o $@ rout=$*
+touch_1x1_nz.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=0 nu=0 -o $@ rout=$*
+ATL_r1tch8x1pf.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=0 nu=0 -o $@ rout=$*
+ATL_mvtch8x1pf.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=0 nu=0 -o $@ rout=$*
+touch_1x14_dec_nz.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=0 nu=0 -o $@ rout=$*
+touch_1x14_nz.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=0 nu=0 -o $@ rout=$*
+ATL_mvtch_128x14.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=128 nu=14 -o $@ rout=mvtch
+ATL_r1tch1_128x14.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=128 nu=14 -o $@ rout=r1tch1
+ATL_r1tch2_128x14.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=128 nu=14 -o $@ rout=r1tch2
+ATL_mvtch_120x14.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=120 nu=14 -o $@ rout=mvtch
+ATL_r1tch1_120x14.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=120 nu=14 -o $@ rout=r1tch1
+ATL_r1tch2_120x14.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=120 nu=14 -o $@ rout=r1tch2
+ATL_mvtch_112x14.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=112 nu=14 -o $@ rout=mvtch
+ATL_r1tch1_112x14.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=112 nu=14 -o $@ rout=r1tch1
+ATL_r1tch2_112x14.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=112 nu=14 -o $@ rout=r1tch2
+ATL_mvtch_104x14.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=104 nu=14 -o $@ rout=mvtch
+ATL_r1tch1_104x14.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=104 nu=14 -o $@ rout=r1tch1
+ATL_r1tch2_104x14.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=104 nu=14 -o $@ rout=r1tch2
+ATL_mvtch_96x14.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=96 nu=14 -o $@ rout=mvtch
+ATL_r1tch1_96x14.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=96 nu=14 -o $@ rout=r1tch1
+ATL_r1tch2_96x14.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=96 nu=14 -o $@ rout=r1tch2
+ATL_mvtch_88x14.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=88 nu=14 -o $@ rout=mvtch
+ATL_r1tch1_88x14.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=88 nu=14 -o $@ rout=r1tch1
+ATL_r1tch2_88x14.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=88 nu=14 -o $@ rout=r1tch2
+ATL_mvtch_80x14.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=80 nu=14 -o $@ rout=mvtch
+ATL_r1tch1_80x14.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=80 nu=14 -o $@ rout=r1tch1
+ATL_r1tch2_80x14.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=80 nu=14 -o $@ rout=r1tch2
+ATL_mvtch_72x14.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=72 nu=14 -o $@ rout=mvtch
+ATL_r1tch1_72x14.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=72 nu=14 -o $@ rout=r1tch1
+ATL_r1tch2_72x14.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=72 nu=14 -o $@ rout=r1tch2
+ATL_mvtch_64x14.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=64 nu=14 -o $@ rout=mvtch
+ATL_r1tch1_64x14.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=64 nu=14 -o $@ rout=r1tch1
+ATL_r1tch2_64x14.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=64 nu=14 -o $@ rout=r1tch2
+ATL_mvtch_56x14.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=56 nu=14 -o $@ rout=mvtch
+ATL_r1tch1_56x14.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=56 nu=14 -o $@ rout=r1tch1
+ATL_r1tch2_56x14.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=56 nu=14 -o $@ rout=r1tch2
+ATL_mvtch_48x14.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=48 nu=14 -o $@ rout=mvtch
+ATL_r1tch1_48x14.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=48 nu=14 -o $@ rout=r1tch1
+ATL_r1tch2_48x14.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=48 nu=14 -o $@ rout=r1tch2
+ATL_mvtch_40x14.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=40 nu=14 -o $@ rout=mvtch
+ATL_r1tch1_40x14.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=40 nu=14 -o $@ rout=r1tch1
+ATL_r1tch2_40x14.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=40 nu=14 -o $@ rout=r1tch2
+ATL_mvtch_32x14.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=32 nu=14 -o $@ rout=mvtch
+ATL_r1tch1_32x14.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=32 nu=14 -o $@ rout=r1tch1
+ATL_r1tch2_32x14.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=32 nu=14 -o $@ rout=r1tch2
+ATL_mvtch_24x14.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=24 nu=14 -o $@ rout=mvtch
+ATL_r1tch1_24x14.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=24 nu=14 -o $@ rout=r1tch1
+ATL_r1tch2_24x14.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=24 nu=14 -o $@ rout=r1tch2
+ATL_mvtch_16x14.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=16 nu=14 -o $@ rout=mvtch
+ATL_r1tch1_16x14.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=16 nu=14 -o $@ rout=r1tch1
+ATL_r1tch2_16x14.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=16 nu=14 -o $@ rout=r1tch2
+ATL_mvtch_8x14.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=8 nu=14 -o $@ rout=mvtch
+ATL_r1tch1_8x14.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=8 nu=14 -o $@ rout=r1tch1
+ATL_r1tch2_8x14.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=8 nu=14 -o $@ rout=r1tch2
+ATL_mvtch_128x13.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=128 nu=13 -o $@ rout=mvtch
+ATL_r1tch1_128x13.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=128 nu=13 -o $@ rout=r1tch1
+ATL_r1tch2_128x13.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=128 nu=13 -o $@ rout=r1tch2
+ATL_mvtch_120x13.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=120 nu=13 -o $@ rout=mvtch
+ATL_r1tch1_120x13.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=120 nu=13 -o $@ rout=r1tch1
+ATL_r1tch2_120x13.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=120 nu=13 -o $@ rout=r1tch2
+ATL_mvtch_112x13.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=112 nu=13 -o $@ rout=mvtch
+ATL_r1tch1_112x13.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=112 nu=13 -o $@ rout=r1tch1
+ATL_r1tch2_112x13.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=112 nu=13 -o $@ rout=r1tch2
+ATL_mvtch_104x13.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=104 nu=13 -o $@ rout=mvtch
+ATL_r1tch1_104x13.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=104 nu=13 -o $@ rout=r1tch1
+ATL_r1tch2_104x13.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=104 nu=13 -o $@ rout=r1tch2
+ATL_mvtch_96x13.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=96 nu=13 -o $@ rout=mvtch
+ATL_r1tch1_96x13.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=96 nu=13 -o $@ rout=r1tch1
+ATL_r1tch2_96x13.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=96 nu=13 -o $@ rout=r1tch2
+ATL_mvtch_88x13.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=88 nu=13 -o $@ rout=mvtch
+ATL_r1tch1_88x13.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=88 nu=13 -o $@ rout=r1tch1
+ATL_r1tch2_88x13.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=88 nu=13 -o $@ rout=r1tch2
+ATL_mvtch_80x13.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=80 nu=13 -o $@ rout=mvtch
+ATL_r1tch1_80x13.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=80 nu=13 -o $@ rout=r1tch1
+ATL_r1tch2_80x13.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=80 nu=13 -o $@ rout=r1tch2
+ATL_mvtch_72x13.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=72 nu=13 -o $@ rout=mvtch
+ATL_r1tch1_72x13.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=72 nu=13 -o $@ rout=r1tch1
+ATL_r1tch2_72x13.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=72 nu=13 -o $@ rout=r1tch2
+ATL_mvtch_64x13.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=64 nu=13 -o $@ rout=mvtch
+ATL_r1tch1_64x13.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=64 nu=13 -o $@ rout=r1tch1
+ATL_r1tch2_64x13.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=64 nu=13 -o $@ rout=r1tch2
+ATL_mvtch_56x13.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=56 nu=13 -o $@ rout=mvtch
+ATL_r1tch1_56x13.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=56 nu=13 -o $@ rout=r1tch1
+ATL_r1tch2_56x13.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=56 nu=13 -o $@ rout=r1tch2
+ATL_mvtch_48x13.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=48 nu=13 -o $@ rout=mvtch
+ATL_r1tch1_48x13.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=48 nu=13 -o $@ rout=r1tch1
+ATL_r1tch2_48x13.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=48 nu=13 -o $@ rout=r1tch2
+ATL_mvtch_40x13.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=40 nu=13 -o $@ rout=mvtch
+ATL_r1tch1_40x13.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=40 nu=13 -o $@ rout=r1tch1
+ATL_r1tch2_40x13.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=40 nu=13 -o $@ rout=r1tch2
+ATL_mvtch_32x13.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=32 nu=13 -o $@ rout=mvtch
+ATL_r1tch1_32x13.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=32 nu=13 -o $@ rout=r1tch1
+ATL_r1tch2_32x13.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=32 nu=13 -o $@ rout=r1tch2
+ATL_mvtch_24x13.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=24 nu=13 -o $@ rout=mvtch
+ATL_r1tch1_24x13.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=24 nu=13 -o $@ rout=r1tch1
+ATL_r1tch2_24x13.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=24 nu=13 -o $@ rout=r1tch2
+ATL_mvtch_16x13.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=16 nu=13 -o $@ rout=mvtch
+ATL_r1tch1_16x13.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=16 nu=13 -o $@ rout=r1tch1
+ATL_r1tch2_16x13.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=16 nu=13 -o $@ rout=r1tch2
+ATL_mvtch_8x13.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=8 nu=13 -o $@ rout=mvtch
+ATL_r1tch1_8x13.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=8 nu=13 -o $@ rout=r1tch1
+ATL_r1tch2_8x13.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=8 nu=13 -o $@ rout=r1tch2
+ATL_mvtch_128x12.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=128 nu=12 -o $@ rout=mvtch
+ATL_r1tch1_128x12.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=128 nu=12 -o $@ rout=r1tch1
+ATL_r1tch2_128x12.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=128 nu=12 -o $@ rout=r1tch2
+ATL_mvtch_120x12.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=120 nu=12 -o $@ rout=mvtch
+ATL_r1tch1_120x12.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=120 nu=12 -o $@ rout=r1tch1
+ATL_r1tch2_120x12.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=120 nu=12 -o $@ rout=r1tch2
+ATL_mvtch_112x12.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=112 nu=12 -o $@ rout=mvtch
+ATL_r1tch1_112x12.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=112 nu=12 -o $@ rout=r1tch1
+ATL_r1tch2_112x12.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=112 nu=12 -o $@ rout=r1tch2
+ATL_mvtch_104x12.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=104 nu=12 -o $@ rout=mvtch
+ATL_r1tch1_104x12.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=104 nu=12 -o $@ rout=r1tch1
+ATL_r1tch2_104x12.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=104 nu=12 -o $@ rout=r1tch2
+ATL_mvtch_96x12.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=96 nu=12 -o $@ rout=mvtch
+ATL_r1tch1_96x12.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=96 nu=12 -o $@ rout=r1tch1
+ATL_r1tch2_96x12.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=96 nu=12 -o $@ rout=r1tch2
+ATL_mvtch_88x12.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=88 nu=12 -o $@ rout=mvtch
+ATL_r1tch1_88x12.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=88 nu=12 -o $@ rout=r1tch1
+ATL_r1tch2_88x12.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=88 nu=12 -o $@ rout=r1tch2
+ATL_mvtch_80x12.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=80 nu=12 -o $@ rout=mvtch
+ATL_r1tch1_80x12.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=80 nu=12 -o $@ rout=r1tch1
+ATL_r1tch2_80x12.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=80 nu=12 -o $@ rout=r1tch2
+ATL_mvtch_72x12.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=72 nu=12 -o $@ rout=mvtch
+ATL_r1tch1_72x12.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=72 nu=12 -o $@ rout=r1tch1
+ATL_r1tch2_72x12.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=72 nu=12 -o $@ rout=r1tch2
+ATL_mvtch_64x12.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=64 nu=12 -o $@ rout=mvtch
+ATL_r1tch1_64x12.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=64 nu=12 -o $@ rout=r1tch1
+ATL_r1tch2_64x12.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=64 nu=12 -o $@ rout=r1tch2
+ATL_mvtch_56x12.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=56 nu=12 -o $@ rout=mvtch
+ATL_r1tch1_56x12.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=56 nu=12 -o $@ rout=r1tch1
+ATL_r1tch2_56x12.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=56 nu=12 -o $@ rout=r1tch2
+ATL_mvtch_48x12.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=48 nu=12 -o $@ rout=mvtch
+ATL_r1tch1_48x12.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=48 nu=12 -o $@ rout=r1tch1
+ATL_r1tch2_48x12.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=48 nu=12 -o $@ rout=r1tch2
+ATL_mvtch_40x12.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=40 nu=12 -o $@ rout=mvtch
+ATL_r1tch1_40x12.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=40 nu=12 -o $@ rout=r1tch1
+ATL_r1tch2_40x12.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=40 nu=12 -o $@ rout=r1tch2
+ATL_mvtch_32x12.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=32 nu=12 -o $@ rout=mvtch
+ATL_r1tch1_32x12.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=32 nu=12 -o $@ rout=r1tch1
+ATL_r1tch2_32x12.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=32 nu=12 -o $@ rout=r1tch2
+ATL_mvtch_24x12.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=24 nu=12 -o $@ rout=mvtch
+ATL_r1tch1_24x12.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=24 nu=12 -o $@ rout=r1tch1
+ATL_r1tch2_24x12.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=24 nu=12 -o $@ rout=r1tch2
+ATL_mvtch_16x12.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=16 nu=12 -o $@ rout=mvtch
+ATL_r1tch1_16x12.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=16 nu=12 -o $@ rout=r1tch1
+ATL_r1tch2_16x12.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=16 nu=12 -o $@ rout=r1tch2
+ATL_mvtch_8x12.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=8 nu=12 -o $@ rout=mvtch
+ATL_r1tch1_8x12.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=8 nu=12 -o $@ rout=r1tch1
+ATL_r1tch2_8x12.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=8 nu=12 -o $@ rout=r1tch2
+ATL_mvtch_128x11.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=128 nu=11 -o $@ rout=mvtch
+ATL_r1tch1_128x11.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=128 nu=11 -o $@ rout=r1tch1
+ATL_r1tch2_128x11.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=128 nu=11 -o $@ rout=r1tch2
+ATL_mvtch_120x11.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=120 nu=11 -o $@ rout=mvtch
+ATL_r1tch1_120x11.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=120 nu=11 -o $@ rout=r1tch1
+ATL_r1tch2_120x11.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=120 nu=11 -o $@ rout=r1tch2
+ATL_mvtch_112x11.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=112 nu=11 -o $@ rout=mvtch
+ATL_r1tch1_112x11.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=112 nu=11 -o $@ rout=r1tch1
+ATL_r1tch2_112x11.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=112 nu=11 -o $@ rout=r1tch2
+ATL_mvtch_104x11.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=104 nu=11 -o $@ rout=mvtch
+ATL_r1tch1_104x11.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=104 nu=11 -o $@ rout=r1tch1
+ATL_r1tch2_104x11.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=104 nu=11 -o $@ rout=r1tch2
+ATL_mvtch_96x11.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=96 nu=11 -o $@ rout=mvtch
+ATL_r1tch1_96x11.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=96 nu=11 -o $@ rout=r1tch1
+ATL_r1tch2_96x11.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=96 nu=11 -o $@ rout=r1tch2
+ATL_mvtch_88x11.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=88 nu=11 -o $@ rout=mvtch
+ATL_r1tch1_88x11.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=88 nu=11 -o $@ rout=r1tch1
+ATL_r1tch2_88x11.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=88 nu=11 -o $@ rout=r1tch2
+ATL_mvtch_80x11.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=80 nu=11 -o $@ rout=mvtch
+ATL_r1tch1_80x11.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=80 nu=11 -o $@ rout=r1tch1
+ATL_r1tch2_80x11.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=80 nu=11 -o $@ rout=r1tch2
+ATL_mvtch_72x11.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=72 nu=11 -o $@ rout=mvtch
+ATL_r1tch1_72x11.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=72 nu=11 -o $@ rout=r1tch1
+ATL_r1tch2_72x11.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=72 nu=11 -o $@ rout=r1tch2
+ATL_mvtch_64x11.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=64 nu=11 -o $@ rout=mvtch
+ATL_r1tch1_64x11.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=64 nu=11 -o $@ rout=r1tch1
+ATL_r1tch2_64x11.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=64 nu=11 -o $@ rout=r1tch2
+ATL_mvtch_56x11.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=56 nu=11 -o $@ rout=mvtch
+ATL_r1tch1_56x11.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=56 nu=11 -o $@ rout=r1tch1
+ATL_r1tch2_56x11.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=56 nu=11 -o $@ rout=r1tch2
+ATL_mvtch_48x11.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=48 nu=11 -o $@ rout=mvtch
+ATL_r1tch1_48x11.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=48 nu=11 -o $@ rout=r1tch1
+ATL_r1tch2_48x11.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=48 nu=11 -o $@ rout=r1tch2
+ATL_mvtch_40x11.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=40 nu=11 -o $@ rout=mvtch
+ATL_r1tch1_40x11.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=40 nu=11 -o $@ rout=r1tch1
+ATL_r1tch2_40x11.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=40 nu=11 -o $@ rout=r1tch2
+ATL_mvtch_32x11.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=32 nu=11 -o $@ rout=mvtch
+ATL_r1tch1_32x11.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=32 nu=11 -o $@ rout=r1tch1
+ATL_r1tch2_32x11.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=32 nu=11 -o $@ rout=r1tch2
+ATL_mvtch_24x11.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=24 nu=11 -o $@ rout=mvtch
+ATL_r1tch1_24x11.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=24 nu=11 -o $@ rout=r1tch1
+ATL_r1tch2_24x11.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=24 nu=11 -o $@ rout=r1tch2
+ATL_mvtch_16x11.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=16 nu=11 -o $@ rout=mvtch
+ATL_r1tch1_16x11.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=16 nu=11 -o $@ rout=r1tch1
+ATL_r1tch2_16x11.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=16 nu=11 -o $@ rout=r1tch2
+ATL_mvtch_8x11.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=8 nu=11 -o $@ rout=mvtch
+ATL_r1tch1_8x11.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=8 nu=11 -o $@ rout=r1tch1
+ATL_r1tch2_8x11.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=8 nu=11 -o $@ rout=r1tch2
+ATL_mvtch_128x10.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=128 nu=10 -o $@ rout=mvtch
+ATL_r1tch1_128x10.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=128 nu=10 -o $@ rout=r1tch1
+ATL_r1tch2_128x10.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=128 nu=10 -o $@ rout=r1tch2
+ATL_mvtch_120x10.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=120 nu=10 -o $@ rout=mvtch
+ATL_r1tch1_120x10.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=120 nu=10 -o $@ rout=r1tch1
+ATL_r1tch2_120x10.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=120 nu=10 -o $@ rout=r1tch2
+ATL_mvtch_112x10.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=112 nu=10 -o $@ rout=mvtch
+ATL_r1tch1_112x10.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=112 nu=10 -o $@ rout=r1tch1
+ATL_r1tch2_112x10.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=112 nu=10 -o $@ rout=r1tch2
+ATL_mvtch_104x10.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=104 nu=10 -o $@ rout=mvtch
+ATL_r1tch1_104x10.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=104 nu=10 -o $@ rout=r1tch1
+ATL_r1tch2_104x10.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=104 nu=10 -o $@ rout=r1tch2
+ATL_mvtch_96x10.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=96 nu=10 -o $@ rout=mvtch
+ATL_r1tch1_96x10.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=96 nu=10 -o $@ rout=r1tch1
+ATL_r1tch2_96x10.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=96 nu=10 -o $@ rout=r1tch2
+ATL_mvtch_88x10.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=88 nu=10 -o $@ rout=mvtch
+ATL_r1tch1_88x10.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=88 nu=10 -o $@ rout=r1tch1
+ATL_r1tch2_88x10.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=88 nu=10 -o $@ rout=r1tch2
+ATL_mvtch_80x10.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=80 nu=10 -o $@ rout=mvtch
+ATL_r1tch1_80x10.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=80 nu=10 -o $@ rout=r1tch1
+ATL_r1tch2_80x10.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=80 nu=10 -o $@ rout=r1tch2
+ATL_mvtch_72x10.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=72 nu=10 -o $@ rout=mvtch
+ATL_r1tch1_72x10.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=72 nu=10 -o $@ rout=r1tch1
+ATL_r1tch2_72x10.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=72 nu=10 -o $@ rout=r1tch2
+ATL_mvtch_64x10.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=64 nu=10 -o $@ rout=mvtch
+ATL_r1tch1_64x10.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=64 nu=10 -o $@ rout=r1tch1
+ATL_r1tch2_64x10.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=64 nu=10 -o $@ rout=r1tch2
+ATL_mvtch_56x10.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=56 nu=10 -o $@ rout=mvtch
+ATL_r1tch1_56x10.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=56 nu=10 -o $@ rout=r1tch1
+ATL_r1tch2_56x10.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=56 nu=10 -o $@ rout=r1tch2
+ATL_mvtch_48x10.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=48 nu=10 -o $@ rout=mvtch
+ATL_r1tch1_48x10.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=48 nu=10 -o $@ rout=r1tch1
+ATL_r1tch2_48x10.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=48 nu=10 -o $@ rout=r1tch2
+ATL_mvtch_40x10.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=40 nu=10 -o $@ rout=mvtch
+ATL_r1tch1_40x10.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=40 nu=10 -o $@ rout=r1tch1
+ATL_r1tch2_40x10.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=40 nu=10 -o $@ rout=r1tch2
+ATL_mvtch_32x10.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=32 nu=10 -o $@ rout=mvtch
+ATL_r1tch1_32x10.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=32 nu=10 -o $@ rout=r1tch1
+ATL_r1tch2_32x10.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=32 nu=10 -o $@ rout=r1tch2
+ATL_mvtch_24x10.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=24 nu=10 -o $@ rout=mvtch
+ATL_r1tch1_24x10.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=24 nu=10 -o $@ rout=r1tch1
+ATL_r1tch2_24x10.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=24 nu=10 -o $@ rout=r1tch2
+ATL_mvtch_16x10.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=16 nu=10 -o $@ rout=mvtch
+ATL_r1tch1_16x10.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=16 nu=10 -o $@ rout=r1tch1
+ATL_r1tch2_16x10.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=16 nu=10 -o $@ rout=r1tch2
+ATL_mvtch_8x10.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=8 nu=10 -o $@ rout=mvtch
+ATL_r1tch1_8x10.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=8 nu=10 -o $@ rout=r1tch1
+ATL_r1tch2_8x10.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=8 nu=10 -o $@ rout=r1tch2
+ATL_mvtch_128x9.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=128 nu=9 -o $@ rout=mvtch
+ATL_r1tch1_128x9.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=128 nu=9 -o $@ rout=r1tch1
+ATL_r1tch2_128x9.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=128 nu=9 -o $@ rout=r1tch2
+ATL_mvtch_120x9.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=120 nu=9 -o $@ rout=mvtch
+ATL_r1tch1_120x9.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=120 nu=9 -o $@ rout=r1tch1
+ATL_r1tch2_120x9.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=120 nu=9 -o $@ rout=r1tch2
+ATL_mvtch_112x9.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=112 nu=9 -o $@ rout=mvtch
+ATL_r1tch1_112x9.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=112 nu=9 -o $@ rout=r1tch1
+ATL_r1tch2_112x9.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=112 nu=9 -o $@ rout=r1tch2
+ATL_mvtch_104x9.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=104 nu=9 -o $@ rout=mvtch
+ATL_r1tch1_104x9.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=104 nu=9 -o $@ rout=r1tch1
+ATL_r1tch2_104x9.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=104 nu=9 -o $@ rout=r1tch2
+ATL_mvtch_96x9.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=96 nu=9 -o $@ rout=mvtch
+ATL_r1tch1_96x9.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=96 nu=9 -o $@ rout=r1tch1
+ATL_r1tch2_96x9.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=96 nu=9 -o $@ rout=r1tch2
+ATL_mvtch_88x9.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=88 nu=9 -o $@ rout=mvtch
+ATL_r1tch1_88x9.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=88 nu=9 -o $@ rout=r1tch1
+ATL_r1tch2_88x9.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=88 nu=9 -o $@ rout=r1tch2
+ATL_mvtch_80x9.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=80 nu=9 -o $@ rout=mvtch
+ATL_r1tch1_80x9.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=80 nu=9 -o $@ rout=r1tch1
+ATL_r1tch2_80x9.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=80 nu=9 -o $@ rout=r1tch2
+ATL_mvtch_72x9.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=72 nu=9 -o $@ rout=mvtch
+ATL_r1tch1_72x9.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=72 nu=9 -o $@ rout=r1tch1
+ATL_r1tch2_72x9.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=72 nu=9 -o $@ rout=r1tch2
+ATL_mvtch_64x9.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=64 nu=9 -o $@ rout=mvtch
+ATL_r1tch1_64x9.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=64 nu=9 -o $@ rout=r1tch1
+ATL_r1tch2_64x9.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=64 nu=9 -o $@ rout=r1tch2
+ATL_mvtch_56x9.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=56 nu=9 -o $@ rout=mvtch
+ATL_r1tch1_56x9.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=56 nu=9 -o $@ rout=r1tch1
+ATL_r1tch2_56x9.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=56 nu=9 -o $@ rout=r1tch2
+ATL_mvtch_48x9.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=48 nu=9 -o $@ rout=mvtch
+ATL_r1tch1_48x9.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=48 nu=9 -o $@ rout=r1tch1
+ATL_r1tch2_48x9.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=48 nu=9 -o $@ rout=r1tch2
+ATL_mvtch_40x9.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=40 nu=9 -o $@ rout=mvtch
+ATL_r1tch1_40x9.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=40 nu=9 -o $@ rout=r1tch1
+ATL_r1tch2_40x9.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=40 nu=9 -o $@ rout=r1tch2
+ATL_mvtch_32x9.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=32 nu=9 -o $@ rout=mvtch
+ATL_r1tch1_32x9.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=32 nu=9 -o $@ rout=r1tch1
+ATL_r1tch2_32x9.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=32 nu=9 -o $@ rout=r1tch2
+ATL_mvtch_24x9.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=24 nu=9 -o $@ rout=mvtch
+ATL_r1tch1_24x9.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=24 nu=9 -o $@ rout=r1tch1
+ATL_r1tch2_24x9.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=24 nu=9 -o $@ rout=r1tch2
+ATL_mvtch_16x9.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=16 nu=9 -o $@ rout=mvtch
+ATL_r1tch1_16x9.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=16 nu=9 -o $@ rout=r1tch1
+ATL_r1tch2_16x9.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=16 nu=9 -o $@ rout=r1tch2
+ATL_mvtch_8x9.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=8 nu=9 -o $@ rout=mvtch
+ATL_r1tch1_8x9.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=8 nu=9 -o $@ rout=r1tch1
+ATL_r1tch2_8x9.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=8 nu=9 -o $@ rout=r1tch2
+ATL_mvtch_128x8.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=128 nu=8 -o $@ rout=mvtch
+ATL_r1tch1_128x8.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=128 nu=8 -o $@ rout=r1tch1
+ATL_r1tch2_128x8.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=128 nu=8 -o $@ rout=r1tch2
+ATL_mvtch_120x8.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=120 nu=8 -o $@ rout=mvtch
+ATL_r1tch1_120x8.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=120 nu=8 -o $@ rout=r1tch1
+ATL_r1tch2_120x8.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=120 nu=8 -o $@ rout=r1tch2
+ATL_mvtch_112x8.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=112 nu=8 -o $@ rout=mvtch
+ATL_r1tch1_112x8.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=112 nu=8 -o $@ rout=r1tch1
+ATL_r1tch2_112x8.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=112 nu=8 -o $@ rout=r1tch2
+ATL_mvtch_104x8.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=104 nu=8 -o $@ rout=mvtch
+ATL_r1tch1_104x8.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=104 nu=8 -o $@ rout=r1tch1
+ATL_r1tch2_104x8.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=104 nu=8 -o $@ rout=r1tch2
+ATL_mvtch_96x8.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=96 nu=8 -o $@ rout=mvtch
+ATL_r1tch1_96x8.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=96 nu=8 -o $@ rout=r1tch1
+ATL_r1tch2_96x8.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=96 nu=8 -o $@ rout=r1tch2
+ATL_mvtch_88x8.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=88 nu=8 -o $@ rout=mvtch
+ATL_r1tch1_88x8.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=88 nu=8 -o $@ rout=r1tch1
+ATL_r1tch2_88x8.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=88 nu=8 -o $@ rout=r1tch2
+ATL_mvtch_80x8.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=80 nu=8 -o $@ rout=mvtch
+ATL_r1tch1_80x8.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=80 nu=8 -o $@ rout=r1tch1
+ATL_r1tch2_80x8.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=80 nu=8 -o $@ rout=r1tch2
+ATL_mvtch_72x8.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=72 nu=8 -o $@ rout=mvtch
+ATL_r1tch1_72x8.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=72 nu=8 -o $@ rout=r1tch1
+ATL_r1tch2_72x8.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=72 nu=8 -o $@ rout=r1tch2
+ATL_mvtch_64x8.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=64 nu=8 -o $@ rout=mvtch
+ATL_r1tch1_64x8.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=64 nu=8 -o $@ rout=r1tch1
+ATL_r1tch2_64x8.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=64 nu=8 -o $@ rout=r1tch2
+ATL_mvtch_56x8.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=56 nu=8 -o $@ rout=mvtch
+ATL_r1tch1_56x8.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=56 nu=8 -o $@ rout=r1tch1
+ATL_r1tch2_56x8.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=56 nu=8 -o $@ rout=r1tch2
+ATL_mvtch_48x8.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=48 nu=8 -o $@ rout=mvtch
+ATL_r1tch1_48x8.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=48 nu=8 -o $@ rout=r1tch1
+ATL_r1tch2_48x8.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=48 nu=8 -o $@ rout=r1tch2
+ATL_mvtch_40x8.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=40 nu=8 -o $@ rout=mvtch
+ATL_r1tch1_40x8.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=40 nu=8 -o $@ rout=r1tch1
+ATL_r1tch2_40x8.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=40 nu=8 -o $@ rout=r1tch2
+ATL_mvtch_32x8.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=32 nu=8 -o $@ rout=mvtch
+ATL_r1tch1_32x8.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=32 nu=8 -o $@ rout=r1tch1
+ATL_r1tch2_32x8.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=32 nu=8 -o $@ rout=r1tch2
+ATL_mvtch_24x8.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=24 nu=8 -o $@ rout=mvtch
+ATL_r1tch1_24x8.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=24 nu=8 -o $@ rout=r1tch1
+ATL_r1tch2_24x8.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=24 nu=8 -o $@ rout=r1tch2
+ATL_mvtch_16x8.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=16 nu=8 -o $@ rout=mvtch
+ATL_r1tch1_16x8.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=16 nu=8 -o $@ rout=r1tch1
+ATL_r1tch2_16x8.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=16 nu=8 -o $@ rout=r1tch2
+ATL_mvtch_8x8.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=8 nu=8 -o $@ rout=mvtch
+ATL_r1tch1_8x8.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=8 nu=8 -o $@ rout=r1tch1
+ATL_r1tch2_8x8.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=8 nu=8 -o $@ rout=r1tch2
+ATL_mvtch_128x7.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=128 nu=7 -o $@ rout=mvtch
+ATL_r1tch1_128x7.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=128 nu=7 -o $@ rout=r1tch1
+ATL_r1tch2_128x7.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=128 nu=7 -o $@ rout=r1tch2
+ATL_mvtch_120x7.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=120 nu=7 -o $@ rout=mvtch
+ATL_r1tch1_120x7.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=120 nu=7 -o $@ rout=r1tch1
+ATL_r1tch2_120x7.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=120 nu=7 -o $@ rout=r1tch2
+ATL_mvtch_112x7.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=112 nu=7 -o $@ rout=mvtch
+ATL_r1tch1_112x7.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=112 nu=7 -o $@ rout=r1tch1
+ATL_r1tch2_112x7.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=112 nu=7 -o $@ rout=r1tch2
+ATL_mvtch_104x7.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=104 nu=7 -o $@ rout=mvtch
+ATL_r1tch1_104x7.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=104 nu=7 -o $@ rout=r1tch1
+ATL_r1tch2_104x7.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=104 nu=7 -o $@ rout=r1tch2
+ATL_mvtch_96x7.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=96 nu=7 -o $@ rout=mvtch
+ATL_r1tch1_96x7.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=96 nu=7 -o $@ rout=r1tch1
+ATL_r1tch2_96x7.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=96 nu=7 -o $@ rout=r1tch2
+ATL_mvtch_88x7.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=88 nu=7 -o $@ rout=mvtch
+ATL_r1tch1_88x7.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=88 nu=7 -o $@ rout=r1tch1
+ATL_r1tch2_88x7.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=88 nu=7 -o $@ rout=r1tch2
+ATL_mvtch_80x7.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=80 nu=7 -o $@ rout=mvtch
+ATL_r1tch1_80x7.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=80 nu=7 -o $@ rout=r1tch1
+ATL_r1tch2_80x7.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=80 nu=7 -o $@ rout=r1tch2
+ATL_mvtch_72x7.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=72 nu=7 -o $@ rout=mvtch
+ATL_r1tch1_72x7.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=72 nu=7 -o $@ rout=r1tch1
+ATL_r1tch2_72x7.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=72 nu=7 -o $@ rout=r1tch2
+ATL_mvtch_64x7.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=64 nu=7 -o $@ rout=mvtch
+ATL_r1tch1_64x7.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=64 nu=7 -o $@ rout=r1tch1
+ATL_r1tch2_64x7.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=64 nu=7 -o $@ rout=r1tch2
+ATL_mvtch_56x7.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=56 nu=7 -o $@ rout=mvtch
+ATL_r1tch1_56x7.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=56 nu=7 -o $@ rout=r1tch1
+ATL_r1tch2_56x7.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=56 nu=7 -o $@ rout=r1tch2
+ATL_mvtch_48x7.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=48 nu=7 -o $@ rout=mvtch
+ATL_r1tch1_48x7.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=48 nu=7 -o $@ rout=r1tch1
+ATL_r1tch2_48x7.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=48 nu=7 -o $@ rout=r1tch2
+ATL_mvtch_40x7.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=40 nu=7 -o $@ rout=mvtch
+ATL_r1tch1_40x7.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=40 nu=7 -o $@ rout=r1tch1
+ATL_r1tch2_40x7.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=40 nu=7 -o $@ rout=r1tch2
+ATL_mvtch_32x7.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=32 nu=7 -o $@ rout=mvtch
+ATL_r1tch1_32x7.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=32 nu=7 -o $@ rout=r1tch1
+ATL_r1tch2_32x7.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=32 nu=7 -o $@ rout=r1tch2
+ATL_mvtch_24x7.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=24 nu=7 -o $@ rout=mvtch
+ATL_r1tch1_24x7.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=24 nu=7 -o $@ rout=r1tch1
+ATL_r1tch2_24x7.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=24 nu=7 -o $@ rout=r1tch2
+ATL_mvtch_16x7.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=16 nu=7 -o $@ rout=mvtch
+ATL_r1tch1_16x7.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=16 nu=7 -o $@ rout=r1tch1
+ATL_r1tch2_16x7.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=16 nu=7 -o $@ rout=r1tch2
+ATL_mvtch_8x7.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=8 nu=7 -o $@ rout=mvtch
+ATL_r1tch1_8x7.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=8 nu=7 -o $@ rout=r1tch1
+ATL_r1tch2_8x7.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=8 nu=7 -o $@ rout=r1tch2
+ATL_mvtch_128x6.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=128 nu=6 -o $@ rout=mvtch
+ATL_r1tch1_128x6.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=128 nu=6 -o $@ rout=r1tch1
+ATL_r1tch2_128x6.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=128 nu=6 -o $@ rout=r1tch2
+ATL_mvtch_120x6.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=120 nu=6 -o $@ rout=mvtch
+ATL_r1tch1_120x6.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=120 nu=6 -o $@ rout=r1tch1
+ATL_r1tch2_120x6.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=120 nu=6 -o $@ rout=r1tch2
+ATL_mvtch_112x6.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=112 nu=6 -o $@ rout=mvtch
+ATL_r1tch1_112x6.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=112 nu=6 -o $@ rout=r1tch1
+ATL_r1tch2_112x6.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=112 nu=6 -o $@ rout=r1tch2
+ATL_mvtch_104x6.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=104 nu=6 -o $@ rout=mvtch
+ATL_r1tch1_104x6.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=104 nu=6 -o $@ rout=r1tch1
+ATL_r1tch2_104x6.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=104 nu=6 -o $@ rout=r1tch2
+ATL_mvtch_96x6.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=96 nu=6 -o $@ rout=mvtch
+ATL_r1tch1_96x6.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=96 nu=6 -o $@ rout=r1tch1
+ATL_r1tch2_96x6.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=96 nu=6 -o $@ rout=r1tch2
+ATL_mvtch_88x6.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=88 nu=6 -o $@ rout=mvtch
+ATL_r1tch1_88x6.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=88 nu=6 -o $@ rout=r1tch1
+ATL_r1tch2_88x6.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=88 nu=6 -o $@ rout=r1tch2
+ATL_mvtch_80x6.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=80 nu=6 -o $@ rout=mvtch
+ATL_r1tch1_80x6.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=80 nu=6 -o $@ rout=r1tch1
+ATL_r1tch2_80x6.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=80 nu=6 -o $@ rout=r1tch2
+ATL_mvtch_72x6.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=72 nu=6 -o $@ rout=mvtch
+ATL_r1tch1_72x6.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=72 nu=6 -o $@ rout=r1tch1
+ATL_r1tch2_72x6.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=72 nu=6 -o $@ rout=r1tch2
+ATL_mvtch_64x6.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=64 nu=6 -o $@ rout=mvtch
+ATL_r1tch1_64x6.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=64 nu=6 -o $@ rout=r1tch1
+ATL_r1tch2_64x6.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=64 nu=6 -o $@ rout=r1tch2
+ATL_mvtch_56x6.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=56 nu=6 -o $@ rout=mvtch
+ATL_r1tch1_56x6.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=56 nu=6 -o $@ rout=r1tch1
+ATL_r1tch2_56x6.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=56 nu=6 -o $@ rout=r1tch2
+ATL_mvtch_48x6.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=48 nu=6 -o $@ rout=mvtch
+ATL_r1tch1_48x6.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=48 nu=6 -o $@ rout=r1tch1
+ATL_r1tch2_48x6.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=48 nu=6 -o $@ rout=r1tch2
+ATL_mvtch_40x6.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=40 nu=6 -o $@ rout=mvtch
+ATL_r1tch1_40x6.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=40 nu=6 -o $@ rout=r1tch1
+ATL_r1tch2_40x6.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=40 nu=6 -o $@ rout=r1tch2
+ATL_mvtch_32x6.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=32 nu=6 -o $@ rout=mvtch
+ATL_r1tch1_32x6.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=32 nu=6 -o $@ rout=r1tch1
+ATL_r1tch2_32x6.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=32 nu=6 -o $@ rout=r1tch2
+ATL_mvtch_24x6.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=24 nu=6 -o $@ rout=mvtch
+ATL_r1tch1_24x6.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=24 nu=6 -o $@ rout=r1tch1
+ATL_r1tch2_24x6.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=24 nu=6 -o $@ rout=r1tch2
+ATL_mvtch_16x6.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=16 nu=6 -o $@ rout=mvtch
+ATL_r1tch1_16x6.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=16 nu=6 -o $@ rout=r1tch1
+ATL_r1tch2_16x6.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=16 nu=6 -o $@ rout=r1tch2
+ATL_mvtch_8x6.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=8 nu=6 -o $@ rout=mvtch
+ATL_r1tch1_8x6.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=8 nu=6 -o $@ rout=r1tch1
+ATL_r1tch2_8x6.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=8 nu=6 -o $@ rout=r1tch2
+ATL_mvtch_128x5.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=128 nu=5 -o $@ rout=mvtch
+ATL_r1tch1_128x5.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=128 nu=5 -o $@ rout=r1tch1
+ATL_r1tch2_128x5.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=128 nu=5 -o $@ rout=r1tch2
+ATL_mvtch_120x5.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=120 nu=5 -o $@ rout=mvtch
+ATL_r1tch1_120x5.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=120 nu=5 -o $@ rout=r1tch1
+ATL_r1tch2_120x5.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=120 nu=5 -o $@ rout=r1tch2
+ATL_mvtch_112x5.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=112 nu=5 -o $@ rout=mvtch
+ATL_r1tch1_112x5.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=112 nu=5 -o $@ rout=r1tch1
+ATL_r1tch2_112x5.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=112 nu=5 -o $@ rout=r1tch2
+ATL_mvtch_104x5.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=104 nu=5 -o $@ rout=mvtch
+ATL_r1tch1_104x5.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=104 nu=5 -o $@ rout=r1tch1
+ATL_r1tch2_104x5.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=104 nu=5 -o $@ rout=r1tch2
+ATL_mvtch_96x5.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=96 nu=5 -o $@ rout=mvtch
+ATL_r1tch1_96x5.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=96 nu=5 -o $@ rout=r1tch1
+ATL_r1tch2_96x5.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=96 nu=5 -o $@ rout=r1tch2
+ATL_mvtch_88x5.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=88 nu=5 -o $@ rout=mvtch
+ATL_r1tch1_88x5.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=88 nu=5 -o $@ rout=r1tch1
+ATL_r1tch2_88x5.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=88 nu=5 -o $@ rout=r1tch2
+ATL_mvtch_80x5.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=80 nu=5 -o $@ rout=mvtch
+ATL_r1tch1_80x5.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=80 nu=5 -o $@ rout=r1tch1
+ATL_r1tch2_80x5.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=80 nu=5 -o $@ rout=r1tch2
+ATL_mvtch_72x5.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=72 nu=5 -o $@ rout=mvtch
+ATL_r1tch1_72x5.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=72 nu=5 -o $@ rout=r1tch1
+ATL_r1tch2_72x5.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=72 nu=5 -o $@ rout=r1tch2
+ATL_mvtch_64x5.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=64 nu=5 -o $@ rout=mvtch
+ATL_r1tch1_64x5.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=64 nu=5 -o $@ rout=r1tch1
+ATL_r1tch2_64x5.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=64 nu=5 -o $@ rout=r1tch2
+ATL_mvtch_56x5.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=56 nu=5 -o $@ rout=mvtch
+ATL_r1tch1_56x5.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=56 nu=5 -o $@ rout=r1tch1
+ATL_r1tch2_56x5.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=56 nu=5 -o $@ rout=r1tch2
+ATL_mvtch_48x5.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=48 nu=5 -o $@ rout=mvtch
+ATL_r1tch1_48x5.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=48 nu=5 -o $@ rout=r1tch1
+ATL_r1tch2_48x5.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=48 nu=5 -o $@ rout=r1tch2
+ATL_mvtch_40x5.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=40 nu=5 -o $@ rout=mvtch
+ATL_r1tch1_40x5.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=40 nu=5 -o $@ rout=r1tch1
+ATL_r1tch2_40x5.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=40 nu=5 -o $@ rout=r1tch2
+ATL_mvtch_32x5.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=32 nu=5 -o $@ rout=mvtch
+ATL_r1tch1_32x5.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=32 nu=5 -o $@ rout=r1tch1
+ATL_r1tch2_32x5.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=32 nu=5 -o $@ rout=r1tch2
+ATL_mvtch_24x5.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=24 nu=5 -o $@ rout=mvtch
+ATL_r1tch1_24x5.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=24 nu=5 -o $@ rout=r1tch1
+ATL_r1tch2_24x5.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=24 nu=5 -o $@ rout=r1tch2
+ATL_mvtch_16x5.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=16 nu=5 -o $@ rout=mvtch
+ATL_r1tch1_16x5.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=16 nu=5 -o $@ rout=r1tch1
+ATL_r1tch2_16x5.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=16 nu=5 -o $@ rout=r1tch2
+ATL_mvtch_8x5.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=8 nu=5 -o $@ rout=mvtch
+ATL_r1tch1_8x5.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=8 nu=5 -o $@ rout=r1tch1
+ATL_r1tch2_8x5.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=8 nu=5 -o $@ rout=r1tch2
+ATL_mvtch_128x4.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=128 nu=4 -o $@ rout=mvtch
+ATL_r1tch1_128x4.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=128 nu=4 -o $@ rout=r1tch1
+ATL_r1tch2_128x4.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=128 nu=4 -o $@ rout=r1tch2
+ATL_mvtch_120x4.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=120 nu=4 -o $@ rout=mvtch
+ATL_r1tch1_120x4.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=120 nu=4 -o $@ rout=r1tch1
+ATL_r1tch2_120x4.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=120 nu=4 -o $@ rout=r1tch2
+ATL_mvtch_112x4.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=112 nu=4 -o $@ rout=mvtch
+ATL_r1tch1_112x4.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=112 nu=4 -o $@ rout=r1tch1
+ATL_r1tch2_112x4.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=112 nu=4 -o $@ rout=r1tch2
+ATL_mvtch_104x4.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=104 nu=4 -o $@ rout=mvtch
+ATL_r1tch1_104x4.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=104 nu=4 -o $@ rout=r1tch1
+ATL_r1tch2_104x4.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=104 nu=4 -o $@ rout=r1tch2
+ATL_mvtch_96x4.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=96 nu=4 -o $@ rout=mvtch
+ATL_r1tch1_96x4.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=96 nu=4 -o $@ rout=r1tch1
+ATL_r1tch2_96x4.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=96 nu=4 -o $@ rout=r1tch2
+ATL_mvtch_88x4.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=88 nu=4 -o $@ rout=mvtch
+ATL_r1tch1_88x4.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=88 nu=4 -o $@ rout=r1tch1
+ATL_r1tch2_88x4.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=88 nu=4 -o $@ rout=r1tch2
+ATL_mvtch_80x4.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=80 nu=4 -o $@ rout=mvtch
+ATL_r1tch1_80x4.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=80 nu=4 -o $@ rout=r1tch1
+ATL_r1tch2_80x4.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=80 nu=4 -o $@ rout=r1tch2
+ATL_mvtch_72x4.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=72 nu=4 -o $@ rout=mvtch
+ATL_r1tch1_72x4.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=72 nu=4 -o $@ rout=r1tch1
+ATL_r1tch2_72x4.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=72 nu=4 -o $@ rout=r1tch2
+ATL_mvtch_64x4.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=64 nu=4 -o $@ rout=mvtch
+ATL_r1tch1_64x4.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=64 nu=4 -o $@ rout=r1tch1
+ATL_r1tch2_64x4.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=64 nu=4 -o $@ rout=r1tch2
+ATL_mvtch_56x4.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=56 nu=4 -o $@ rout=mvtch
+ATL_r1tch1_56x4.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=56 nu=4 -o $@ rout=r1tch1
+ATL_r1tch2_56x4.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=56 nu=4 -o $@ rout=r1tch2
+ATL_mvtch_48x4.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=48 nu=4 -o $@ rout=mvtch
+ATL_r1tch1_48x4.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=48 nu=4 -o $@ rout=r1tch1
+ATL_r1tch2_48x4.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=48 nu=4 -o $@ rout=r1tch2
+ATL_mvtch_40x4.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=40 nu=4 -o $@ rout=mvtch
+ATL_r1tch1_40x4.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=40 nu=4 -o $@ rout=r1tch1
+ATL_r1tch2_40x4.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=40 nu=4 -o $@ rout=r1tch2
+ATL_mvtch_32x4.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=32 nu=4 -o $@ rout=mvtch
+ATL_r1tch1_32x4.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=32 nu=4 -o $@ rout=r1tch1
+ATL_r1tch2_32x4.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=32 nu=4 -o $@ rout=r1tch2
+ATL_mvtch_24x4.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=24 nu=4 -o $@ rout=mvtch
+ATL_r1tch1_24x4.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=24 nu=4 -o $@ rout=r1tch1
+ATL_r1tch2_24x4.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=24 nu=4 -o $@ rout=r1tch2
+ATL_mvtch_16x4.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=16 nu=4 -o $@ rout=mvtch
+ATL_r1tch1_16x4.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=16 nu=4 -o $@ rout=r1tch1
+ATL_r1tch2_16x4.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=16 nu=4 -o $@ rout=r1tch2
+ATL_mvtch_8x4.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=8 nu=4 -o $@ rout=mvtch
+ATL_r1tch1_8x4.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=8 nu=4 -o $@ rout=r1tch1
+ATL_r1tch2_8x4.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=8 nu=4 -o $@ rout=r1tch2
+ATL_mvtch_128x3.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=128 nu=3 -o $@ rout=mvtch
+ATL_r1tch1_128x3.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=128 nu=3 -o $@ rout=r1tch1
+ATL_r1tch2_128x3.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=128 nu=3 -o $@ rout=r1tch2
+ATL_mvtch_120x3.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=120 nu=3 -o $@ rout=mvtch
+ATL_r1tch1_120x3.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=120 nu=3 -o $@ rout=r1tch1
+ATL_r1tch2_120x3.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=120 nu=3 -o $@ rout=r1tch2
+ATL_mvtch_112x3.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=112 nu=3 -o $@ rout=mvtch
+ATL_r1tch1_112x3.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=112 nu=3 -o $@ rout=r1tch1
+ATL_r1tch2_112x3.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=112 nu=3 -o $@ rout=r1tch2
+ATL_mvtch_104x3.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=104 nu=3 -o $@ rout=mvtch
+ATL_r1tch1_104x3.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=104 nu=3 -o $@ rout=r1tch1
+ATL_r1tch2_104x3.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=104 nu=3 -o $@ rout=r1tch2
+ATL_mvtch_96x3.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=96 nu=3 -o $@ rout=mvtch
+ATL_r1tch1_96x3.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=96 nu=3 -o $@ rout=r1tch1
+ATL_r1tch2_96x3.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=96 nu=3 -o $@ rout=r1tch2
+ATL_mvtch_88x3.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=88 nu=3 -o $@ rout=mvtch
+ATL_r1tch1_88x3.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=88 nu=3 -o $@ rout=r1tch1
+ATL_r1tch2_88x3.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=88 nu=3 -o $@ rout=r1tch2
+ATL_mvtch_80x3.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=80 nu=3 -o $@ rout=mvtch
+ATL_r1tch1_80x3.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=80 nu=3 -o $@ rout=r1tch1
+ATL_r1tch2_80x3.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=80 nu=3 -o $@ rout=r1tch2
+ATL_mvtch_72x3.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=72 nu=3 -o $@ rout=mvtch
+ATL_r1tch1_72x3.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=72 nu=3 -o $@ rout=r1tch1
+ATL_r1tch2_72x3.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=72 nu=3 -o $@ rout=r1tch2
+ATL_mvtch_64x3.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=64 nu=3 -o $@ rout=mvtch
+ATL_r1tch1_64x3.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=64 nu=3 -o $@ rout=r1tch1
+ATL_r1tch2_64x3.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=64 nu=3 -o $@ rout=r1tch2
+ATL_mvtch_56x3.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=56 nu=3 -o $@ rout=mvtch
+ATL_r1tch1_56x3.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=56 nu=3 -o $@ rout=r1tch1
+ATL_r1tch2_56x3.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=56 nu=3 -o $@ rout=r1tch2
+ATL_mvtch_48x3.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=48 nu=3 -o $@ rout=mvtch
+ATL_r1tch1_48x3.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=48 nu=3 -o $@ rout=r1tch1
+ATL_r1tch2_48x3.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=48 nu=3 -o $@ rout=r1tch2
+ATL_mvtch_40x3.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=40 nu=3 -o $@ rout=mvtch
+ATL_r1tch1_40x3.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=40 nu=3 -o $@ rout=r1tch1
+ATL_r1tch2_40x3.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=40 nu=3 -o $@ rout=r1tch2
+ATL_mvtch_32x3.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=32 nu=3 -o $@ rout=mvtch
+ATL_r1tch1_32x3.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=32 nu=3 -o $@ rout=r1tch1
+ATL_r1tch2_32x3.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=32 nu=3 -o $@ rout=r1tch2
+ATL_mvtch_24x3.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=24 nu=3 -o $@ rout=mvtch
+ATL_r1tch1_24x3.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=24 nu=3 -o $@ rout=r1tch1
+ATL_r1tch2_24x3.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=24 nu=3 -o $@ rout=r1tch2
+ATL_mvtch_16x3.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=16 nu=3 -o $@ rout=mvtch
+ATL_r1tch1_16x3.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=16 nu=3 -o $@ rout=r1tch1
+ATL_r1tch2_16x3.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=16 nu=3 -o $@ rout=r1tch2
+ATL_mvtch_8x3.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=8 nu=3 -o $@ rout=mvtch
+ATL_r1tch1_8x3.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=8 nu=3 -o $@ rout=r1tch1
+ATL_r1tch2_8x3.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=8 nu=3 -o $@ rout=r1tch2
+ATL_mvtch_128x2.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=128 nu=2 -o $@ rout=mvtch
+ATL_r1tch1_128x2.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=128 nu=2 -o $@ rout=r1tch1
+ATL_r1tch2_128x2.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=128 nu=2 -o $@ rout=r1tch2
+ATL_mvtch_120x2.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=120 nu=2 -o $@ rout=mvtch
+ATL_r1tch1_120x2.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=120 nu=2 -o $@ rout=r1tch1
+ATL_r1tch2_120x2.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=120 nu=2 -o $@ rout=r1tch2
+ATL_mvtch_112x2.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=112 nu=2 -o $@ rout=mvtch
+ATL_r1tch1_112x2.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=112 nu=2 -o $@ rout=r1tch1
+ATL_r1tch2_112x2.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=112 nu=2 -o $@ rout=r1tch2
+ATL_mvtch_104x2.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=104 nu=2 -o $@ rout=mvtch
+ATL_r1tch1_104x2.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=104 nu=2 -o $@ rout=r1tch1
+ATL_r1tch2_104x2.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=104 nu=2 -o $@ rout=r1tch2
+ATL_mvtch_96x2.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=96 nu=2 -o $@ rout=mvtch
+ATL_r1tch1_96x2.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=96 nu=2 -o $@ rout=r1tch1
+ATL_r1tch2_96x2.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=96 nu=2 -o $@ rout=r1tch2
+ATL_mvtch_88x2.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=88 nu=2 -o $@ rout=mvtch
+ATL_r1tch1_88x2.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=88 nu=2 -o $@ rout=r1tch1
+ATL_r1tch2_88x2.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=88 nu=2 -o $@ rout=r1tch2
+ATL_mvtch_80x2.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=80 nu=2 -o $@ rout=mvtch
+ATL_r1tch1_80x2.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=80 nu=2 -o $@ rout=r1tch1
+ATL_r1tch2_80x2.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=80 nu=2 -o $@ rout=r1tch2
+ATL_mvtch_72x2.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=72 nu=2 -o $@ rout=mvtch
+ATL_r1tch1_72x2.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=72 nu=2 -o $@ rout=r1tch1
+ATL_r1tch2_72x2.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=72 nu=2 -o $@ rout=r1tch2
+ATL_mvtch_64x2.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=64 nu=2 -o $@ rout=mvtch
+ATL_r1tch1_64x2.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=64 nu=2 -o $@ rout=r1tch1
+ATL_r1tch2_64x2.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=64 nu=2 -o $@ rout=r1tch2
+ATL_mvtch_56x2.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=56 nu=2 -o $@ rout=mvtch
+ATL_r1tch1_56x2.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=56 nu=2 -o $@ rout=r1tch1
+ATL_r1tch2_56x2.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=56 nu=2 -o $@ rout=r1tch2
+ATL_mvtch_48x2.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=48 nu=2 -o $@ rout=mvtch
+ATL_r1tch1_48x2.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=48 nu=2 -o $@ rout=r1tch1
+ATL_r1tch2_48x2.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=48 nu=2 -o $@ rout=r1tch2
+ATL_mvtch_40x2.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=40 nu=2 -o $@ rout=mvtch
+ATL_r1tch1_40x2.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=40 nu=2 -o $@ rout=r1tch1
+ATL_r1tch2_40x2.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=40 nu=2 -o $@ rout=r1tch2
+ATL_mvtch_32x2.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=32 nu=2 -o $@ rout=mvtch
+ATL_r1tch1_32x2.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=32 nu=2 -o $@ rout=r1tch1
+ATL_r1tch2_32x2.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=32 nu=2 -o $@ rout=r1tch2
+ATL_mvtch_24x2.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=24 nu=2 -o $@ rout=mvtch
+ATL_r1tch1_24x2.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=24 nu=2 -o $@ rout=r1tch1
+ATL_r1tch2_24x2.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=24 nu=2 -o $@ rout=r1tch2
+ATL_mvtch_16x2.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=16 nu=2 -o $@ rout=mvtch
+ATL_r1tch1_16x2.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=16 nu=2 -o $@ rout=r1tch1
+ATL_r1tch2_16x2.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=16 nu=2 -o $@ rout=r1tch2
+ATL_mvtch_8x2.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=8 nu=2 -o $@ rout=mvtch
+ATL_r1tch1_8x2.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=8 nu=2 -o $@ rout=r1tch1
+ATL_r1tch2_8x2.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=8 nu=2 -o $@ rout=r1tch2
+ATL_mvtch_128x1.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=128 nu=1 -o $@ rout=mvtch
+ATL_r1tch1_128x1.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=128 nu=1 -o $@ rout=r1tch1
+ATL_r1tch2_128x1.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=128 nu=1 -o $@ rout=r1tch2
+ATL_mvtch_120x1.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=120 nu=1 -o $@ rout=mvtch
+ATL_r1tch1_120x1.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=120 nu=1 -o $@ rout=r1tch1
+ATL_r1tch2_120x1.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=120 nu=1 -o $@ rout=r1tch2
+ATL_mvtch_112x1.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=112 nu=1 -o $@ rout=mvtch
+ATL_r1tch1_112x1.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=112 nu=1 -o $@ rout=r1tch1
+ATL_r1tch2_112x1.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=112 nu=1 -o $@ rout=r1tch2
+ATL_mvtch_104x1.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=104 nu=1 -o $@ rout=mvtch
+ATL_r1tch1_104x1.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=104 nu=1 -o $@ rout=r1tch1
+ATL_r1tch2_104x1.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=104 nu=1 -o $@ rout=r1tch2
+ATL_mvtch_96x1.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=96 nu=1 -o $@ rout=mvtch
+ATL_r1tch1_96x1.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=96 nu=1 -o $@ rout=r1tch1
+ATL_r1tch2_96x1.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=96 nu=1 -o $@ rout=r1tch2
+ATL_mvtch_88x1.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=88 nu=1 -o $@ rout=mvtch
+ATL_r1tch1_88x1.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=88 nu=1 -o $@ rout=r1tch1
+ATL_r1tch2_88x1.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=88 nu=1 -o $@ rout=r1tch2
+ATL_mvtch_80x1.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=80 nu=1 -o $@ rout=mvtch
+ATL_r1tch1_80x1.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=80 nu=1 -o $@ rout=r1tch1
+ATL_r1tch2_80x1.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=80 nu=1 -o $@ rout=r1tch2
+ATL_mvtch_72x1.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=72 nu=1 -o $@ rout=mvtch
+ATL_r1tch1_72x1.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=72 nu=1 -o $@ rout=r1tch1
+ATL_r1tch2_72x1.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=72 nu=1 -o $@ rout=r1tch2
+ATL_mvtch_64x1.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=64 nu=1 -o $@ rout=mvtch
+ATL_r1tch1_64x1.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=64 nu=1 -o $@ rout=r1tch1
+ATL_r1tch2_64x1.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=64 nu=1 -o $@ rout=r1tch2
+ATL_mvtch_56x1.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=56 nu=1 -o $@ rout=mvtch
+ATL_r1tch1_56x1.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=56 nu=1 -o $@ rout=r1tch1
+ATL_r1tch2_56x1.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=56 nu=1 -o $@ rout=r1tch2
+ATL_mvtch_48x1.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=48 nu=1 -o $@ rout=mvtch
+ATL_r1tch1_48x1.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=48 nu=1 -o $@ rout=r1tch1
+ATL_r1tch2_48x1.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=48 nu=1 -o $@ rout=r1tch2
+ATL_mvtch_40x1.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=40 nu=1 -o $@ rout=mvtch
+ATL_r1tch1_40x1.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=40 nu=1 -o $@ rout=r1tch1
+ATL_r1tch2_40x1.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=40 nu=1 -o $@ rout=r1tch2
+ATL_mvtch_32x1.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=32 nu=1 -o $@ rout=mvtch
+ATL_r1tch1_32x1.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=32 nu=1 -o $@ rout=r1tch1
+ATL_r1tch2_32x1.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=32 nu=1 -o $@ rout=r1tch2
+ATL_mvtch_24x1.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=24 nu=1 -o $@ rout=mvtch
+ATL_r1tch1_24x1.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=24 nu=1 -o $@ rout=r1tch1
+ATL_r1tch2_24x1.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=24 nu=1 -o $@ rout=r1tch2
+ATL_mvtch_16x1.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=16 nu=1 -o $@ rout=mvtch
+ATL_r1tch1_16x1.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=16 nu=1 -o $@ rout=r1tch1
+ATL_r1tch2_16x1.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=16 nu=1 -o $@ rout=r1tch2
+ATL_mvtch_8x1.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=8 nu=1 -o $@ rout=mvtch
+ATL_r1tch1_8x1.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=8 nu=1 -o $@ rout=r1tch1
+ATL_r1tch2_8x1.c: $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=8 nu=1 -o $@ rout=r1tch2
+ATL_dgerk_2x14_sse.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=0 nu=0 -o $@ rout=$*
+ATL_dgerk_2x14_x87.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=0 nu=0 -o $@ rout=$*
+ATL_dgerk_2x12_sse.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=0 nu=0 -o $@ rout=$*
+ATL_dgerk_2x12_x87.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=0 nu=0 -o $@ rout=$*
+ATL_dgerk_2x10_sse.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=0 nu=0 -o $@ rout=$*
+ATL_dgerk_2x10_x87.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=0 nu=0 -o $@ rout=$*
+ATL_dgerk_2x8_sse.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=0 nu=0 -o $@ rout=$*
+ATL_dgerk_2x8_x87.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=0 nu=0 -o $@ rout=$*
+ATL_dgerk_2x6_sse.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=0 nu=0 -o $@ rout=$*
+ATL_dgerk_2x6_x87.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=0 nu=0 -o $@ rout=$*
+ATL_dgerk_2x4_sse.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=0 nu=0 -o $@ rout=$*
+ATL_dgerk_2x4_x87.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=0 nu=0 -o $@ rout=$*
+ATL_dgerk_2x2_sse.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=0 nu=0 -o $@ rout=$*
+ATL_dgerk_2x2_x87.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=0 nu=0 -o $@ rout=$*
+ATL_dgerk_2x1_sse.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=0 nu=0 -o $@ rout=$*
+ATL_dgerk_2x1_x87.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=0 nu=0 -o $@ rout=$*
+ATL_dgerk_1x14_sse.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=0 nu=0 -o $@ rout=$*
+ATL_dgerk_1x14_x87.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=0 nu=0 -o $@ rout=$*
+ATL_dgerk_1x12_sse.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=0 nu=0 -o $@ rout=$*
+ATL_dgerk_1x12_x87.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=0 nu=0 -o $@ rout=$*
+ATL_dgerk_1x10_sse.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=0 nu=0 -o $@ rout=$*
+ATL_dgerk_1x10_x87.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=0 nu=0 -o $@ rout=$*
+ATL_dgerk_1x8_sse.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=0 nu=0 -o $@ rout=$*
+ATL_dgerk_1x8_x87.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=0 nu=0 -o $@ rout=$*
+ATL_dgerk_1x6_sse.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=0 nu=0 -o $@ rout=$*
+ATL_dgerk_1x6_x87.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=0 nu=0 -o $@ rout=$*
+ATL_dgerk_1x4_sse.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=0 nu=0 -o $@ rout=$*
+ATL_dgerk_1x4_x87.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=0 nu=0 -o $@ rout=$*
+ATL_dgerk_1x2_sse.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=0 nu=0 -o $@ rout=$*
+ATL_dgerk_1x2_x87.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=0 nu=0 -o $@ rout=$*
+ATL_dgerk_1x1_sse.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=0 nu=0 -o $@ rout=$*
+ATL_dgerk_1x1_x87.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base mu=0 nu=0 -o $@ rout=$*
+ATL_mvtCL_8backwardsx14.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx14 \
+                UR=8backwards mu=0 nu=0
+ATL_gerCL_8backwardsx14.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx14 \
+                UR=8backwards mu=0 nu=0
+ATL_mvtCL_1x14.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx14 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_8straightx14.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx14 \
+                UR=8straight mu=0 nu=0
+ATL_gerCL_8straightx14.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx14 \
+                UR=8straight mu=0 nu=0
+ATL_mvtCL_1x14.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx14 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_4backwardsx14.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx14 \
+                UR=4backwards mu=0 nu=0
+ATL_gerCL_4backwardsx14.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx14 \
+                UR=4backwards mu=0 nu=0
+ATL_mvtCL_1x14.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx14 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_4straightx14.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx14 \
+                UR=4straight mu=0 nu=0
+ATL_gerCL_4straightx14.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx14 \
+                UR=4straight mu=0 nu=0
+ATL_mvtCL_1x14.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx14 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_2backwardsx14.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx14 \
+                UR=2backwards mu=0 nu=0
+ATL_gerCL_2backwardsx14.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx14 \
+                UR=2backwards mu=0 nu=0
+ATL_mvtCL_1x14.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx14 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_2straightx14.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx14 \
+                UR=2straight mu=0 nu=0
+ATL_gerCL_2straightx14.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx14 \
+                UR=2straight mu=0 nu=0
+ATL_mvtCL_1x14.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx14 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_16backwardsx14.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx14 \
+                UR=16backwards mu=0 nu=0
+ATL_gerCL_16backwardsx14.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx14 \
+                UR=16backwards mu=0 nu=0
+ATL_mvtCL_1x14.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx14 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_16straightx14.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx14 \
+                UR=16straight mu=0 nu=0
+ATL_gerCL_16straightx14.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx14 \
+                UR=16straight mu=0 nu=0
+ATL_mvtCL_1x14.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx14 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_32backwardsx14.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx14 \
+                UR=32backwards mu=0 nu=0
+ATL_gerCL_32backwardsx14.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx14 \
+                UR=32backwards mu=0 nu=0
+ATL_mvtCL_1x14.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx14 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_32straightx14.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx14 \
+                UR=32straight mu=0 nu=0
+ATL_gerCL_32straightx14.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx14 \
+                UR=32straight mu=0 nu=0
+ATL_mvtCL_1x14.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx14 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_8backwardsx12.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx12 \
+                UR=8backwards mu=0 nu=0
+ATL_gerCL_8backwardsx12.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx12 \
+                UR=8backwards mu=0 nu=0
+ATL_mvtCL_1x12.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx12 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_8straightx12.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx12 \
+                UR=8straight mu=0 nu=0
+ATL_gerCL_8straightx12.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx12 \
+                UR=8straight mu=0 nu=0
+ATL_mvtCL_1x12.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx12 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_4backwardsx12.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx12 \
+                UR=4backwards mu=0 nu=0
+ATL_gerCL_4backwardsx12.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx12 \
+                UR=4backwards mu=0 nu=0
+ATL_mvtCL_1x12.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx12 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_4straightx12.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx12 \
+                UR=4straight mu=0 nu=0
+ATL_gerCL_4straightx12.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx12 \
+                UR=4straight mu=0 nu=0
+ATL_mvtCL_1x12.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx12 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_2backwardsx12.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx12 \
+                UR=2backwards mu=0 nu=0
+ATL_gerCL_2backwardsx12.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx12 \
+                UR=2backwards mu=0 nu=0
+ATL_mvtCL_1x12.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx12 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_2straightx12.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx12 \
+                UR=2straight mu=0 nu=0
+ATL_gerCL_2straightx12.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx12 \
+                UR=2straight mu=0 nu=0
+ATL_mvtCL_1x12.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx12 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_16backwardsx12.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx12 \
+                UR=16backwards mu=0 nu=0
+ATL_gerCL_16backwardsx12.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx12 \
+                UR=16backwards mu=0 nu=0
+ATL_mvtCL_1x12.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx12 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_16straightx12.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx12 \
+                UR=16straight mu=0 nu=0
+ATL_gerCL_16straightx12.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx12 \
+                UR=16straight mu=0 nu=0
+ATL_mvtCL_1x12.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx12 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_32backwardsx12.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx12 \
+                UR=32backwards mu=0 nu=0
+ATL_gerCL_32backwardsx12.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx12 \
+                UR=32backwards mu=0 nu=0
+ATL_mvtCL_1x12.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx12 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_32straightx12.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx12 \
+                UR=32straight mu=0 nu=0
+ATL_gerCL_32straightx12.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx12 \
+                UR=32straight mu=0 nu=0
+ATL_mvtCL_1x12.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx12 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_8backwardsx10.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx10 \
+                UR=8backwards mu=0 nu=0
+ATL_gerCL_8backwardsx10.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx10 \
+                UR=8backwards mu=0 nu=0
+ATL_mvtCL_1x10.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx10 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_8straightx10.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx10 \
+                UR=8straight mu=0 nu=0
+ATL_gerCL_8straightx10.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx10 \
+                UR=8straight mu=0 nu=0
+ATL_mvtCL_1x10.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx10 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_4backwardsx10.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx10 \
+                UR=4backwards mu=0 nu=0
+ATL_gerCL_4backwardsx10.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx10 \
+                UR=4backwards mu=0 nu=0
+ATL_mvtCL_1x10.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx10 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_4straightx10.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx10 \
+                UR=4straight mu=0 nu=0
+ATL_gerCL_4straightx10.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx10 \
+                UR=4straight mu=0 nu=0
+ATL_mvtCL_1x10.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx10 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_2backwardsx10.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx10 \
+                UR=2backwards mu=0 nu=0
+ATL_gerCL_2backwardsx10.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx10 \
+                UR=2backwards mu=0 nu=0
+ATL_mvtCL_1x10.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx10 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_2straightx10.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx10 \
+                UR=2straight mu=0 nu=0
+ATL_gerCL_2straightx10.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx10 \
+                UR=2straight mu=0 nu=0
+ATL_mvtCL_1x10.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx10 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_16backwardsx10.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx10 \
+                UR=16backwards mu=0 nu=0
+ATL_gerCL_16backwardsx10.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx10 \
+                UR=16backwards mu=0 nu=0
+ATL_mvtCL_1x10.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx10 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_16straightx10.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx10 \
+                UR=16straight mu=0 nu=0
+ATL_gerCL_16straightx10.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx10 \
+                UR=16straight mu=0 nu=0
+ATL_mvtCL_1x10.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx10 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_32backwardsx10.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx10 \
+                UR=32backwards mu=0 nu=0
+ATL_gerCL_32backwardsx10.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx10 \
+                UR=32backwards mu=0 nu=0
+ATL_mvtCL_1x10.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx10 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_32straightx10.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx10 \
+                UR=32straight mu=0 nu=0
+ATL_gerCL_32straightx10.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx10 \
+                UR=32straight mu=0 nu=0
+ATL_mvtCL_1x10.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx10 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_8backwardsx8.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx8 \
+                UR=8backwards mu=0 nu=0
+ATL_gerCL_8backwardsx8.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx8 \
+                UR=8backwards mu=0 nu=0
+ATL_mvtCL_1x8.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx8 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_8straightx8.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx8 \
+                UR=8straight mu=0 nu=0
+ATL_gerCL_8straightx8.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx8 \
+                UR=8straight mu=0 nu=0
+ATL_mvtCL_1x8.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx8 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_4backwardsx8.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx8 \
+                UR=4backwards mu=0 nu=0
+ATL_gerCL_4backwardsx8.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx8 \
+                UR=4backwards mu=0 nu=0
+ATL_mvtCL_1x8.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx8 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_4straightx8.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx8 \
+                UR=4straight mu=0 nu=0
+ATL_gerCL_4straightx8.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx8 \
+                UR=4straight mu=0 nu=0
+ATL_mvtCL_1x8.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx8 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_2backwardsx8.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx8 \
+                UR=2backwards mu=0 nu=0
+ATL_gerCL_2backwardsx8.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx8 \
+                UR=2backwards mu=0 nu=0
+ATL_mvtCL_1x8.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx8 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_2straightx8.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx8 \
+                UR=2straight mu=0 nu=0
+ATL_gerCL_2straightx8.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx8 \
+                UR=2straight mu=0 nu=0
+ATL_mvtCL_1x8.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx8 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_16backwardsx8.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx8 \
+                UR=16backwards mu=0 nu=0
+ATL_gerCL_16backwardsx8.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx8 \
+                UR=16backwards mu=0 nu=0
+ATL_mvtCL_1x8.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx8 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_16straightx8.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx8 \
+                UR=16straight mu=0 nu=0
+ATL_gerCL_16straightx8.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx8 \
+                UR=16straight mu=0 nu=0
+ATL_mvtCL_1x8.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx8 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_32backwardsx8.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx8 \
+                UR=32backwards mu=0 nu=0
+ATL_gerCL_32backwardsx8.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx8 \
+                UR=32backwards mu=0 nu=0
+ATL_mvtCL_1x8.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx8 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_32straightx8.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx8 \
+                UR=32straight mu=0 nu=0
+ATL_gerCL_32straightx8.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx8 \
+                UR=32straight mu=0 nu=0
+ATL_mvtCL_1x8.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx8 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_8backwardsx6.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx6 \
+                UR=8backwards mu=0 nu=0
+ATL_gerCL_8backwardsx6.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx6 \
+                UR=8backwards mu=0 nu=0
+ATL_mvtCL_1x6.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx6 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_8straightx6.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx6 \
+                UR=8straight mu=0 nu=0
+ATL_gerCL_8straightx6.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx6 \
+                UR=8straight mu=0 nu=0
+ATL_mvtCL_1x6.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx6 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_4backwardsx6.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx6 \
+                UR=4backwards mu=0 nu=0
+ATL_gerCL_4backwardsx6.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx6 \
+                UR=4backwards mu=0 nu=0
+ATL_mvtCL_1x6.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx6 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_4straightx6.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx6 \
+                UR=4straight mu=0 nu=0
+ATL_gerCL_4straightx6.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx6 \
+                UR=4straight mu=0 nu=0
+ATL_mvtCL_1x6.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx6 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_2backwardsx6.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx6 \
+                UR=2backwards mu=0 nu=0
+ATL_gerCL_2backwardsx6.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx6 \
+                UR=2backwards mu=0 nu=0
+ATL_mvtCL_1x6.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx6 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_2straightx6.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx6 \
+                UR=2straight mu=0 nu=0
+ATL_gerCL_2straightx6.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx6 \
+                UR=2straight mu=0 nu=0
+ATL_mvtCL_1x6.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx6 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_16backwardsx6.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx6 \
+                UR=16backwards mu=0 nu=0
+ATL_gerCL_16backwardsx6.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx6 \
+                UR=16backwards mu=0 nu=0
+ATL_mvtCL_1x6.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx6 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_16straightx6.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx6 \
+                UR=16straight mu=0 nu=0
+ATL_gerCL_16straightx6.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx6 \
+                UR=16straight mu=0 nu=0
+ATL_mvtCL_1x6.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx6 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_32backwardsx6.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx6 \
+                UR=32backwards mu=0 nu=0
+ATL_gerCL_32backwardsx6.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx6 \
+                UR=32backwards mu=0 nu=0
+ATL_mvtCL_1x6.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx6 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_32straightx6.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx6 \
+                UR=32straight mu=0 nu=0
+ATL_gerCL_32straightx6.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx6 \
+                UR=32straight mu=0 nu=0
+ATL_mvtCL_1x6.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx6 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_8backwardsx4.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx4 \
+                UR=8backwards mu=0 nu=0
+ATL_gerCL_8backwardsx4.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx4 \
+                UR=8backwards mu=0 nu=0
+ATL_mvtCL_1x4.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx4 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_8straightx4.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx4 \
+                UR=8straight mu=0 nu=0
+ATL_gerCL_8straightx4.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx4 \
+                UR=8straight mu=0 nu=0
+ATL_mvtCL_1x4.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx4 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_4backwardsx4.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx4 \
+                UR=4backwards mu=0 nu=0
+ATL_gerCL_4backwardsx4.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx4 \
+                UR=4backwards mu=0 nu=0
+ATL_mvtCL_1x4.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx4 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_4straightx4.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx4 \
+                UR=4straight mu=0 nu=0
+ATL_gerCL_4straightx4.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx4 \
+                UR=4straight mu=0 nu=0
+ATL_mvtCL_1x4.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx4 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_2backwardsx4.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx4 \
+                UR=2backwards mu=0 nu=0
+ATL_gerCL_2backwardsx4.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx4 \
+                UR=2backwards mu=0 nu=0
+ATL_mvtCL_1x4.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx4 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_2straightx4.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx4 \
+                UR=2straight mu=0 nu=0
+ATL_gerCL_2straightx4.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx4 \
+                UR=2straight mu=0 nu=0
+ATL_mvtCL_1x4.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx4 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_16backwardsx4.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx4 \
+                UR=16backwards mu=0 nu=0
+ATL_gerCL_16backwardsx4.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx4 \
+                UR=16backwards mu=0 nu=0
+ATL_mvtCL_1x4.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx4 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_16straightx4.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx4 \
+                UR=16straight mu=0 nu=0
+ATL_gerCL_16straightx4.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx4 \
+                UR=16straight mu=0 nu=0
+ATL_mvtCL_1x4.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx4 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_32backwardsx4.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx4 \
+                UR=32backwards mu=0 nu=0
+ATL_gerCL_32backwardsx4.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx4 \
+                UR=32backwards mu=0 nu=0
+ATL_mvtCL_1x4.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx4 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_32straightx4.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx4 \
+                UR=32straight mu=0 nu=0
+ATL_gerCL_32straightx4.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx4 \
+                UR=32straight mu=0 nu=0
+ATL_mvtCL_1x4.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx4 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_8backwardsx2.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx2 \
+                UR=8backwards mu=0 nu=0
+ATL_gerCL_8backwardsx2.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx2 \
+                UR=8backwards mu=0 nu=0
+ATL_mvtCL_1x2.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx2 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_8straightx2.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx2 \
+                UR=8straight mu=0 nu=0
+ATL_gerCL_8straightx2.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx2 \
+                UR=8straight mu=0 nu=0
+ATL_mvtCL_1x2.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx2 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_4backwardsx2.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx2 \
+                UR=4backwards mu=0 nu=0
+ATL_gerCL_4backwardsx2.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx2 \
+                UR=4backwards mu=0 nu=0
+ATL_mvtCL_1x2.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx2 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_4straightx2.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx2 \
+                UR=4straight mu=0 nu=0
+ATL_gerCL_4straightx2.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx2 \
+                UR=4straight mu=0 nu=0
+ATL_mvtCL_1x2.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx2 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_2backwardsx2.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx2 \
+                UR=2backwards mu=0 nu=0
+ATL_gerCL_2backwardsx2.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx2 \
+                UR=2backwards mu=0 nu=0
+ATL_mvtCL_1x2.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx2 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_2straightx2.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx2 \
+                UR=2straight mu=0 nu=0
+ATL_gerCL_2straightx2.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx2 \
+                UR=2straight mu=0 nu=0
+ATL_mvtCL_1x2.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx2 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_16backwardsx2.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx2 \
+                UR=16backwards mu=0 nu=0
+ATL_gerCL_16backwardsx2.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx2 \
+                UR=16backwards mu=0 nu=0
+ATL_mvtCL_1x2.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx2 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_16straightx2.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx2 \
+                UR=16straight mu=0 nu=0
+ATL_gerCL_16straightx2.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx2 \
+                UR=16straight mu=0 nu=0
+ATL_mvtCL_1x2.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx2 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_32backwardsx2.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx2 \
+                UR=32backwards mu=0 nu=0
+ATL_gerCL_32backwardsx2.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx2 \
+                UR=32backwards mu=0 nu=0
+ATL_mvtCL_1x2.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx2 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_32straightx2.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx2 \
+                UR=32straight mu=0 nu=0
+ATL_gerCL_32straightx2.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx2 \
+                UR=32straight mu=0 nu=0
+ATL_mvtCL_1x2.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx2 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_8backwardsx1.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx1 \
+                UR=8backwards mu=0 nu=0
+ATL_gerCL_8backwardsx1.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx1 \
+                UR=8backwards mu=0 nu=0
+ATL_mvtCL_1x1.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx1 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_8straightx1.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx1 \
+                UR=8straight mu=0 nu=0
+ATL_gerCL_8straightx1.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx1 \
+                UR=8straight mu=0 nu=0
+ATL_mvtCL_1x1.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx1 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_4backwardsx1.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx1 \
+                UR=4backwards mu=0 nu=0
+ATL_gerCL_4backwardsx1.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx1 \
+                UR=4backwards mu=0 nu=0
+ATL_mvtCL_1x1.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx1 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_4straightx1.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx1 \
+                UR=4straight mu=0 nu=0
+ATL_gerCL_4straightx1.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx1 \
+                UR=4straight mu=0 nu=0
+ATL_mvtCL_1x1.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx1 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_2backwardsx1.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx1 \
+                UR=2backwards mu=0 nu=0
+ATL_gerCL_2backwardsx1.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx1 \
+                UR=2backwards mu=0 nu=0
+ATL_mvtCL_1x1.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx1 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_2straightx1.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx1 \
+                UR=2straight mu=0 nu=0
+ATL_gerCL_2straightx1.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx1 \
+                UR=2straight mu=0 nu=0
+ATL_mvtCL_1x1.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx1 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_16backwardsx1.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx1 \
+                UR=16backwards mu=0 nu=0
+ATL_gerCL_16backwardsx1.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx1 \
+                UR=16backwards mu=0 nu=0
+ATL_mvtCL_1x1.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx1 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_16straightx1.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx1 \
+                UR=16straight mu=0 nu=0
+ATL_gerCL_16straightx1.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx1 \
+                UR=16straight mu=0 nu=0
+ATL_mvtCL_1x1.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx1 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_32backwardsx1.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx1 \
+                UR=32backwards mu=0 nu=0
+ATL_gerCL_32backwardsx1.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx1 \
+                UR=32backwards mu=0 nu=0
+ATL_mvtCL_1x1.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx1 \
+                mu=0 nu=0 UR=1
+ATL_mvtCL_32straightx1.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx1 \
+                UR=32straight mu=0 nu=0
+ATL_gerCL_32straightx1.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_gerCL_urx1 \
+                UR=32straight mu=0 nu=0
+ATL_mvtCL_1x1.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=ATL_mvtCL_urx1 \
+                mu=0 nu=0 UR=1
+ATL_dgerk_CLx14_touch.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=$* mu=0 nu=0
+ATL_dgerk_CLx12_touch.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=$* mu=0 nu=0
+ATL_dgerk_CLx10_touch.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=$* mu=0 nu=0
+ATL_dgerk_CLx8_touch.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=$* mu=0 nu=0
+ATL_dgerk_CLx6_touch.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=$* mu=0 nu=0
+ATL_dgerk_CLx4_touch.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=$* mu=0 nu=0
+ATL_dgerk_CLx2_touch.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=$* mu=0 nu=0
+ATL_dgerk_CLx1_touch.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=$* mu=0 nu=0
+mvpf8x1_T1.idx : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=$@ mu=0 nu=0
+mvpf8x1_T0.idx : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=$@ mu=0 nu=0
+mvpf8x1_NTA.idx : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=$@ mu=0 nu=0
+mvpf8x1_W.idx : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=$@ mu=0 nu=0
+mvpf8x1_R.idx : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=$@ mu=0 nu=0
+r1pf8x1_T1.idx : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=$@ mu=0 nu=0
+r1pf8x1_T0.idx : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=$@ mu=0 nu=0
+r1pf8x1_NTA.idx : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=$@ mu=0 nu=0
+r1pf8x1_W.idx : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=$@ mu=0 nu=0
+r1pf8x1_R.idx : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=$@ mu=0 nu=0
+loop_L2N_noop.sh : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=$@ mu=0 nu=0
+	chmod a+x loop_L2N_noop.sh
+loop_L2M_noop.sh : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=$@ mu=0 nu=0
+	chmod a+x loop_L2M_noop.sh
+loop_L2M.sh : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=$@ mu=0 nu=0
+	chmod a+x loop_L2M.sh
+loop_L2N.sh : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=$@ mu=0 nu=0
+	chmod a+x loop_L2N.sh
+pftch_OOC.sh : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=$@ mu=0 nu=0
+	chmod a+x pftch_OOC.sh
+memmvtB.idx : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=$@ mu=0 nu=0
+memgerB.idx : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=$@ mu=0 nu=0
+memmvtF.idx : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=$@ mu=0 nu=0
+memgerF.idx : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=$@ mu=0 nu=0
+dr1nucases.idx : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=$@ mu=0 nu=0
+r1tch2_L2.idx : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=$@ mu=0 nu=0
+r1tch2.idx : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=$@ mu=0 nu=0
+r1tch1_L2.idx : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=$@ mu=0 nu=0
+r1tch1.idx : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=$@ mu=0 nu=0
+mvtch_L2.idx : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=$@ mu=0 nu=0
+mvtch.idx : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=$@ mu=0 nu=0
+loop1x1_noop.idx : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=$@ mu=0 nu=0
+loop1x1.idx : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=$@ mu=0 nu=0
+ATL_gerCL_Fburst.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=$* mu=0 nu=0
+
+ATL_cgerk_axpy.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=$* mu=0 nu=0
+ATL_zgerk_1x4_sse3.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=$* mu=0 nu=0
+ATL_cgerk_2x1p.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=$* mu=0 nu=0
+ATL_dgerk_4x8_sse.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=$* mu=0 nu=0
+ATL_gerk_axpy.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=$* mu=0 nu=0
+ATL_gerk_4x4_1.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=$* mu=0 nu=0
+ATL_gerk_1x4_0.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=$* mu=0 nu=0
+ATL_gerk_8x4_0.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=$* mu=0 nu=0
+ATL_dgerk_8x1_Cw.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=$* mu=0 nu=0
+ATL_sgerk_8x4_sse.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=$* mu=0 nu=0
+ATL_cgerk_8x4_sse3.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=$* mu=0 nu=0
+sr1cases.idx: $(basfn)
+	$(extC) -b $(basfn) -o $@ rout=sr1cases.idx
+scases.dsc: $(basfn)
+	$(extC) -b $(basfn) -o $@ rout=r1scases.dsc
+dr1cases.idx: $(basfn)
+	$(extC) -b $(basfn) -o $@ rout=dr1cases.idx
+dcases.dsc: $(basfn)
+	$(extC) -b $(basfn) -o $@ rout=r1dcases.dsc
+cr1cases.idx: $(basfn)
+	$(extC) -b $(basfn) -o $@ rout=cr1cases.idx
+ccases.dsc: $(basfn)
+	$(extC) -b $(basfn) -o $@ rout=r1ccases.dsc
+zr1cases.idx: $(basfn)
+	$(extC) -b $(basfn) -o $@ rout=zr1cases.idx
+zcases.dsc: $(basfn)
+	$(extC) -b $(basfn) -o $@ rout=r1zcases.dsc
+
+ATL_ger1_SSE.c : $(bascm) $(incf)
+	$(extC) -b $(bascm) -o $@ rout=$* -def rout $*

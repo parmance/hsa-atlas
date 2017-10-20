@@ -1,0 +1,50 @@
+
+topd = /home/linehill/work/math-atlas/AtlasBase
+ext  = /home/linehill/work/math-atlas/atlas-src/xextract
+extF = $(ext) -langF -lnlen71 -Remtblank -llwarn2 -LAPACK1 $(incs)
+ext9 = $(ext) -langF -lnlen132 -RemtBlank $(incs)
+extC = $(ext) -langC -lnlen79 -Remtblank -llwarn2 $(incs)
+extM = $(ext) -langM -lnlen79 -llwarn2 $(incs)
+incs = -def topd /home/linehill/work/math-atlas/AtlasBase \
+       -def incd /home/linehill/work/math-atlas/AtlasBase/Clint \
+       -def ext  /home/linehill/work/math-atlas/atlas-src/xextract \
+       -def BASEdir /home/linehill/work/math-atlas/AtlasBase/Antoine/ \
+       -def basd /home/linehill/work/math-atlas/AtlasBase/Clint
+
+default: all
+force_build:
+basd = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdRCW = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdAPP = /home/linehill/work/math-atlas/AtlasBase/Antoine
+basdSTU = /home/linehill/work/math-atlas/AtlasBase/Students
+incf = /home/linehill/work/math-atlas/AtlasBase/gen.inc
+
+basfn = $(basdRCW)/atlas-ul1.base
+
+files = ccases.dsc cscal1_x0.c cscal2p28_x1.c dcases.dsc scal1_x0.c \
+        scal1_x1.c scal4p48_x1.c scal_stub.c scases.dsc zcases.dsc
+
+all : $(files)
+
+scal_stub.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+scal1_x0.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+scal1_x1.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+scal4p48_x1.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+cscal1_x0.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+cscal2p28_x1.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+scases.dsc : $(basfn)
+	$(extC) -b $(basfn) -o $@ rout=scases.scal
+dcases.dsc : $(basfn)
+	$(extC) -b $(basfn) -o $@ rout=dcases.scal
+ccases.dsc : $(basfn)
+	$(extC) -b $(basfn) -o $@ rout=ccases.scal
+zcases.dsc : $(basfn)
+	$(extC) -b $(basfn) -o $@ rout=zcases.scal
+Make.ext : $(topd)/make.base $(topd)/gen.inc
+	$(extM) -b $(topd)/make.base -o Make.ext rout=atlas/tune/blas/level1/scal

@@ -1,0 +1,49 @@
+
+topd = /home/linehill/work/math-atlas/AtlasBase
+ext  = /home/linehill/work/math-atlas/atlas-src/xextract
+extF = $(ext) -langF -lnlen71 -Remtblank -llwarn2 -LAPACK1 $(incs)
+ext9 = $(ext) -langF -lnlen132 -RemtBlank $(incs)
+extC = $(ext) -langC -lnlen79 -Remtblank -llwarn2 $(incs)
+extM = $(ext) -langM -lnlen79 -llwarn2 $(incs)
+incs = -def topd /home/linehill/work/math-atlas/AtlasBase \
+       -def incd /home/linehill/work/math-atlas/AtlasBase/Clint \
+       -def ext  /home/linehill/work/math-atlas/atlas-src/xextract \
+       -def BASEdir /home/linehill/work/math-atlas/AtlasBase/Antoine/ \
+       -def basd /home/linehill/work/math-atlas/AtlasBase/Clint
+
+default: all
+force_build:
+basd = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdRCW = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdAPP = /home/linehill/work/math-atlas/AtlasBase/Antoine
+basdSTU = /home/linehill/work/math-atlas/AtlasBase/Students
+incf = /home/linehill/work/math-atlas/AtlasBase/gen.inc
+
+basfn = $(basdRCW)/atlas-c2flp.base
+
+files = ATL_C2Fgels.c ATL_C2Formlq.c ATL_C2Formql.c ATL_C2Formqr.c \
+        ATL_C2Formrq.c ATL_C2Funmlq.c ATL_C2Funmql.c ATL_C2Funmqr.c \
+        ATL_C2Funmrq.c
+
+all : $(files)
+
+ATL_C2Fgels.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=gels
+ATL_C2Formqr.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=ormqr
+ATL_C2Funmqr.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=unmqr
+ATL_C2Formql.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=ormql
+ATL_C2Funmql.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=unmql
+ATL_C2Formrq.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=ormrq
+ATL_C2Funmrq.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=unmrq
+ATL_C2Formlq.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=ormlq
+ATL_C2Funmlq.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=unmlq
+Make.ext : $(topd)/make.base
+	$(extM) -b $(topd)/make.base -o Make.ext rout=atlas/interfaces/lapack/c2f/src

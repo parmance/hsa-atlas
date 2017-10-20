@@ -1,0 +1,70 @@
+
+topd = /home/linehill/work/math-atlas/AtlasBase
+ext  = /home/linehill/work/math-atlas/atlas-src/xextract
+extF = $(ext) -langF -lnlen71 -Remtblank -llwarn2 -LAPACK1 $(incs)
+ext9 = $(ext) -langF -lnlen132 -RemtBlank $(incs)
+extC = $(ext) -langC -lnlen79 -Remtblank -llwarn2 $(incs)
+extM = $(ext) -langM -lnlen79 -llwarn2 $(incs)
+incs = -def topd /home/linehill/work/math-atlas/AtlasBase \
+       -def incd /home/linehill/work/math-atlas/AtlasBase/Clint \
+       -def ext  /home/linehill/work/math-atlas/atlas-src/xextract \
+       -def BASEdir /home/linehill/work/math-atlas/AtlasBase/Antoine/ \
+       -def basd /home/linehill/work/math-atlas/AtlasBase/Clint
+
+default: all
+force_build:
+basd = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdRCW = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdAPP = /home/linehill/work/math-atlas/AtlasBase/Antoine
+basdSTU = /home/linehill/work/math-atlas/AtlasBase/Students
+incf = /home/linehill/work/math-atlas/AtlasBase/gen.inc
+
+basfn = $(basdRCW)/atlas-ul1.base
+
+files = ccases.dsc cnrm21_x0.c cnrm2_ssq1_x0.c cnrm2_x87_x0.c dcases.dsc \
+        nrm21_x0.c nrm21_x1.c nrm24p120_x1.c nrm2_ssq1_x0.c nrm2_ssq1_x1.c \
+        nrm2_ssqmax1_x1.c nrm2_ssqr1_x1.c nrm2_ssqr4_x1.c nrm2_stub.c \
+        nrm2_x87_x0.c nrm2_x87_x1.c scases.dsc sdnrm216p_x1.c zcases.dsc
+
+all : $(files)
+
+nrm2_stub.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+nrm21_x0.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+nrm21_x1.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+nrm24p120_x1.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+sdnrm216p_x1.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+nrm2_ssq1_x0.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+nrm2_ssq1_x1.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+nrm2_ssqr1_x1.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+nrm2_ssqr4_x1.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+cnrm2_ssq1_x0.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+cnrm21_x0.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+nrm2_x87_x1.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+nrm2_x87_x0.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+cnrm2_x87_x0.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+nrm2_ssqmax1_x1.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+scases.dsc : $(basfn)
+	$(extC) -b $(basfn) -o $@ rout=scases.nrm2
+dcases.dsc : $(basfn)
+	$(extC) -b $(basfn) -o $@ rout=dcases.nrm2
+ccases.dsc : $(basfn)
+	$(extC) -b $(basfn) -o $@ rout=ccases.nrm2
+zcases.dsc : $(basfn)
+	$(extC) -b $(basfn) -o $@ rout=zcases.nrm2
+Make.ext : $(topd)/make.base $(topd)/gen.inc
+	$(extM) -b $(topd)/make.base -o Make.ext rout=atlas/tune/blas/level1/nrm2

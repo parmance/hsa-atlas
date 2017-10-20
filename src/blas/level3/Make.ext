@@ -1,0 +1,46 @@
+
+topd = /home/linehill/work/math-atlas/AtlasBase
+ext  = /home/linehill/work/math-atlas/atlas-src/xextract
+extF = $(ext) -langF -lnlen71 -Remtblank -llwarn2 -LAPACK1 $(incs)
+ext9 = $(ext) -langF -lnlen132 -RemtBlank $(incs)
+extC = $(ext) -langC -lnlen79 -Remtblank -llwarn2 $(incs)
+extM = $(ext) -langM -lnlen79 -llwarn2 $(incs)
+incs = -def topd /home/linehill/work/math-atlas/AtlasBase \
+       -def incd /home/linehill/work/math-atlas/AtlasBase/Clint \
+       -def ext  /home/linehill/work/math-atlas/atlas-src/xextract \
+       -def BASEdir /home/linehill/work/math-atlas/AtlasBase/Antoine/ \
+       -def basd /home/linehill/work/math-atlas/AtlasBase/Clint
+
+default: all
+force_build:
+basd = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdRCW = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdAPP = /home/linehill/work/math-atlas/AtlasBase/Antoine
+basdSTU = /home/linehill/work/math-atlas/AtlasBase/Students
+incf = /home/linehill/work/math-atlas/AtlasBase/gen.inc
+
+basfn = $(basdAPP)/atllv3blas.base
+
+files = ATL_hemm.c ATL_her2k.c ATL_herk.c ATL_symm.c ATL_syr2k.c ATL_syrk.c \
+        ATL_trmm.c ATL_trsm.c
+
+all : $(files)
+
+ATL_trsm.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_trmm.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_syrk.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_syr2k.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_symm.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_herk.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_her2k.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_hemm.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+Make.ext : $(topd)/make.base
+	$(extM) -b $(topd)/make.base -o Make.ext rout=atlas/src/blas/level3

@@ -1,0 +1,77 @@
+
+topd = /home/linehill/work/math-atlas/AtlasBase
+ext  = /home/linehill/work/math-atlas/atlas-src/xextract
+extF = $(ext) -langF -lnlen71 -Remtblank -llwarn2 -LAPACK1 $(incs)
+ext9 = $(ext) -langF -lnlen132 -RemtBlank $(incs)
+extC = $(ext) -langC -lnlen79 -Remtblank -llwarn2 $(incs)
+extM = $(ext) -langM -lnlen79 -llwarn2 $(incs)
+incs = -def topd /home/linehill/work/math-atlas/AtlasBase \
+       -def incd /home/linehill/work/math-atlas/AtlasBase/Clint \
+       -def ext  /home/linehill/work/math-atlas/atlas-src/xextract \
+       -def BASEdir /home/linehill/work/math-atlas/AtlasBase/Antoine/ \
+       -def basd /home/linehill/work/math-atlas/AtlasBase/Clint
+
+default: all
+force_build:
+basd = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdRCW = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdAPP = /home/linehill/work/math-atlas/AtlasBase/Antoine
+basdSTU = /home/linehill/work/math-atlas/AtlasBase/Students
+incf = /home/linehill/work/math-atlas/AtlasBase/gen.inc
+
+files = AtlasCredits.txt BootSequence.txt ChangeLog DirStruct.txt INDEX.txt \
+        LibReadme.txt ReleaseNotes TestTime.txt TroubleShoot.txt Windows.txt \
+        atlas_contrib.pdf atlas_devel.pdf atlas_install.pdf atlas_over.pdf \
+        cblas.pdf cblasqref.pdf f77blasqref.pdf lapackqref.pdf
+
+all : $(files)
+
+DirStruct.txt : $(basdRCW)/atlas-doc.base $(incf)
+	$(extC) -b $(basdRCW)/atlas-doc.base -o $@ rout=$@
+Windows.txt : $(basdRCW)/atlas-doc.base $(incf)
+	$(extC) -b $(basdRCW)/atlas-doc.base -o $@ rout=$@
+LibReadme.txt : $(basdRCW)/atlas-doc.base $(incf)
+	$(extC) -b $(basdRCW)/atlas-doc.base -o $@ rout=$@
+TroubleShoot.txt : $(basdRCW)/atlas-doc.base $(incf)
+	$(extC) -b $(basdRCW)/atlas-doc.base -o $@ rout=$@
+BootSequence.txt : $(basdRCW)/atlas-doc.base $(incf)
+	$(extC) -b $(basdRCW)/atlas-doc.base -o $@ rout=$@
+TestTime.txt : $(basdRCW)/atlas-doc.base $(incf)
+	$(extC) -b $(basdRCW)/atlas-doc.base -o $@ rout=$@
+INDEX.txt : $(basdRCW)/atlas-doc.base $(incf)
+	$(extC) -b $(basdRCW)/atlas-doc.base -o $@ rout=$@
+AtlasCredits.txt : $(basdRCW)/atlas-doc.base $(incf)
+	$(extC) -b $(basdRCW)/atlas-doc.base -o $@ rout=$@
+atlas_over.pdf : $(basdRCW)/misc/atlas_over.pdf
+	cp -f $(basdRCW)/misc/atlas_over.pdf .
+cblas.pdf : $(basdRCW)/misc/cblas.pdf
+	cp -f $(basdRCW)/misc/cblas.pdf .
+ReleaseNotes : $(topd)/TexDoc/ReleaseNotes
+	- cp -f $(topd)/TexDoc/ReleaseNotes .
+ChangeLog : $(topd)/TexDoc/ChangeLog
+	- cp -f $(topd)/TexDoc/ChangeLog .
+$(topd)/TexDoc/atlas_install.pdf : $(topd)/TexDoc/atlas_install.tex
+	- cd $(topd)/TexDoc ; $(MAKE) atlas_install.pdf
+atlas_install.pdf : $(topd)/TexDoc/atlas_install.pdf
+	- cp -f $(topd)/TexDoc/atlas_install.pdf .
+$(topd)/TexDoc/atlas_devel.pdf : $(topd)/TexDoc/atlas_devel.tex
+	- cd $(topd)/TexDoc ; $(MAKE) atlas_devel.pdf
+atlas_devel.pdf : $(topd)/TexDoc/atlas_devel.pdf
+	- cp -f $(topd)/TexDoc/atlas_devel.pdf .
+$(topd)/TexDoc/lapackqref.pdf : $(topd)/TexDoc/lapackqref.tex
+	- cd $(topd)/TexDoc ; $(MAKE) lapackqref.pdf
+lapackqref.pdf : $(topd)/TexDoc/lapackqref.pdf
+	- cp -f $(topd)/TexDoc/lapackqref.pdf .
+$(topd)/TexDoc/f77blasqref.pdf : $(topd)/TexDoc/f77blasqref.tex
+	- cd $(topd)/TexDoc ; $(MAKE) f77blasqref.pdf
+f77blasqref.pdf : $(topd)/TexDoc/f77blasqref.pdf
+	- cp -f $(topd)/TexDoc/f77blasqref.pdf .
+$(topd)/TexDoc/cblasqref.pdf : $(topd)/TexDoc/cblasqref.tex
+	- cd $(topd)/TexDoc ; $(MAKE) cblasqref.pdf
+cblasqref.pdf : $(topd)/TexDoc/cblasqref.pdf
+	- cp -f $(topd)/TexDoc/cblasqref.pdf .
+$(topd)/TexDoc/atlas_contrib.pdf : $(topd)/TexDoc/atlas_contrib.tex
+	- cd $(topd)/TexDoc ; $(MAKE) atlas_contrib.pdf
+atlas_contrib.pdf : $(topd)/TexDoc/atlas_contrib.pdf
+	- cp -f $(topd)/TexDoc/atlas_contrib.pdf .
+

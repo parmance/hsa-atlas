@@ -1,0 +1,82 @@
+
+topd = /home/linehill/work/math-atlas/AtlasBase
+ext  = /home/linehill/work/math-atlas/atlas-src/xextract
+extF = $(ext) -langF -lnlen71 -Remtblank -llwarn2 -LAPACK1 $(incs)
+ext9 = $(ext) -langF -lnlen132 -RemtBlank $(incs)
+extC = $(ext) -langC -lnlen79 -Remtblank -llwarn2 $(incs)
+extM = $(ext) -langM -lnlen79 -llwarn2 $(incs)
+incs = -def topd /home/linehill/work/math-atlas/AtlasBase \
+       -def incd /home/linehill/work/math-atlas/AtlasBase/Clint \
+       -def ext  /home/linehill/work/math-atlas/atlas-src/xextract \
+       -def BASEdir /home/linehill/work/math-atlas/AtlasBase/Antoine/ \
+       -def basd /home/linehill/work/math-atlas/AtlasBase/Clint
+
+default: all
+force_build:
+basd = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdRCW = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdAPP = /home/linehill/work/math-atlas/AtlasBase/Antoine
+basdSTU = /home/linehill/work/math-atlas/AtlasBase/Students
+incf = /home/linehill/work/math-atlas/AtlasBase/gen.inc
+
+basfn = $(basdRCW)/atlas-ul1.base
+
+files = axpy16p4m0_x1y1.c axpy16p4x16_x1y1.c axpy1_x0y0.c axpy1_x1y1.c \
+        axpy32_x1y1.c axpy32p32_x1y1.c axpy4p40_x1y1.c axpy8p8m0_x1y1.c \
+        axpy_stub.c caxpy1_a0x0y0.c caxpy1_x0y0.c caxpy1_x1y1.c \
+        caxpy2p32_x1y1.c caxpy8p1_x1y1.c caxpy8p4m0_x1y1.c caxpy_sse3.c \
+        ccases.dsc daxpy_sse2.c dcases.dsc saxpy_sse.c scases.dsc zaxpy_avx.c \
+        zaxpy_sse3.c zcases.dsc
+
+all : $(files)
+
+caxpy1_x0y0.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+caxpy1_x1y1.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+caxpy8p1_x1y1.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+caxpy8p4m0_x1y1.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+caxpy1_a0x0y0.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+caxpy2p32_x1y1.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+axpy32_x1y1.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+axpy16p4x16_x1y1.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+axpy16p4m0_x1y1.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+axpy1_x0y0.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+axpy1_x1y1.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+axpy32p32_x1y1.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+axpy8p8m0_x1y1.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+axpy4p40_x1y1.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+axpy_stub.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+saxpy_sse.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+daxpy_sse2.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+zaxpy_sse3.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+caxpy_sse3.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+zaxpy_avx.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+scases.dsc : $(basfn)
+	$(extC) -b $(basfn) -o $@ rout=scases.axpy
+dcases.dsc : $(basfn)
+	$(extC) -b $(basfn) -o $@ rout=dcases.axpy
+ccases.dsc : $(basfn)
+	$(extC) -b $(basfn) -o $@ rout=ccases.axpy
+zcases.dsc : $(basfn)
+	$(extC) -b $(basfn) -o $@ rout=zcases.axpy
+Make.ext : $(topd)/make.base $(topd)/gen.inc
+	$(extM) -b $(topd)/make.base -o Make.ext rout=atlas/tune/blas/level1/axpy

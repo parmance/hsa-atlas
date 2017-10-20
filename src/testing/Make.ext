@@ -1,0 +1,226 @@
+
+topd = /home/linehill/work/math-atlas/AtlasBase
+ext  = /home/linehill/work/math-atlas/atlas-src/xextract
+extF = $(ext) -langF -lnlen71 -Remtblank -llwarn2 -LAPACK1 $(incs)
+ext9 = $(ext) -langF -lnlen132 -RemtBlank $(incs)
+extC = $(ext) -langC -lnlen79 -Remtblank -llwarn2 $(incs)
+extM = $(ext) -langM -lnlen79 -llwarn2 $(incs)
+incs = -def topd /home/linehill/work/math-atlas/AtlasBase \
+       -def incd /home/linehill/work/math-atlas/AtlasBase/Clint \
+       -def ext  /home/linehill/work/math-atlas/atlas-src/xextract \
+       -def BASEdir /home/linehill/work/math-atlas/AtlasBase/Antoine/ \
+       -def basd /home/linehill/work/math-atlas/AtlasBase/Clint
+
+default: all
+force_build:
+basd = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdRCW = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdAPP = /home/linehill/work/math-atlas/AtlasBase/Antoine
+basdSTU = /home/linehill/work/math-atlas/AtlasBase/Students
+incf = /home/linehill/work/math-atlas/AtlasBase/gen.inc
+
+basfn = $(basdRCW)/atlas-tst.base
+
+files = ATL_cf77wrap.f ATL_df77wrap.f ATL_dsf77dot.c ATL_epsilon.c \
+        ATL_f77amax.c ATL_f77asum.c ATL_f77axpy.c ATL_f77copy.c ATL_f77dot.c \
+        ATL_f77dotc_sub.c ATL_f77dotu_sub.c ATL_f77gbmv.c ATL_f77gelqf.c \
+        ATL_f77gels.c ATL_f77gemm.c ATL_f77gemv.c ATL_f77geqlf.c \
+        ATL_f77geqrf.c ATL_f77ger.c ATL_f77gerc.c ATL_f77gerqf.c \
+        ATL_f77geru.c ATL_f77gesv.c ATL_f77getrf.c ATL_f77getri.c \
+        ATL_f77hbmv.c ATL_f77hemm.c ATL_f77hemv.c ATL_f77her.c ATL_f77her2.c \
+        ATL_f77her2k.c ATL_f77herk.c ATL_f77hpmv.c ATL_f77hpr.c ATL_f77hpr2.c \
+        ATL_f77lauum.c ATL_f77nrm2.c ATL_f77posv.c ATL_f77potrf.c \
+        ATL_f77rot.c ATL_f77rotg.c ATL_f77rotm.c ATL_f77rotmg.c \
+        ATL_f77rscal.c ATL_f77sbmv.c ATL_f77scal.c ATL_f77spmv.c ATL_f77spr.c \
+        ATL_f77spr2.c ATL_f77swap.c ATL_f77symm.c ATL_f77symv.c ATL_f77syr.c \
+        ATL_f77syr2.c ATL_f77syr2k.c ATL_f77syrk.c ATL_f77tbmv.c \
+        ATL_f77tbsv.c ATL_f77tpmv.c ATL_f77tpsv.c ATL_f77trmm.c ATL_f77trmv.c \
+        ATL_f77trsm.c ATL_f77trsv.c ATL_f77trtri.c ATL_gbnrm1.c ATL_gediff.c \
+        ATL_gediffnrm1.c ATL_gegen.c ATL_genrm1.c ATL_geprint.c ATL_hbnrm.c \
+        ATL_hediffnrm.c ATL_henrm.c ATL_hpnrm.c ATL_infnrm.c ATL_rand.c \
+        ATL_sbnrm.c ATL_sdsf77dot.c ATL_sf77wrap.f ATL_spnrm.c ATL_synrm.c \
+        ATL_tbnrm1.c ATL_tpnrm1.c ATL_trgen.c ATL_trnrm1.c ATL_tstsqtran.c \
+        ATL_vdiff.c ATL_zf77wrap.f
+
+all : $(files)
+kill :
+	rm -f $(files)
+
+ATL_sf77wrap.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=$*
+ATL_df77wrap.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=$*
+ATL_cf77wrap.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=$*
+ATL_zf77wrap.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=$*
+ATL_dsf77dot.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_sdsf77dot.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_f77gemm.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_f77trsm.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_f77trmm.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_f77syr2k.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_f77syrk.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_f77symm.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_f77hemm.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_f77her2k.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_f77herk.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_f77geru.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_f77gerc.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_f77her2.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_f77hemv.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_f77her.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_f77ger.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_f77gemv.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_f77trmv.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_f77trsv.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_f77tpmv.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_f77hpr2.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_f77hpr.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_f77tpsv.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_f77spmv.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_f77tbsv.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_f77tbmv.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_f77syr2.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_f77syr.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_f77symv.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_f77spr2.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_f77spr.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_f77hbmv.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_f77hpmv.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_f77sbmv.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_f77gbmv.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_f77dotu_sub.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_f77dotc_sub.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_f77dot.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_f77rotm.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_f77rot.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_f77swap.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_f77copy.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_f77axpy.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_f77scal.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_f77amax.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_f77asum.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_f77nrm2.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_f77rotmg.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_f77rotg.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_f77rscal.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_f77potrf.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_f77lauum.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_f77trtri.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_f77geqrf.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_f77gerqf.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_f77geqlf.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_f77gelqf.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_f77getrf.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_f77posv.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_f77gels.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_f77gesv.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_gediffnrm1.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_vdiff.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_genrm1.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_infnrm.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_trnrm1.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_trgen.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_epsilon.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_gediff.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_geprint.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_gegen.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_tpnrm1.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_tbnrm1.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_gbnrm1.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_synrm.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_spnrm.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_sbnrm.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_henrm.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_hpnrm.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_hbnrm.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_rand.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_tstsqtran.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_hediffnrm.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_f77getri.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*

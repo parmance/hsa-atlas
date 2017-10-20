@@ -1,0 +1,46 @@
+
+topd = /home/linehill/work/math-atlas/AtlasBase
+ext  = /home/linehill/work/math-atlas/atlas-src/xextract
+extF = $(ext) -langF -lnlen71 -Remtblank -llwarn2 -LAPACK1 $(incs)
+ext9 = $(ext) -langF -lnlen132 -RemtBlank $(incs)
+extC = $(ext) -langC -lnlen79 -Remtblank -llwarn2 $(incs)
+extM = $(ext) -langM -lnlen79 -llwarn2 $(incs)
+incs = -def topd /home/linehill/work/math-atlas/AtlasBase \
+       -def incd /home/linehill/work/math-atlas/AtlasBase/Clint \
+       -def ext  /home/linehill/work/math-atlas/atlas-src/xextract \
+       -def BASEdir /home/linehill/work/math-atlas/AtlasBase/Antoine/ \
+       -def basd /home/linehill/work/math-atlas/AtlasBase/Clint
+
+default: all
+force_build:
+basd = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdRCW = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdAPP = /home/linehill/work/math-atlas/AtlasBase/Antoine
+basdSTU = /home/linehill/work/math-atlas/AtlasBase/Students
+incf = /home/linehill/work/math-atlas/AtlasBase/gen.inc
+
+basfn = $(basdRCW)/atlas-ul1.base
+
+files = ccases.dsc cswap1_x0y0.c dcases.dsc scases.dsc swap1_x0y0.c \
+        swap4_x0y0.c swap_stub.c zcases.dsc
+
+all : $(files)
+
+swap_stub.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+swap1_x0y0.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+swap4_x0y0.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+cswap1_x0y0.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+scases.dsc : $(basfn)
+	$(extC) -b $(basfn) -o $@ rout=scases.swap
+dcases.dsc : $(basfn)
+	$(extC) -b $(basfn) -o $@ rout=dcases.swap
+ccases.dsc : $(basfn)
+	$(extC) -b $(basfn) -o $@ rout=ccases.swap
+zcases.dsc : $(basfn)
+	$(extC) -b $(basfn) -o $@ rout=zcases.swap
+Make.ext : $(topd)/make.base $(topd)/gen.inc
+	$(extM) -b $(topd)/make.base -o Make.ext rout=atlas/tune/blas/level1/swap

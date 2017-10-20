@@ -1,0 +1,46 @@
+
+topd = /home/linehill/work/math-atlas/AtlasBase
+ext  = /home/linehill/work/math-atlas/atlas-src/xextract
+extF = $(ext) -langF -lnlen71 -Remtblank -llwarn2 -LAPACK1 $(incs)
+ext9 = $(ext) -langF -lnlen132 -RemtBlank $(incs)
+extC = $(ext) -langC -lnlen79 -Remtblank -llwarn2 $(incs)
+extM = $(ext) -langM -lnlen79 -llwarn2 $(incs)
+incs = -def topd /home/linehill/work/math-atlas/AtlasBase \
+       -def incd /home/linehill/work/math-atlas/AtlasBase/Clint \
+       -def ext  /home/linehill/work/math-atlas/atlas-src/xextract \
+       -def BASEdir /home/linehill/work/math-atlas/AtlasBase/Antoine/ \
+       -def basd /home/linehill/work/math-atlas/AtlasBase/Clint
+
+default: all
+force_build:
+basd = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdRCW = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdAPP = /home/linehill/work/math-atlas/AtlasBase/Antoine
+basdSTU = /home/linehill/work/math-atlas/AtlasBase/Students
+incf = /home/linehill/work/math-atlas/AtlasBase/gen.inc
+
+basfn = $(basdRCW)/atlas-kaux.base
+
+files = ATL_axpby.c ATL_axpy_x1_y1.c ATL_caxpy_x1_y1.c ATL_geadd.c \
+        ATL_gemove.c ATL_gescal.c
+
+all : $(files)
+kill :
+	rm -f $(files)
+
+ATL_gemove.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_geadd.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_gescal.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_axpby.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_axpy_x1_y1.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_caxpy_x1_y1.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+
+Make.ext : $(topd)/make.base
+	$(extM) -b $(topd)/make.base -o Make.ext rout=atlas/src/auxil/kernel
+

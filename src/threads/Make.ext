@@ -1,0 +1,120 @@
+
+topd = /home/linehill/work/math-atlas/AtlasBase
+ext  = /home/linehill/work/math-atlas/atlas-src/xextract
+extF = $(ext) -langF -lnlen71 -Remtblank -llwarn2 -LAPACK1 $(incs)
+ext9 = $(ext) -langF -lnlen132 -RemtBlank $(incs)
+extC = $(ext) -langC -lnlen79 -Remtblank -llwarn2 $(incs)
+extM = $(ext) -langM -lnlen79 -llwarn2 $(incs)
+incs = -def topd /home/linehill/work/math-atlas/AtlasBase \
+       -def incd /home/linehill/work/math-atlas/AtlasBase/Clint \
+       -def ext  /home/linehill/work/math-atlas/atlas-src/xextract \
+       -def BASEdir /home/linehill/work/math-atlas/AtlasBase/Antoine/ \
+       -def basd /home/linehill/work/math-atlas/AtlasBase/Clint
+
+default: all
+force_build:
+basd = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdRCW = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdAPP = /home/linehill/work/math-atlas/AtlasBase/Antoine
+basdSTU = /home/linehill/work/math-atlas/AtlasBase/Students
+incf = /home/linehill/work/math-atlas/AtlasBase/gen.inc
+
+basfn = $(basdRCW)/atlas-thr.base
+
+files = ATL_DecAtomicCount_amd64.S ATL_DecAtomicCount_ia32.S \
+        ATL_DecAtomicCount_mips.S ATL_DecAtomicCount_mut.c \
+        ATL_DecAtomicCount_ppc.S ATL_DecAtomicCount_sparc.S \
+        ATL_DecAtomicCount_win64.S ATL_DecGlobalAtomicCount.c \
+        ATL_FreeAtomicCount_arch.c ATL_FreeAtomicCount_mut.c \
+        ATL_FreeGlobalAtomicCount.c ATL_GetAtomicCount.c \
+        ATL_GetGlobalAtomicCount.c ATL_ResetAtomicCount_amd64.S \
+        ATL_ResetAtomicCount_ia32.S ATL_ResetAtomicCount_mips.S \
+        ATL_ResetAtomicCount_mut.c ATL_ResetAtomicCount_ppc.S \
+        ATL_ResetAtomicCount_sparc.S ATL_ResetAtomicCount_win64.S \
+        ATL_ResetGlobalAtomicCount.c ATL_SetAtomicCount_arch.c \
+        ATL_SetAtomicCount_mut.c ATL_SetGlobalAtomicCount.c ATL_dyntlaunch.c \
+        ATL_goparallel.c ATL_goparallel_prank.c ATL_lin0tlaunch.c \
+        ATL_log2tlaunch.c ATL_mutex_free.c ATL_mutex_init.c ATL_mutex_lock.c \
+        ATL_mutex_trylock.c ATL_mutex_unlock.c ATL_thread_exit.c \
+        ATL_thread_join.c ATL_thread_start.c ATL_thread_yield.c
+
+all : $(files)
+
+ATL_thread_start.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_thread_join.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_thread_exit.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_log2tlaunch.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_lin0tlaunch.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_dyntlaunch.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_mutex_trylock.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_mutex_lock.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_mutex_unlock.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_mutex_init.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_mutex_free.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_thread_yield.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_goparallel_prank.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_DecAtomicCount_ppc.S : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_ResetAtomicCount_ppc.S : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_DecAtomicCount_sparc.S : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_ResetAtomicCount_sparc.S : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_DecAtomicCount_mips.S : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_ResetAtomicCount_mips.S : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_DecAtomicCount_ia32.S : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_ResetAtomicCount_ia32.S : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_DecAtomicCount_amd64.S : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_ResetAtomicCount_amd64.S : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_DecAtomicCount_win64.S : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_ResetAtomicCount_win64.S : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_SetAtomicCount_arch.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_FreeAtomicCount_arch.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_DecAtomicCount_mut.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_SetAtomicCount_mut.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_ResetAtomicCount_mut.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_FreeAtomicCount_mut.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_GetAtomicCount.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_goparallel.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_SetGlobalAtomicCount.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_ResetGlobalAtomicCount.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_DecGlobalAtomicCount.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_GetGlobalAtomicCount.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_FreeGlobalAtomicCount.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+Make.ext : $(topd)/make.base
+	$(extM) -b $(topd)/make.base -o Make.ext rout=atlas/src/threads

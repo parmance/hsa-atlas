@@ -1,0 +1,52 @@
+
+topd = /home/linehill/work/math-atlas/AtlasBase
+ext  = /home/linehill/work/math-atlas/atlas-src/xextract
+extF = $(ext) -langF -lnlen71 -Remtblank -llwarn2 -LAPACK1 $(incs)
+ext9 = $(ext) -langF -lnlen132 -RemtBlank $(incs)
+extC = $(ext) -langC -lnlen79 -Remtblank -llwarn2 $(incs)
+extM = $(ext) -langM -lnlen79 -llwarn2 $(incs)
+incs = -def topd /home/linehill/work/math-atlas/AtlasBase \
+       -def incd /home/linehill/work/math-atlas/AtlasBase/Clint \
+       -def ext  /home/linehill/work/math-atlas/atlas-src/xextract \
+       -def BASEdir /home/linehill/work/math-atlas/AtlasBase/Antoine/ \
+       -def basd /home/linehill/work/math-atlas/AtlasBase/Clint
+
+default: all
+force_build:
+basd = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdRCW = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdAPP = /home/linehill/work/math-atlas/AtlasBase/Antoine
+basdSTU = /home/linehill/work/math-atlas/AtlasBase/Students
+incf = /home/linehill/work/math-atlas/AtlasBase/gen.inc
+
+basfn = $(basdRCW)/atlas-ul1.base
+
+files = ccases.dsc ccopy1_x0y0.c copy1_x0y0.c copy32p168_x1y1.c copy8p_x1y1.c \
+        copy_std.c copy_stub.c copy_x86.c dcases.dsc scases.dsc zcases.dsc
+
+all : $(files)
+
+copy_stub.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+copy_std.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+copy32p168_x1y1.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+copy8p_x1y1.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ccopy1_x0y0.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+copy1_x0y0.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+copy_x86.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+scases.dsc : $(basfn)
+	$(extC) -b $(basfn) -o $@ rout=scases.copy
+dcases.dsc : $(basfn)
+	$(extC) -b $(basfn) -o $@ rout=dcases.copy
+ccases.dsc : $(basfn)
+	$(extC) -b $(basfn) -o $@ rout=ccases.copy
+zcases.dsc : $(basfn)
+	$(extC) -b $(basfn) -o $@ rout=zcases.copy
+Make.ext : $(topd)/make.base $(topd)/gen.inc
+	$(extM) -b $(topd)/make.base -o Make.ext rout=atlas/tune/blas/level1/copy

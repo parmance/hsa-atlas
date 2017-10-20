@@ -1,0 +1,378 @@
+
+topd = /home/linehill/work/math-atlas/AtlasBase
+ext  = /home/linehill/work/math-atlas/atlas-src/xextract
+extF = $(ext) -langF -lnlen71 -Remtblank -llwarn2 -LAPACK1 $(incs)
+ext9 = $(ext) -langF -lnlen132 -RemtBlank $(incs)
+extC = $(ext) -langC -lnlen79 -Remtblank -llwarn2 $(incs)
+extM = $(ext) -langM -lnlen79 -llwarn2 $(incs)
+incs = -def topd /home/linehill/work/math-atlas/AtlasBase \
+       -def incd /home/linehill/work/math-atlas/AtlasBase/Clint \
+       -def ext  /home/linehill/work/math-atlas/atlas-src/xextract \
+       -def BASEdir /home/linehill/work/math-atlas/AtlasBase/Antoine/ \
+       -def basd /home/linehill/work/math-atlas/AtlasBase/Clint
+
+default: all
+force_build:
+basd = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdRCW = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdAPP = /home/linehill/work/math-atlas/AtlasBase/Antoine
+basdSTU = /home/linehill/work/math-atlas/AtlasBase/Students
+incf = /home/linehill/work/math-atlas/AtlasBase/gen.inc
+
+basfn = $(basdAPP)/atlF77blas.base
+basf1 = $(basdRCW)/cblas-lvl1.base
+
+files = caxpy.f ccopy.f cdotc.f cdotu.f cgbmv.f cgemm.f cgemv.f cger2c.f \
+        cger2u.f cgerc.f cgeru.f chbmv.f chemm.f chemv.f cher.f cher2.f \
+        cher2k.f cherk.f chpmv.f chpr.f chpr2.f crotg.f cscal.f csrot.f \
+        csscal.f cswap.f csymm.f csyr2k.f csyrk.f ctbmv.f ctbsv.f ctpmv.f \
+        ctpsv.f ctrmm.f ctrmv.f ctrsm.f ctrsv.f dasum.f daxpy.f dcabs1.f \
+        dcopy.f ddot.f dgbmv.f dgemm.f dgemv.f dger.f dger2.f dnrm2.f drot.f \
+        drotg.f drotm.f drotmg.f dsbmv.f dscal.f dsdot.f dspmv.f dspr.f \
+        dspr2.f dswap.f dsymm.f dsymv.f dsyr.f dsyr2.f dsyr2k.f dsyrk.f \
+        dtbmv.f dtbsv.f dtpmv.f dtpsv.f dtrmm.f dtrmv.f dtrsm.f dtrsv.f \
+        dzasum.f dznrm2.f icamax.f idamax.f isamax.f izamax.f lsame.f sasum.f \
+        saxpy.f scasum.f scnrm2.f scopy.f sdot.f sdsdot.f sgbmv.f sgemm.f \
+        sgemv.f sger.f sger2.f snrm2.f srot.f srotg.f srotm.f srotmg.f \
+        ssbmv.f sscal.f sspmv.f sspr.f sspr2.f sswap.f ssymm.f ssymv.f ssyr.f \
+        ssyr2.f ssyr2k.f ssyrk.f stbmv.f stbsv.f stpmv.f stpsv.f strmm.f \
+        strmv.f strsm.f strsv.f xerbla.f zaxpy.f zcopy.f zdotc.f zdotu.f \
+        zdrot.f zdscal.f zgbmv.f zgemm.f zgemv.f zger2c.f zger2u.f zgerc.f \
+        zgeru.f zhbmv.f zhemm.f zhemv.f zher.f zher2.f zher2k.f zherk.f \
+        zhpmv.f zhpr.f zhpr2.f zrotg.f zscal.f zswap.f zsymm.f zsyr2k.f \
+        zsyrk.f ztbmv.f ztbsv.f ztpmv.f ztpsv.f ztrmm.f ztrmv.f ztrsm.f \
+        ztrsv.f
+
+all : $(files)
+Make.ext : $(topd)/make.base
+	$(extM) -b $(topd)/make.base -o Make.ext rout=atlas/interfaces/blas/f77/src
+
+ilaenv.f : $(basdRCW)/atlas-fint.base $(incf)
+	$(extF) -b $(basdRCW)/atlas-fint.base -o $@ rout=$* type=none
+dcabs1.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=$* type=none
+lsame.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=$* type=none
+xerbla.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=$* type=none
+#
+# Level 3 extractors
+#
+strsm.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=trsm type=real
+strmm.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=trmm type=real
+ssyr2k.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=syr2k type=real
+ssyrk.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=syrk type=real
+ssymm.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=symm type=real
+sgemm.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=gemm type=real
+dtrsm.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=trsm type=dble
+dtrmm.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=trmm type=dble
+dsyr2k.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=syr2k type=dble
+dsyrk.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=syrk type=dble
+dsymm.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=symm type=dble
+dgemm.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=gemm type=dble
+ctrsm.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=trsm type=cplx
+ctrmm.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=trmm type=cplx
+csyr2k.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=syr2k type=cplx
+csyrk.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=syrk type=cplx
+csymm.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=symm type=cplx
+cgemm.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=gemm type=cplx
+ztrsm.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=trsm type=zplx
+ztrmm.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=trmm type=zplx
+zsyr2k.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=syr2k type=zplx
+zsyrk.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=syrk type=zplx
+zsymm.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=symm type=zplx
+zgemm.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=gemm type=zplx
+cher2k.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=syr2k type=chex
+cherk.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=syrk type=chex
+chemm.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=symm type=chex
+zher2k.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=syr2k type=zhex
+zherk.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=syrk type=zhex
+zhemm.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=symm type=zhex
+#
+# Level 2 extractors
+#
+stpsv.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=tpsv type=real
+stbsv.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=tbsv type=real
+strsv.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=trsv type=real
+stpmv.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=tpmv type=real
+stbmv.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=tbmv type=real
+strmv.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=trmv type=real
+sspmv.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=spmv type=real
+ssbmv.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=sbmv type=real
+ssymv.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=symv type=real
+sgbmv.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=gbmv type=real
+sgemv.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=gemv type=real
+sger2.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=ger2 type=real
+sspr2.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=spr2 type=real
+ssyr2.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=syr2 type=real
+sspr.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=spr type=real
+ssyr.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=syr type=real
+sger.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=ger type=real
+dtpsv.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=tpsv type=dble
+dtbsv.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=tbsv type=dble
+dtrsv.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=trsv type=dble
+dtpmv.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=tpmv type=dble
+dtbmv.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=tbmv type=dble
+dtrmv.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=trmv type=dble
+dspmv.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=spmv type=dble
+dsbmv.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=sbmv type=dble
+dsymv.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=symv type=dble
+dgbmv.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=gbmv type=dble
+dgemv.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=gemv type=dble
+dger2.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=ger2 type=dble
+dspr2.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=spr2 type=dble
+dsyr2.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=syr2 type=dble
+dspr.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=spr type=dble
+dsyr.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=syr type=dble
+dger.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=ger type=dble
+cger2u.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=ger2 type=cplx
+cgeru.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=ger type=cplx
+ctpsv.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=tpsv type=cplx
+ctbsv.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=tbsv type=cplx
+ctrsv.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=trsv type=cplx
+ctpmv.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=tpmv type=cplx
+ctbmv.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=tbmv type=cplx
+ctrmv.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=trmv type=cplx
+cspmv.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=spmv type=cplx
+csymv.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=symv type=cplx
+cgbmv.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=gbmv type=cplx
+cgemv.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=gemv type=cplx
+chpr2.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=spr2 type=chex
+cher2.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=syr2 type=chex
+chpr.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=spr type=chex
+cher.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=syr type=chex
+cger2c.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=ger2 type=chex
+cgerc.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=ger type=chex
+chpmv.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=spmv type=chex
+chbmv.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=sbmv type=chex
+chemv.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=symv type=chex
+zger2u.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=ger2 type=zplx
+zgeru.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=ger type=zplx
+ztpsv.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=tpsv type=zplx
+ztbsv.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=tbsv type=zplx
+ztrsv.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=trsv type=zplx
+ztpmv.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=tpmv type=zplx
+ztbmv.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=tbmv type=zplx
+ztrmv.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=trmv type=zplx
+zspmv.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=spmv type=zplx
+zsymv.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=symv type=zplx
+zgbmv.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=gbmv type=zplx
+zgemv.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=gemv type=zplx
+zhpr2.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=spr2 type=zhex
+zher2.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=syr2 type=zhex
+zhpr.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=spr type=zhex
+zher.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=syr type=zhex
+zger2c.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=ger2 type=zhex
+zgerc.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=ger type=zhex
+zhpmv.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=spmv type=zhex
+zhbmv.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=sbmv type=zhex
+zhemv.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=symv type=zhex
+#
+# Level 1 extractors
+#
+dzasum.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=asum type=ZPLX
+scasum.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=asum type=CPLX
+dznrm2.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=nrm2 type=ZPLX
+scnrm2.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=nrm2 type=CPLX
+zdrot.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=rot type=ZPLX
+csrot.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=rot type=CPLX
+zdscal.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=scal type=ZHEX
+csscal.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=scal type=CHEX
+dsdot.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=dsdot type=REAL
+sdsdot.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=sdsdot type=DBLE
+sasum.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=asum type=REAL
+snrm2.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=nrm2 type=REAL
+sdot.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=dot type=REAL
+saxpy.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=axpy type=REAL
+scopy.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=copy type=REAL
+sscal.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=scal type=REAL
+sswap.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=swap type=REAL
+srotm.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=rotm type=REAL
+srot.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=rot type=REAL
+srotmg.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=rotmg type=REAL
+srotg.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=rotg type=REAL
+isamax.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=amax type=REAL
+dasum.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=asum type=DBLE
+dnrm2.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=nrm2 type=DBLE
+ddot.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=dot type=DBLE
+daxpy.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=axpy type=DBLE
+dcopy.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=copy type=DBLE
+dscal.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=scal type=DBLE
+dswap.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=swap type=DBLE
+drotm.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=rotm type=DBLE
+drot.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=rot type=DBLE
+drotmg.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=rotmg type=DBLE
+drotg.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=rotg type=DBLE
+idamax.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=amax type=DBLE
+zdotu.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=dot type=ZPLX
+zdotc.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=dot type=ZHEX
+izamax.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=amax type=ZPLX
+zaxpy.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=axpy type=ZPLX
+zcopy.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=copy type=ZPLX
+zscal.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=scal type=ZPLX
+zswap.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=swap type=ZPLX
+zrotg.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=rotg type=ZPLX
+cdotu.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=dot type=CPLX
+cdotc.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=dot type=CHEX
+icamax.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=amax type=CPLX
+caxpy.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=axpy type=CPLX
+ccopy.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=copy type=CPLX
+cscal.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=scal type=CPLX
+cswap.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=swap type=CPLX
+crotg.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=rotg type=CPLX

@@ -1,0 +1,1135 @@
+
+topd = /home/linehill/work/math-atlas/AtlasBase
+ext  = /home/linehill/work/math-atlas/atlas-src/xextract
+extF = $(ext) -langF -lnlen71 -Remtblank -llwarn2 -LAPACK1 $(incs)
+ext9 = $(ext) -langF -lnlen132 -RemtBlank $(incs)
+extC = $(ext) -langC -lnlen79 -Remtblank -llwarn2 $(incs)
+extM = $(ext) -langM -lnlen79 -llwarn2 $(incs)
+incs = -def topd /home/linehill/work/math-atlas/AtlasBase \
+       -def incd /home/linehill/work/math-atlas/AtlasBase/Clint \
+       -def ext  /home/linehill/work/math-atlas/atlas-src/xextract \
+       -def BASEdir /home/linehill/work/math-atlas/AtlasBase/Antoine/ \
+       -def basd /home/linehill/work/math-atlas/AtlasBase/Clint
+
+default: all
+force_build:
+basd = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdRCW = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdAPP = /home/linehill/work/math-atlas/AtlasBase/Antoine
+basdSTU = /home/linehill/work/math-atlas/AtlasBase/Students
+incf = /home/linehill/work/math-atlas/AtlasBase/gen.inc
+
+############################################################################
+## Reference Level 2 BLAS ####################### AP March 200 #############
+############################################################################
+#
+basf = $(basdAPP)/atlrefblas.base
+extc = $(extC) -b $(basf)
+#
+############################################################################
+#
+fil = \
+   ATL_srefgbmv.c     ATL_srefgbmvN.c    ATL_srefgbmvT.c    ATL_drefgbmv.c     \
+   ATL_drefgbmvN.c    ATL_drefgbmvT.c    ATL_crefgbmv.c     ATL_crefgbmvN.c    \
+   ATL_crefgbmvC.c    ATL_crefgbmvT.c    ATL_crefgbmvH.c    ATL_zrefgbmv.c     \
+   ATL_zrefgbmvN.c    ATL_zrefgbmvC.c    ATL_zrefgbmvT.c    ATL_zrefgbmvH.c    \
+   ATL_srefgpmv.c     ATL_srefgpmvLN.c   ATL_srefgpmvLT.c   ATL_srefgpmvUN.c   \
+   ATL_srefgpmvUT.c   ATL_drefgpmv.c     ATL_drefgpmvLN.c   ATL_drefgpmvLT.c   \
+   ATL_drefgpmvUN.c   ATL_drefgpmvUT.c   ATL_crefgpmv.c     ATL_crefgpmvLN.c   \
+   ATL_crefgpmvLC.c   ATL_crefgpmvLT.c   ATL_crefgpmvLH.c   ATL_crefgpmvUN.c   \
+   ATL_crefgpmvUC.c   ATL_crefgpmvUT.c   ATL_crefgpmvUH.c   ATL_zrefgpmv.c     \
+   ATL_zrefgpmvLN.c   ATL_zrefgpmvLC.c   ATL_zrefgpmvLT.c   ATL_zrefgpmvLH.c   \
+   ATL_zrefgpmvUN.c   ATL_zrefgpmvUC.c   ATL_zrefgpmvUT.c   ATL_zrefgpmvUH.c   \
+   ATL_srefgemv.c     ATL_srefgemvN.c    ATL_srefgemvT.c    ATL_drefgemv.c     \
+   ATL_drefgemvN.c    ATL_drefgemvT.c    ATL_crefgemv.c     ATL_crefgemvN.c    \
+   ATL_crefgemvC.c    ATL_crefgemvT.c    ATL_crefgemvH.c    ATL_zrefgemv.c     \
+   ATL_zrefgemvN.c    ATL_zrefgemvC.c    ATL_zrefgemvT.c    ATL_zrefgemvH.c    \
+   ATL_srefgpr.c      ATL_drefgpr.c      ATL_crefgpru.c     ATL_crefgprc.c     \
+   ATL_zrefgpru.c     ATL_zrefgprc.c     ATL_srefger.c      ATL_drefger.c      \
+   ATL_crefgeru.c     ATL_crefgerc.c     ATL_zrefgeru.c     ATL_zrefgerc.c     \
+   ATL_srefsbmv.c     ATL_srefsbmvL.c    ATL_srefsbmvU.c    ATL_srefspmv.c     \
+   ATL_srefspmvL.c    ATL_srefspmvU.c    ATL_srefsymv.c     ATL_srefsymvL.c    \
+   ATL_srefsymvU.c    ATL_drefsbmv.c     ATL_drefsbmvL.c    ATL_drefsbmvU.c    \
+   ATL_drefspmv.c     ATL_drefspmvL.c    ATL_drefspmvU.c    ATL_drefsymv.c     \
+   ATL_drefsymvL.c    ATL_drefsymvU.c    ATL_crefhbmv.c     ATL_crefhbmvL.c    \
+   ATL_crefhbmvU.c    ATL_crefhpmv.c     ATL_crefhpmvL.c    ATL_crefhpmvU.c    \
+   ATL_crefhemv.c     ATL_crefhemvL.c    ATL_crefhemvU.c    ATL_zrefhbmv.c     \
+   ATL_zrefhbmvL.c    ATL_zrefhbmvU.c    ATL_zrefhpmv.c     ATL_zrefhpmvL.c    \
+   ATL_zrefhpmvU.c    ATL_zrefhemv.c     ATL_zrefhemvL.c    ATL_zrefhemvU.c    \
+   ATL_srefspr.c      ATL_drefspr.c      ATL_crefhpr.c      ATL_zrefhpr.c      \
+   ATL_srefsprL.c     ATL_drefsprL.c     ATL_crefhprL.c     ATL_zrefhprL.c     \
+   ATL_srefsprU.c     ATL_drefsprU.c     ATL_crefhprU.c     ATL_zrefhprU.c     \
+   ATL_srefsyr.c      ATL_drefsyr.c      ATL_crefher.c      ATL_zrefher.c      \
+   ATL_srefsyrL.c     ATL_drefsyrL.c     ATL_crefherL.c     ATL_zrefherL.c     \
+   ATL_srefsyrU.c     ATL_drefsyrU.c     ATL_crefherU.c     ATL_zrefherU.c     \
+   ATL_srefspr2.c     ATL_drefspr2.c     ATL_crefhpr2.c     ATL_zrefhpr2.c     \
+   ATL_srefspr2L.c    ATL_drefspr2L.c    ATL_crefhpr2L.c    ATL_zrefhpr2L.c    \
+   ATL_srefspr2U.c    ATL_drefspr2U.c    ATL_crefhpr2U.c    ATL_zrefhpr2U.c    \
+   ATL_srefsyr2.c     ATL_drefsyr2.c     ATL_crefher2.c     ATL_zrefher2.c     \
+   ATL_srefsyr2L.c    ATL_drefsyr2L.c    ATL_crefher2L.c    ATL_zrefher2L.c    \
+   ATL_srefsyr2U.c    ATL_drefsyr2U.c    ATL_crefher2U.c    ATL_zrefher2U.c    \
+   ATL_sreftbmv.c     ATL_dreftbmv.c     ATL_creftbmv.c     ATL_zreftbmv.c     \
+   ATL_sreftbsv.c     ATL_dreftbsv.c     ATL_creftbsv.c     ATL_zreftbsv.c     \
+   ATL_sreftpmv.c     ATL_dreftpmv.c     ATL_creftpmv.c     ATL_zreftpmv.c     \
+   ATL_sreftpsv.c     ATL_dreftpsv.c     ATL_creftpsv.c     ATL_zreftpsv.c     \
+   ATL_sreftrmv.c     ATL_dreftrmv.c     ATL_creftrmv.c     ATL_zreftrmv.c     \
+   ATL_sreftrsv.c     ATL_dreftrsv.c     ATL_creftrsv.c     ATL_zreftrsv.c     \
+   ATL_sreftbmvLNN.c  ATL_sreftbsvLNN.c  ATL_sreftpmvLNN.c  ATL_sreftpsvLNN.c  \
+   ATL_sreftrmvLNN.c  ATL_sreftrsvLNN.c  ATL_sreftbmvLNU.c  ATL_sreftbsvLNU.c  \
+   ATL_sreftpmvLNU.c  ATL_sreftpsvLNU.c  ATL_sreftrmvLNU.c  ATL_sreftrsvLNU.c  \
+   ATL_sreftbmvLTN.c  ATL_sreftbsvLTN.c  ATL_sreftpmvLTN.c  ATL_sreftpsvLTN.c  \
+   ATL_sreftrmvLTN.c  ATL_sreftrsvLTN.c  ATL_sreftbmvLTU.c  ATL_sreftbsvLTU.c  \
+   ATL_sreftpmvLTU.c  ATL_sreftpsvLTU.c  ATL_sreftrmvLTU.c  ATL_sreftrsvLTU.c  \
+   ATL_sreftbmvUNN.c  ATL_sreftbsvUNN.c  ATL_sreftpmvUNN.c  ATL_sreftpsvUNN.c  \
+   ATL_sreftrmvUNN.c  ATL_sreftrsvUNN.c  ATL_sreftbmvUNU.c  ATL_sreftbsvUNU.c  \
+   ATL_sreftpmvUNU.c  ATL_sreftpsvUNU.c  ATL_sreftrmvUNU.c  ATL_sreftrsvUNU.c  \
+   ATL_sreftbmvUTN.c  ATL_sreftbsvUTN.c  ATL_sreftpmvUTN.c  ATL_sreftpsvUTN.c  \
+   ATL_sreftrmvUTN.c  ATL_sreftrsvUTN.c  ATL_sreftbmvUTU.c  ATL_sreftbsvUTU.c  \
+   ATL_sreftpmvUTU.c  ATL_sreftpsvUTU.c  ATL_sreftrmvUTU.c  ATL_sreftrsvUTU.c  \
+   ATL_dreftbmvLNN.c  ATL_dreftbsvLNN.c  ATL_dreftpmvLNN.c  ATL_dreftpsvLNN.c  \
+   ATL_dreftrmvLNN.c  ATL_dreftrsvLNN.c  ATL_dreftbmvLNU.c  ATL_dreftbsvLNU.c  \
+   ATL_dreftpmvLNU.c  ATL_dreftpsvLNU.c  ATL_dreftrmvLNU.c  ATL_dreftrsvLNU.c  \
+   ATL_dreftbmvLTN.c  ATL_dreftbsvLTN.c  ATL_dreftpmvLTN.c  ATL_dreftpsvLTN.c  \
+   ATL_dreftrmvLTN.c  ATL_dreftrsvLTN.c  ATL_dreftbmvLTU.c  ATL_dreftbsvLTU.c  \
+   ATL_dreftpmvLTU.c  ATL_dreftpsvLTU.c  ATL_dreftrmvLTU.c  ATL_dreftrsvLTU.c  \
+   ATL_dreftbmvUNN.c  ATL_dreftbsvUNN.c  ATL_dreftpmvUNN.c  ATL_dreftpsvUNN.c  \
+   ATL_dreftrmvUNN.c  ATL_dreftrsvUNN.c  ATL_dreftbmvUNU.c  ATL_dreftbsvUNU.c  \
+   ATL_dreftpmvUNU.c  ATL_dreftpsvUNU.c  ATL_dreftrmvUNU.c  ATL_dreftrsvUNU.c  \
+   ATL_dreftbmvUTN.c  ATL_dreftbsvUTN.c  ATL_dreftpmvUTN.c  ATL_dreftpsvUTN.c  \
+   ATL_dreftrmvUTN.c  ATL_dreftrsvUTN.c  ATL_dreftbmvUTU.c  ATL_dreftbsvUTU.c  \
+   ATL_dreftpmvUTU.c  ATL_dreftpsvUTU.c  ATL_dreftrmvUTU.c  ATL_dreftrsvUTU.c  \
+   ATL_creftbmvLNN.c  ATL_creftbsvLNN.c  ATL_creftpmvLNN.c  ATL_creftpsvLNN.c  \
+   ATL_creftrmvLNN.c  ATL_creftrsvLNN.c  ATL_creftbmvLNU.c  ATL_creftbsvLNU.c  \
+   ATL_creftpmvLNU.c  ATL_creftpsvLNU.c  ATL_creftrmvLNU.c  ATL_creftrsvLNU.c  \
+   ATL_creftbmvLCN.c  ATL_creftbsvLCN.c  ATL_creftpmvLCN.c  ATL_creftpsvLCN.c  \
+   ATL_creftrmvLCN.c  ATL_creftrsvLCN.c  ATL_creftbmvLCU.c  ATL_creftbsvLCU.c  \
+   ATL_creftpmvLCU.c  ATL_creftpsvLCU.c  ATL_creftrmvLCU.c  ATL_creftrsvLCU.c  \
+   ATL_creftbmvLTN.c  ATL_creftbsvLTN.c  ATL_creftpmvLTN.c  ATL_creftpsvLTN.c  \
+   ATL_creftrmvLTN.c  ATL_creftrsvLTN.c  ATL_creftbmvLTU.c  ATL_creftbsvLTU.c  \
+   ATL_creftpmvLTU.c  ATL_creftpsvLTU.c  ATL_creftrmvLTU.c  ATL_creftrsvLTU.c  \
+   ATL_creftbmvLHN.c  ATL_creftbsvLHN.c  ATL_creftpmvLHN.c  ATL_creftpsvLHN.c  \
+   ATL_creftrmvLHN.c  ATL_creftrsvLHN.c  ATL_creftbmvLHU.c  ATL_creftbsvLHU.c  \
+   ATL_creftpmvLHU.c  ATL_creftpsvLHU.c  ATL_creftrmvLHU.c  ATL_creftrsvLHU.c  \
+   ATL_creftbmvUNN.c  ATL_creftbsvUNN.c  ATL_creftpmvUNN.c  ATL_creftpsvUNN.c  \
+   ATL_creftrmvUNN.c  ATL_creftrsvUNN.c  ATL_creftbmvUNU.c  ATL_creftbsvUNU.c  \
+   ATL_creftpmvUNU.c  ATL_creftpsvUNU.c  ATL_creftrmvUNU.c  ATL_creftrsvUNU.c  \
+   ATL_creftbmvUCN.c  ATL_creftbsvUCN.c  ATL_creftpmvUCN.c  ATL_creftpsvUCN.c  \
+   ATL_creftrmvUCN.c  ATL_creftrsvUCN.c  ATL_creftbmvUCU.c  ATL_creftbsvUCU.c  \
+   ATL_creftpmvUCU.c  ATL_creftpsvUCU.c  ATL_creftrmvUCU.c  ATL_creftrsvUCU.c  \
+   ATL_creftbmvUTN.c  ATL_creftbsvUTN.c  ATL_creftpmvUTN.c  ATL_creftpsvUTN.c  \
+   ATL_creftrmvUTN.c  ATL_creftrsvUTN.c  ATL_creftbmvUTU.c  ATL_creftbsvUTU.c  \
+   ATL_creftpmvUTU.c  ATL_creftpsvUTU.c  ATL_creftrmvUTU.c  ATL_creftrsvUTU.c  \
+   ATL_creftbmvUHN.c  ATL_creftbsvUHN.c  ATL_creftpmvUHN.c  ATL_creftpsvUHN.c  \
+   ATL_creftrmvUHN.c  ATL_creftrsvUHN.c  ATL_creftbmvUHU.c  ATL_creftbsvUHU.c  \
+   ATL_creftpmvUHU.c  ATL_creftpsvUHU.c  ATL_creftrmvUHU.c  ATL_creftrsvUHU.c  \
+   ATL_zreftbmvLNN.c  ATL_zreftbsvLNN.c  ATL_zreftpmvLNN.c  ATL_zreftpsvLNN.c  \
+   ATL_zreftrmvLNN.c  ATL_zreftrsvLNN.c  ATL_zreftbmvLNU.c  ATL_zreftbsvLNU.c  \
+   ATL_zreftpmvLNU.c  ATL_zreftpsvLNU.c  ATL_zreftrmvLNU.c  ATL_zreftrsvLNU.c  \
+   ATL_zreftbmvLCN.c  ATL_zreftbsvLCN.c  ATL_zreftpmvLCN.c  ATL_zreftpsvLCN.c  \
+   ATL_zreftrmvLCN.c  ATL_zreftrsvLCN.c  ATL_zreftbmvLCU.c  ATL_zreftbsvLCU.c  \
+   ATL_zreftpmvLCU.c  ATL_zreftpsvLCU.c  ATL_zreftrmvLCU.c  ATL_zreftrsvLCU.c  \
+   ATL_zreftbmvLTN.c  ATL_zreftbsvLTN.c  ATL_zreftpmvLTN.c  ATL_zreftpsvLTN.c  \
+   ATL_zreftrmvLTN.c  ATL_zreftrsvLTN.c  ATL_zreftbmvLTU.c  ATL_zreftbsvLTU.c  \
+   ATL_zreftpmvLTU.c  ATL_zreftpsvLTU.c  ATL_zreftrmvLTU.c  ATL_zreftrsvLTU.c  \
+   ATL_zreftbmvLHN.c  ATL_zreftbsvLHN.c  ATL_zreftpmvLHN.c  ATL_zreftpsvLHN.c  \
+   ATL_zreftrmvLHN.c  ATL_zreftrsvLHN.c  ATL_zreftbmvLHU.c  ATL_zreftbsvLHU.c  \
+   ATL_zreftpmvLHU.c  ATL_zreftpsvLHU.c  ATL_zreftrmvLHU.c  ATL_zreftrsvLHU.c  \
+   ATL_zreftbmvUNN.c  ATL_zreftbsvUNN.c  ATL_zreftpmvUNN.c  ATL_zreftpsvUNN.c  \
+   ATL_zreftrmvUNN.c  ATL_zreftrsvUNN.c  ATL_zreftbmvUNU.c  ATL_zreftbsvUNU.c  \
+   ATL_zreftpmvUNU.c  ATL_zreftpsvUNU.c  ATL_zreftrmvUNU.c  ATL_zreftrsvUNU.c  \
+   ATL_zreftbmvUCN.c  ATL_zreftbsvUCN.c  ATL_zreftpmvUCN.c  ATL_zreftpsvUCN.c  \
+   ATL_zreftrmvUCN.c  ATL_zreftrsvUCN.c  ATL_zreftbmvUCU.c  ATL_zreftbsvUCU.c  \
+   ATL_zreftpmvUCU.c  ATL_zreftpsvUCU.c  ATL_zreftrmvUCU.c  ATL_zreftrsvUCU.c  \
+   ATL_zreftbmvUTN.c  ATL_zreftbsvUTN.c  ATL_zreftpmvUTN.c  ATL_zreftpsvUTN.c  \
+   ATL_zreftrmvUTN.c  ATL_zreftrsvUTN.c  ATL_zreftbmvUTU.c  ATL_zreftbsvUTU.c  \
+   ATL_zreftpmvUTU.c  ATL_zreftpsvUTU.c  ATL_zreftrmvUTU.c  ATL_zreftrsvUTU.c  \
+   ATL_zreftbmvUHN.c  ATL_zreftbsvUHN.c  ATL_zreftpmvUHN.c  ATL_zreftpsvUHN.c  \
+   ATL_zreftrmvUHN.c  ATL_zreftrsvUHN.c  ATL_zreftbmvUHU.c  ATL_zreftbsvUHU.c  \
+   ATL_zreftpmvUHU.c  ATL_zreftpsvUHU.c  ATL_zreftrmvUHU.c  ATL_zreftrsvUHU.c
+#
+all  : $(fil)
+#
+kill :
+	rm -f $(fil)
+#
+############################################################################
+## Reference Level 2 BLAS ##################################################
+############################################################################
+#
+ATL_srefgbmv.c   :   $(basf)
+	$(extc) -o $@  rout=gbmv         type=real
+ATL_srefgbmvN.c  :   $(basf)
+	$(extc) -o $@  rout=gbmvN        type=real
+ATL_srefgbmvT.c  :   $(basf)
+	$(extc) -o $@  rout=gbmvT        type=real
+#
+ATL_drefgbmv.c   :   $(basf)
+	$(extc) -o $@  rout=gbmv         type=dble
+ATL_drefgbmvN.c  :   $(basf)
+	$(extc) -o $@  rout=gbmvN        type=dble
+ATL_drefgbmvT.c  :   $(basf)
+	$(extc) -o $@  rout=gbmvT        type=dble
+#
+ATL_crefgbmv.c   :   $(basf)
+	$(extc) -o $@  rout=gbmv         type=cplx
+ATL_crefgbmvN.c  :   $(basf)
+	$(extc) -o $@  rout=gbmvN        type=cplx
+ATL_crefgbmvC.c  :   $(basf)
+	$(extc) -o $@  rout=gbmvC        type=cplx
+ATL_crefgbmvT.c  :   $(basf)
+	$(extc) -o $@  rout=gbmvT        type=cplx
+ATL_crefgbmvH.c  :   $(basf)
+	$(extc) -o $@  rout=gbmvH        type=cplx
+#
+ATL_zrefgbmv.c   :   $(basf)
+	$(extc) -o $@  rout=gbmv         type=zplx
+ATL_zrefgbmvN.c  :   $(basf)
+	$(extc) -o $@  rout=gbmvN        type=zplx
+ATL_zrefgbmvC.c  :   $(basf)
+	$(extc) -o $@  rout=gbmvC        type=zplx
+ATL_zrefgbmvT.c  :   $(basf)
+	$(extc) -o $@  rout=gbmvT        type=zplx
+ATL_zrefgbmvH.c  :   $(basf)
+	$(extc) -o $@  rout=gbmvH        type=zplx
+#
+ATL_srefgpmv.c   :   $(basf)
+	$(extc) -o $@  rout=gpmv         type=real
+ATL_srefgpmvLN.c :   $(basf)
+	$(extc) -o $@  rout=gpmvLN       type=real
+ATL_srefgpmvLT.c :   $(basf)
+	$(extc) -o $@  rout=gpmvLT       type=real
+ATL_srefgpmvUN.c :   $(basf)
+	$(extc) -o $@  rout=gpmvUN       type=real
+ATL_srefgpmvUT.c :   $(basf)
+	$(extc) -o $@  rout=gpmvUT       type=real
+#
+ATL_drefgpmv.c   :   $(basf)
+	$(extc) -o $@  rout=gpmv         type=dble
+ATL_drefgpmvLN.c :   $(basf)
+	$(extc) -o $@  rout=gpmvLN       type=dble
+ATL_drefgpmvLT.c :   $(basf)
+	$(extc) -o $@  rout=gpmvLT       type=dble
+ATL_drefgpmvUN.c :   $(basf)
+	$(extc) -o $@  rout=gpmvUN       type=dble
+ATL_drefgpmvUT.c :   $(basf)
+	$(extc) -o $@  rout=gpmvUT       type=dble
+#
+ATL_crefgpmv.c   :   $(basf)
+	$(extc) -o $@  rout=gpmv         type=cplx
+ATL_crefgpmvLN.c :   $(basf)
+	$(extc) -o $@  rout=gpmvLN       type=cplx
+ATL_crefgpmvLC.c :   $(basf)
+	$(extc) -o $@  rout=gpmvLC       type=cplx
+ATL_crefgpmvLT.c :   $(basf)
+	$(extc) -o $@  rout=gpmvLT       type=cplx
+ATL_crefgpmvLH.c :   $(basf)
+	$(extc) -o $@  rout=gpmvLH       type=cplx
+ATL_crefgpmvUN.c :   $(basf)
+	$(extc) -o $@  rout=gpmvUN       type=cplx
+ATL_crefgpmvUC.c :   $(basf)
+	$(extc) -o $@  rout=gpmvUC       type=cplx
+ATL_crefgpmvUT.c :   $(basf)
+	$(extc) -o $@  rout=gpmvUT       type=cplx
+ATL_crefgpmvUH.c :   $(basf)
+	$(extc) -o $@  rout=gpmvUH       type=cplx
+#
+ATL_zrefgpmv.c   :   $(basf)
+	$(extc) -o $@  rout=gpmv         type=zplx
+ATL_zrefgpmvLN.c :   $(basf)
+	$(extc) -o $@  rout=gpmvLN       type=zplx
+ATL_zrefgpmvLC.c :   $(basf)
+	$(extc) -o $@  rout=gpmvLC       type=zplx
+ATL_zrefgpmvLT.c :   $(basf)
+	$(extc) -o $@  rout=gpmvLT       type=zplx
+ATL_zrefgpmvLH.c :   $(basf)
+	$(extc) -o $@  rout=gpmvLH       type=zplx
+ATL_zrefgpmvUN.c :   $(basf)
+	$(extc) -o $@  rout=gpmvUN       type=zplx
+ATL_zrefgpmvUC.c :   $(basf)
+	$(extc) -o $@  rout=gpmvUC       type=zplx
+ATL_zrefgpmvUT.c :   $(basf)
+	$(extc) -o $@  rout=gpmvUT       type=zplx
+ATL_zrefgpmvUH.c :   $(basf)
+	$(extc) -o $@  rout=gpmvUH       type=zplx
+#
+ATL_srefgemv.c   :   $(basf)
+	$(extc) -o $@  rout=gemv         type=real
+ATL_srefgemvN.c  :   $(basf)
+	$(extc) -o $@  rout=gemvN        type=real
+ATL_srefgemvT.c  :   $(basf)
+	$(extc) -o $@  rout=gemvT        type=real
+#
+ATL_drefgemv.c   :   $(basf)
+	$(extc) -o $@  rout=gemv         type=dble
+ATL_drefgemvN.c  :   $(basf)
+	$(extc) -o $@  rout=gemvN        type=dble
+ATL_drefgemvT.c  :   $(basf)
+	$(extc) -o $@  rout=gemvT        type=dble
+#
+ATL_crefgemv.c   :   $(basf)
+	$(extc) -o $@  rout=gemv         type=cplx
+ATL_crefgemvN.c  :   $(basf)
+	$(extc) -o $@  rout=gemvN        type=cplx
+ATL_crefgemvC.c  :   $(basf)
+	$(extc) -o $@  rout=gemvC        type=cplx
+ATL_crefgemvT.c  :   $(basf)
+	$(extc) -o $@  rout=gemvT        type=cplx
+ATL_crefgemvH.c  :   $(basf)
+	$(extc) -o $@  rout=gemvH        type=cplx
+#
+ATL_zrefgemv.c   :   $(basf)
+	$(extc) -o $@  rout=gemv         type=zplx
+ATL_zrefgemvN.c  :   $(basf)
+	$(extc) -o $@  rout=gemvN        type=zplx
+ATL_zrefgemvC.c  :   $(basf)
+	$(extc) -o $@  rout=gemvC        type=zplx
+ATL_zrefgemvT.c  :   $(basf)
+	$(extc) -o $@  rout=gemvT        type=zplx
+ATL_zrefgemvH.c  :   $(basf)
+	$(extc) -o $@  rout=gemvH        type=zplx
+#
+ATL_srefgpr.c    :   $(basf)
+	$(extc) -o $@  rout=gpr          type=real
+ATL_drefgpr.c    :   $(basf)
+	$(extc) -o $@  rout=gpr          type=dble
+ATL_crefgpru.c   :   $(basf)
+	$(extc) -o $@  rout=gpr          type=cplx
+ATL_crefgprc.c   :   $(basf)
+	$(extc) -o $@  rout=gpr          type=chex
+ATL_zrefgpru.c   :   $(basf)
+	$(extc) -o $@  rout=gpr          type=zplx
+ATL_zrefgprc.c   :   $(basf)
+	$(extc) -o $@  rout=gpr          type=zhex
+#
+ATL_srefger.c    :   $(basf)
+	$(extc) -o $@  rout=ger          type=real
+ATL_drefger.c    :   $(basf)
+	$(extc) -o $@  rout=ger          type=dble
+ATL_crefgeru.c   :   $(basf)
+	$(extc) -o $@  rout=ger          type=cplx
+ATL_crefgerc.c   :   $(basf)
+	$(extc) -o $@  rout=ger          type=chex
+ATL_zrefgeru.c   :   $(basf)
+	$(extc) -o $@  rout=ger          type=zplx
+ATL_zrefgerc.c   :   $(basf)
+	$(extc) -o $@  rout=ger          type=zhex
+#
+ATL_srefsbmv.c   :   $(basf)
+	$(extc) -o $@  rout=sbmv         type=real
+ATL_srefsbmvL.c  :   $(basf)
+	$(extc) -o $@  rout=sbmvL        type=real
+ATL_srefsbmvU.c  :   $(basf)
+	$(extc) -o $@  rout=sbmvU        type=real
+ATL_srefspmv.c   :   $(basf)
+	$(extc) -o $@  rout=spmv         type=real
+ATL_srefspmvL.c  :   $(basf)
+	$(extc) -o $@  rout=spmvL        type=real
+ATL_srefspmvU.c  :   $(basf)
+	$(extc) -o $@  rout=spmvU        type=real
+ATL_srefsymv.c   :   $(basf)
+	$(extc) -o $@  rout=symv         type=real
+ATL_srefsymvL.c  :   $(basf)
+	$(extc) -o $@  rout=symvL        type=real
+ATL_srefsymvU.c  :   $(basf)
+	$(extc) -o $@  rout=symvU        type=real
+#
+ATL_drefsbmv.c   :   $(basf)
+	$(extc) -o $@  rout=sbmv         type=dble
+ATL_drefsbmvL.c  :   $(basf)
+	$(extc) -o $@  rout=sbmvL        type=dble
+ATL_drefsbmvU.c  :   $(basf)
+	$(extc) -o $@  rout=sbmvU        type=dble
+ATL_drefspmv.c   :   $(basf)
+	$(extc) -o $@  rout=spmv         type=dble
+ATL_drefspmvL.c  :   $(basf)
+	$(extc) -o $@  rout=spmvL        type=dble
+ATL_drefspmvU.c  :   $(basf)
+	$(extc) -o $@  rout=spmvU        type=dble
+ATL_drefsymv.c   :   $(basf)
+	$(extc) -o $@  rout=symv         type=dble
+ATL_drefsymvL.c  :   $(basf)
+	$(extc) -o $@  rout=symvL        type=dble
+ATL_drefsymvU.c  :   $(basf)
+	$(extc) -o $@  rout=symvU        type=dble
+#
+ATL_crefhbmv.c   :   $(basf)
+	$(extc) -o $@  rout=sbmv         type=chex
+ATL_crefhbmvL.c  :   $(basf)
+	$(extc) -o $@  rout=sbmvL        type=chex
+ATL_crefhbmvU.c  :   $(basf)
+	$(extc) -o $@  rout=sbmvU        type=chex
+ATL_crefhpmv.c   :   $(basf)
+	$(extc) -o $@  rout=spmv         type=chex
+ATL_crefhpmvL.c  :   $(basf)
+	$(extc) -o $@  rout=spmvL        type=chex
+ATL_crefhpmvU.c  :   $(basf)
+	$(extc) -o $@  rout=spmvU        type=chex
+ATL_crefhemv.c   :   $(basf)
+	$(extc) -o $@  rout=symv         type=chex
+ATL_crefhemvL.c  :   $(basf)
+	$(extc) -o $@  rout=symvL        type=chex
+ATL_crefhemvU.c  :   $(basf)
+	$(extc) -o $@  rout=symvU        type=chex
+#
+ATL_zrefhbmv.c   :   $(basf)
+	$(extc) -o $@  rout=sbmv         type=zhex
+ATL_zrefhbmvL.c  :   $(basf)
+	$(extc) -o $@  rout=sbmvL        type=zhex
+ATL_zrefhbmvU.c  :   $(basf)
+	$(extc) -o $@  rout=sbmvU        type=zhex
+ATL_zrefhpmv.c   :   $(basf)
+	$(extc) -o $@  rout=spmv         type=zhex
+ATL_zrefhpmvL.c  :   $(basf)
+	$(extc) -o $@  rout=spmvL        type=zhex
+ATL_zrefhpmvU.c  :   $(basf)
+	$(extc) -o $@  rout=spmvU        type=zhex
+ATL_zrefhemv.c   :   $(basf)
+	$(extc) -o $@  rout=symv         type=zhex
+ATL_zrefhemvL.c  :   $(basf)
+	$(extc) -o $@  rout=symvL        type=zhex
+ATL_zrefhemvU.c  :   $(basf)
+	$(extc) -o $@  rout=symvU        type=zhex
+#
+ATL_srefspr.c    :   $(basf)
+	$(extc) -o $@  rout=spr          type=real
+ATL_drefspr.c    :   $(basf)
+	$(extc) -o $@  rout=spr          type=dble
+ATL_crefhpr.c    :   $(basf)
+	$(extc) -o $@  rout=spr          type=chex
+ATL_zrefhpr.c    :   $(basf)
+	$(extc) -o $@  rout=spr          type=zhex
+#
+ATL_srefsprL.c   :   $(basf)
+	$(extc) -o $@  rout=sprL         type=real
+ATL_drefsprL.c   :   $(basf)
+	$(extc) -o $@  rout=sprL         type=dble
+ATL_crefhprL.c   :   $(basf)
+	$(extc) -o $@  rout=sprL         type=chex
+ATL_zrefhprL.c   :   $(basf)
+	$(extc) -o $@  rout=sprL         type=zhex
+#
+ATL_srefsprU.c   :   $(basf)
+	$(extc) -o $@  rout=sprU         type=real
+ATL_drefsprU.c   :   $(basf)
+	$(extc) -o $@  rout=sprU         type=dble
+ATL_crefhprU.c   :   $(basf)
+	$(extc) -o $@  rout=sprU         type=chex
+ATL_zrefhprU.c   :   $(basf)
+	$(extc) -o $@  rout=sprU         type=zhex
+#
+ATL_srefsyr.c    :   $(basf)
+	$(extc) -o $@  rout=syr          type=real
+ATL_drefsyr.c    :   $(basf)
+	$(extc) -o $@  rout=syr          type=dble
+ATL_crefher.c    :   $(basf)
+	$(extc) -o $@  rout=syr          type=chex
+ATL_zrefher.c    :   $(basf)
+	$(extc) -o $@  rout=syr          type=zhex
+#
+ATL_srefsyrL.c   :   $(basf)
+	$(extc) -o $@  rout=syrL         type=real
+ATL_drefsyrL.c   :   $(basf)
+	$(extc) -o $@  rout=syrL         type=dble
+ATL_crefherL.c   :   $(basf)
+	$(extc) -o $@  rout=syrL         type=chex
+ATL_zrefherL.c   :   $(basf)
+	$(extc) -o $@  rout=syrL         type=zhex
+#
+ATL_srefsyrU.c   :   $(basf)
+	$(extc) -o $@  rout=syrU         type=real
+ATL_drefsyrU.c   :   $(basf)
+	$(extc) -o $@  rout=syrU         type=dble
+ATL_crefherU.c   :   $(basf)
+	$(extc) -o $@  rout=syrU         type=chex
+ATL_zrefherU.c   :   $(basf)
+	$(extc) -o $@  rout=syrU         type=zhex
+#
+ATL_srefspr2.c   :   $(basf)
+	$(extc) -o $@  rout=spr2         type=real
+ATL_drefspr2.c   :   $(basf)
+	$(extc) -o $@  rout=spr2         type=dble
+ATL_crefhpr2.c   :   $(basf)
+	$(extc) -o $@  rout=spr2         type=chex
+ATL_zrefhpr2.c   :   $(basf)
+	$(extc) -o $@  rout=spr2         type=zhex
+#
+ATL_srefspr2L.c  :   $(basf)
+	$(extc) -o $@  rout=spr2L        type=real
+ATL_drefspr2L.c  :   $(basf)
+	$(extc) -o $@  rout=spr2L        type=dble
+ATL_crefhpr2L.c  :   $(basf)
+	$(extc) -o $@  rout=spr2L        type=chex
+ATL_zrefhpr2L.c  :   $(basf)
+	$(extc) -o $@  rout=spr2L        type=zhex
+#
+ATL_srefspr2U.c  :   $(basf)
+	$(extc) -o $@  rout=spr2U        type=real
+ATL_drefspr2U.c  :   $(basf)
+	$(extc) -o $@  rout=spr2U        type=dble
+ATL_crefhpr2U.c  :   $(basf)
+	$(extc) -o $@  rout=spr2U        type=chex
+ATL_zrefhpr2U.c  :   $(basf)
+	$(extc) -o $@  rout=spr2U        type=zhex
+#
+ATL_srefsyr2.c   :   $(basf)
+	$(extc) -o $@  rout=syr2         type=real
+ATL_drefsyr2.c   :   $(basf)
+	$(extc) -o $@  rout=syr2         type=dble
+ATL_crefher2.c   :   $(basf)
+	$(extc) -o $@  rout=syr2         type=chex
+ATL_zrefher2.c   :   $(basf)
+	$(extc) -o $@  rout=syr2         type=zhex
+#
+ATL_srefsyr2L.c  :   $(basf)
+	$(extc) -o $@  rout=syr2L        type=real
+ATL_drefsyr2L.c  :   $(basf)
+	$(extc) -o $@  rout=syr2L        type=dble
+ATL_crefher2L.c  :   $(basf)
+	$(extc) -o $@  rout=syr2L        type=chex
+ATL_zrefher2L.c  :   $(basf)
+	$(extc) -o $@  rout=syr2L        type=zhex
+#
+ATL_srefsyr2U.c  :   $(basf)
+	$(extc) -o $@  rout=syr2U        type=real
+ATL_drefsyr2U.c  :   $(basf)
+	$(extc) -o $@  rout=syr2U        type=dble
+ATL_crefher2U.c  :   $(basf)
+	$(extc) -o $@  rout=syr2U        type=chex
+ATL_zrefher2U.c  :   $(basf)
+	$(extc) -o $@  rout=syr2U        type=zhex
+#
+ATL_sreftbmv.c   :   $(basf)
+	$(extc) -o $@  rout=tbmv         type=real
+ATL_dreftbmv.c   :   $(basf)
+	$(extc) -o $@  rout=tbmv         type=dble
+ATL_creftbmv.c   :   $(basf)
+	$(extc) -o $@  rout=tbmv         type=cplx
+ATL_zreftbmv.c   :   $(basf)
+	$(extc) -o $@  rout=tbmv         type=zplx
+#
+ATL_sreftbsv.c   :   $(basf)
+	$(extc) -o $@  rout=tbsv         type=real
+ATL_dreftbsv.c   :   $(basf)
+	$(extc) -o $@  rout=tbsv         type=dble
+ATL_creftbsv.c   :   $(basf)
+	$(extc) -o $@  rout=tbsv         type=cplx
+ATL_zreftbsv.c   :   $(basf)
+	$(extc) -o $@  rout=tbsv         type=zplx
+#
+ATL_sreftpmv.c   :   $(basf)
+	$(extc) -o $@  rout=tpmv         type=real
+ATL_dreftpmv.c   :   $(basf)
+	$(extc) -o $@  rout=tpmv         type=dble
+ATL_creftpmv.c   :   $(basf)
+	$(extc) -o $@  rout=tpmv         type=cplx
+ATL_zreftpmv.c   :   $(basf)
+	$(extc) -o $@  rout=tpmv         type=zplx
+#
+ATL_sreftpsv.c   :   $(basf)
+	$(extc) -o $@  rout=tpsv         type=real
+ATL_dreftpsv.c   :   $(basf)
+	$(extc) -o $@  rout=tpsv         type=dble
+ATL_creftpsv.c   :   $(basf)
+	$(extc) -o $@  rout=tpsv         type=cplx
+ATL_zreftpsv.c   :   $(basf)
+	$(extc) -o $@  rout=tpsv         type=zplx
+#
+ATL_sreftrmv.c   :   $(basf)
+	$(extc) -o $@  rout=trmv         type=real
+ATL_dreftrmv.c   :   $(basf)
+	$(extc) -o $@  rout=trmv         type=dble
+ATL_creftrmv.c   :   $(basf)
+	$(extc) -o $@  rout=trmv         type=cplx
+ATL_zreftrmv.c   :   $(basf)
+	$(extc) -o $@  rout=trmv         type=zplx
+#
+ATL_sreftrsv.c   :   $(basf)
+	$(extc) -o $@  rout=trsv         type=real
+ATL_dreftrsv.c   :   $(basf)
+	$(extc) -o $@  rout=trsv         type=dble
+ATL_creftrsv.c   :   $(basf)
+	$(extc) -o $@  rout=trsv         type=cplx
+ATL_zreftrsv.c   :   $(basf)
+	$(extc) -o $@  rout=trsv         type=zplx
+#
+ATL_sreftbmvLNN.c  :   $(basf)
+	$(extc) -o $@  rout=tbmvLNN      type=real
+ATL_sreftbsvLNN.c  :   $(basf)
+	$(extc) -o $@  rout=tbsvLNN      type=real
+ATL_sreftpmvLNN.c  :   $(basf)
+	$(extc) -o $@  rout=tpmvLNN      type=real
+ATL_sreftpsvLNN.c  :   $(basf)
+	$(extc) -o $@  rout=tpsvLNN      type=real
+ATL_sreftrmvLNN.c  :   $(basf)
+	$(extc) -o $@  rout=trmvLNN      type=real
+ATL_sreftrsvLNN.c  :   $(basf)
+	$(extc) -o $@  rout=trsvLNN      type=real
+ATL_sreftbmvLNU.c  :   $(basf)
+	$(extc) -o $@  rout=tbmvLNU      type=real
+ATL_sreftbsvLNU.c  :   $(basf)
+	$(extc) -o $@  rout=tbsvLNU      type=real
+ATL_sreftpmvLNU.c  :   $(basf)
+	$(extc) -o $@  rout=tpmvLNU      type=real
+ATL_sreftpsvLNU.c  :   $(basf)
+	$(extc) -o $@  rout=tpsvLNU      type=real
+ATL_sreftrmvLNU.c  :   $(basf)
+	$(extc) -o $@  rout=trmvLNU      type=real
+ATL_sreftrsvLNU.c  :   $(basf)
+	$(extc) -o $@  rout=trsvLNU      type=real
+ATL_sreftbmvLTN.c  :   $(basf)
+	$(extc) -o $@  rout=tbmvLTN      type=real
+ATL_sreftbsvLTN.c  :   $(basf)
+	$(extc) -o $@  rout=tbsvLTN      type=real
+ATL_sreftpmvLTN.c  :   $(basf)
+	$(extc) -o $@  rout=tpmvLTN      type=real
+ATL_sreftpsvLTN.c  :   $(basf)
+	$(extc) -o $@  rout=tpsvLTN      type=real
+ATL_sreftrmvLTN.c  :   $(basf)
+	$(extc) -o $@  rout=trmvLTN      type=real
+ATL_sreftrsvLTN.c  :   $(basf)
+	$(extc) -o $@  rout=trsvLTN      type=real
+ATL_sreftbmvLTU.c  :   $(basf)
+	$(extc) -o $@  rout=tbmvLTU      type=real
+ATL_sreftbsvLTU.c  :   $(basf)
+	$(extc) -o $@  rout=tbsvLTU      type=real
+ATL_sreftpmvLTU.c  :   $(basf)
+	$(extc) -o $@  rout=tpmvLTU      type=real
+ATL_sreftpsvLTU.c  :   $(basf)
+	$(extc) -o $@  rout=tpsvLTU      type=real
+ATL_sreftrmvLTU.c  :   $(basf)
+	$(extc) -o $@  rout=trmvLTU      type=real
+ATL_sreftrsvLTU.c  :   $(basf)
+	$(extc) -o $@  rout=trsvLTU      type=real
+ATL_sreftbmvUNN.c  :   $(basf)
+	$(extc) -o $@  rout=tbmvUNN      type=real
+ATL_sreftbsvUNN.c  :   $(basf)
+	$(extc) -o $@  rout=tbsvUNN      type=real
+ATL_sreftpmvUNN.c  :   $(basf)
+	$(extc) -o $@  rout=tpmvUNN      type=real
+ATL_sreftpsvUNN.c  :   $(basf)
+	$(extc) -o $@  rout=tpsvUNN      type=real
+ATL_sreftrmvUNN.c  :   $(basf)
+	$(extc) -o $@  rout=trmvUNN      type=real
+ATL_sreftrsvUNN.c  :   $(basf)
+	$(extc) -o $@  rout=trsvUNN      type=real
+ATL_sreftbmvUNU.c  :   $(basf)
+	$(extc) -o $@  rout=tbmvUNU      type=real
+ATL_sreftbsvUNU.c  :   $(basf)
+	$(extc) -o $@  rout=tbsvUNU      type=real
+ATL_sreftpmvUNU.c  :   $(basf)
+	$(extc) -o $@  rout=tpmvUNU      type=real
+ATL_sreftpsvUNU.c  :   $(basf)
+	$(extc) -o $@  rout=tpsvUNU      type=real
+ATL_sreftrmvUNU.c  :   $(basf)
+	$(extc) -o $@  rout=trmvUNU      type=real
+ATL_sreftrsvUNU.c  :   $(basf)
+	$(extc) -o $@  rout=trsvUNU      type=real
+ATL_sreftbmvUTN.c  :   $(basf)
+	$(extc) -o $@  rout=tbmvUTN      type=real
+ATL_sreftbsvUTN.c  :   $(basf)
+	$(extc) -o $@  rout=tbsvUTN      type=real
+ATL_sreftpmvUTN.c  :   $(basf)
+	$(extc) -o $@  rout=tpmvUTN      type=real
+ATL_sreftpsvUTN.c  :   $(basf)
+	$(extc) -o $@  rout=tpsvUTN      type=real
+ATL_sreftrmvUTN.c  :   $(basf)
+	$(extc) -o $@  rout=trmvUTN      type=real
+ATL_sreftrsvUTN.c  :   $(basf)
+	$(extc) -o $@  rout=trsvUTN      type=real
+ATL_sreftbmvUTU.c  :   $(basf)
+	$(extc) -o $@  rout=tbmvUTU      type=real
+ATL_sreftbsvUTU.c  :   $(basf)
+	$(extc) -o $@  rout=tbsvUTU      type=real
+ATL_sreftpmvUTU.c  :   $(basf)
+	$(extc) -o $@  rout=tpmvUTU      type=real
+ATL_sreftpsvUTU.c  :   $(basf)
+	$(extc) -o $@  rout=tpsvUTU      type=real
+ATL_sreftrmvUTU.c  :   $(basf)
+	$(extc) -o $@  rout=trmvUTU      type=real
+ATL_sreftrsvUTU.c  :   $(basf)
+	$(extc) -o $@  rout=trsvUTU      type=real
+#
+ATL_dreftbmvLNN.c  :   $(basf)
+	$(extc) -o $@  rout=tbmvLNN      type=dble
+ATL_dreftbsvLNN.c  :   $(basf)
+	$(extc) -o $@  rout=tbsvLNN      type=dble
+ATL_dreftpmvLNN.c  :   $(basf)
+	$(extc) -o $@  rout=tpmvLNN      type=dble
+ATL_dreftpsvLNN.c  :   $(basf)
+	$(extc) -o $@  rout=tpsvLNN      type=dble
+ATL_dreftrmvLNN.c  :   $(basf)
+	$(extc) -o $@  rout=trmvLNN      type=dble
+ATL_dreftrsvLNN.c  :   $(basf)
+	$(extc) -o $@  rout=trsvLNN      type=dble
+ATL_dreftbmvLNU.c  :   $(basf)
+	$(extc) -o $@  rout=tbmvLNU      type=dble
+ATL_dreftbsvLNU.c  :   $(basf)
+	$(extc) -o $@  rout=tbsvLNU      type=dble
+ATL_dreftpmvLNU.c  :   $(basf)
+	$(extc) -o $@  rout=tpmvLNU      type=dble
+ATL_dreftpsvLNU.c  :   $(basf)
+	$(extc) -o $@  rout=tpsvLNU      type=dble
+ATL_dreftrmvLNU.c  :   $(basf)
+	$(extc) -o $@  rout=trmvLNU      type=dble
+ATL_dreftrsvLNU.c  :   $(basf)
+	$(extc) -o $@  rout=trsvLNU      type=dble
+ATL_dreftbmvLTN.c  :   $(basf)
+	$(extc) -o $@  rout=tbmvLTN      type=dble
+ATL_dreftbsvLTN.c  :   $(basf)
+	$(extc) -o $@  rout=tbsvLTN      type=dble
+ATL_dreftpmvLTN.c  :   $(basf)
+	$(extc) -o $@  rout=tpmvLTN      type=dble
+ATL_dreftpsvLTN.c  :   $(basf)
+	$(extc) -o $@  rout=tpsvLTN      type=dble
+ATL_dreftrmvLTN.c  :   $(basf)
+	$(extc) -o $@  rout=trmvLTN      type=dble
+ATL_dreftrsvLTN.c  :   $(basf)
+	$(extc) -o $@  rout=trsvLTN      type=dble
+ATL_dreftbmvLTU.c  :   $(basf)
+	$(extc) -o $@  rout=tbmvLTU      type=dble
+ATL_dreftbsvLTU.c  :   $(basf)
+	$(extc) -o $@  rout=tbsvLTU      type=dble
+ATL_dreftpmvLTU.c  :   $(basf)
+	$(extc) -o $@  rout=tpmvLTU      type=dble
+ATL_dreftpsvLTU.c  :   $(basf)
+	$(extc) -o $@  rout=tpsvLTU      type=dble
+ATL_dreftrmvLTU.c  :   $(basf)
+	$(extc) -o $@  rout=trmvLTU      type=dble
+ATL_dreftrsvLTU.c  :   $(basf)
+	$(extc) -o $@  rout=trsvLTU      type=dble
+ATL_dreftbmvUNN.c  :   $(basf)
+	$(extc) -o $@  rout=tbmvUNN      type=dble
+ATL_dreftbsvUNN.c  :   $(basf)
+	$(extc) -o $@  rout=tbsvUNN      type=dble
+ATL_dreftpmvUNN.c  :   $(basf)
+	$(extc) -o $@  rout=tpmvUNN      type=dble
+ATL_dreftpsvUNN.c  :   $(basf)
+	$(extc) -o $@  rout=tpsvUNN      type=dble
+ATL_dreftrmvUNN.c  :   $(basf)
+	$(extc) -o $@  rout=trmvUNN      type=dble
+ATL_dreftrsvUNN.c  :   $(basf)
+	$(extc) -o $@  rout=trsvUNN      type=dble
+ATL_dreftbmvUNU.c  :   $(basf)
+	$(extc) -o $@  rout=tbmvUNU      type=dble
+ATL_dreftbsvUNU.c  :   $(basf)
+	$(extc) -o $@  rout=tbsvUNU      type=dble
+ATL_dreftpmvUNU.c  :   $(basf)
+	$(extc) -o $@  rout=tpmvUNU      type=dble
+ATL_dreftpsvUNU.c  :   $(basf)
+	$(extc) -o $@  rout=tpsvUNU      type=dble
+ATL_dreftrmvUNU.c  :   $(basf)
+	$(extc) -o $@  rout=trmvUNU      type=dble
+ATL_dreftrsvUNU.c  :   $(basf)
+	$(extc) -o $@  rout=trsvUNU      type=dble
+ATL_dreftbmvUTN.c  :   $(basf)
+	$(extc) -o $@  rout=tbmvUTN      type=dble
+ATL_dreftbsvUTN.c  :   $(basf)
+	$(extc) -o $@  rout=tbsvUTN      type=dble
+ATL_dreftpmvUTN.c  :   $(basf)
+	$(extc) -o $@  rout=tpmvUTN      type=dble
+ATL_dreftpsvUTN.c  :   $(basf)
+	$(extc) -o $@  rout=tpsvUTN      type=dble
+ATL_dreftrmvUTN.c  :   $(basf)
+	$(extc) -o $@  rout=trmvUTN      type=dble
+ATL_dreftrsvUTN.c  :   $(basf)
+	$(extc) -o $@  rout=trsvUTN      type=dble
+ATL_dreftbmvUTU.c  :   $(basf)
+	$(extc) -o $@  rout=tbmvUTU      type=dble
+ATL_dreftbsvUTU.c  :   $(basf)
+	$(extc) -o $@  rout=tbsvUTU      type=dble
+ATL_dreftpmvUTU.c  :   $(basf)
+	$(extc) -o $@  rout=tpmvUTU      type=dble
+ATL_dreftpsvUTU.c  :   $(basf)
+	$(extc) -o $@  rout=tpsvUTU      type=dble
+ATL_dreftrmvUTU.c  :   $(basf)
+	$(extc) -o $@  rout=trmvUTU      type=dble
+ATL_dreftrsvUTU.c  :   $(basf)
+	$(extc) -o $@  rout=trsvUTU      type=dble
+#
+ATL_creftbmvLNN.c  :   $(basf)
+	$(extc) -o $@  rout=tbmvLNN      type=cplx
+ATL_creftbsvLNN.c  :   $(basf)
+	$(extc) -o $@  rout=tbsvLNN      type=cplx
+ATL_creftpmvLNN.c  :   $(basf)
+	$(extc) -o $@  rout=tpmvLNN      type=cplx
+ATL_creftpsvLNN.c  :   $(basf)
+	$(extc) -o $@  rout=tpsvLNN      type=cplx
+ATL_creftrmvLNN.c  :   $(basf)
+	$(extc) -o $@  rout=trmvLNN      type=cplx
+ATL_creftrsvLNN.c  :   $(basf)
+	$(extc) -o $@  rout=trsvLNN      type=cplx
+ATL_creftbmvLNU.c  :   $(basf)
+	$(extc) -o $@  rout=tbmvLNU      type=cplx
+ATL_creftbsvLNU.c  :   $(basf)
+	$(extc) -o $@  rout=tbsvLNU      type=cplx
+ATL_creftpmvLNU.c  :   $(basf)
+	$(extc) -o $@  rout=tpmvLNU      type=cplx
+ATL_creftpsvLNU.c  :   $(basf)
+	$(extc) -o $@  rout=tpsvLNU      type=cplx
+ATL_creftrmvLNU.c  :   $(basf)
+	$(extc) -o $@  rout=trmvLNU      type=cplx
+ATL_creftrsvLNU.c  :   $(basf)
+	$(extc) -o $@  rout=trsvLNU      type=cplx
+ATL_creftbmvLCN.c  :   $(basf)
+	$(extc) -o $@  rout=tbmvLCN      type=cplx
+ATL_creftbsvLCN.c  :   $(basf)
+	$(extc) -o $@  rout=tbsvLCN      type=cplx
+ATL_creftpmvLCN.c  :   $(basf)
+	$(extc) -o $@  rout=tpmvLCN      type=cplx
+ATL_creftpsvLCN.c  :   $(basf)
+	$(extc) -o $@  rout=tpsvLCN      type=cplx
+ATL_creftrmvLCN.c  :   $(basf)
+	$(extc) -o $@  rout=trmvLCN      type=cplx
+ATL_creftrsvLCN.c  :   $(basf)
+	$(extc) -o $@  rout=trsvLCN      type=cplx
+ATL_creftbmvLCU.c  :   $(basf)
+	$(extc) -o $@  rout=tbmvLCU      type=cplx
+ATL_creftbsvLCU.c  :   $(basf)
+	$(extc) -o $@  rout=tbsvLCU      type=cplx
+ATL_creftpmvLCU.c  :   $(basf)
+	$(extc) -o $@  rout=tpmvLCU      type=cplx
+ATL_creftpsvLCU.c  :   $(basf)
+	$(extc) -o $@  rout=tpsvLCU      type=cplx
+ATL_creftrmvLCU.c  :   $(basf)
+	$(extc) -o $@  rout=trmvLCU      type=cplx
+ATL_creftrsvLCU.c  :   $(basf)
+	$(extc) -o $@  rout=trsvLCU      type=cplx
+ATL_creftbmvLTN.c  :   $(basf)
+	$(extc) -o $@  rout=tbmvLTN      type=cplx
+ATL_creftbsvLTN.c  :   $(basf)
+	$(extc) -o $@  rout=tbsvLTN      type=cplx
+ATL_creftpmvLTN.c  :   $(basf)
+	$(extc) -o $@  rout=tpmvLTN      type=cplx
+ATL_creftpsvLTN.c  :   $(basf)
+	$(extc) -o $@  rout=tpsvLTN      type=cplx
+ATL_creftrmvLTN.c  :   $(basf)
+	$(extc) -o $@  rout=trmvLTN      type=cplx
+ATL_creftrsvLTN.c  :   $(basf)
+	$(extc) -o $@  rout=trsvLTN      type=cplx
+ATL_creftbmvLTU.c  :   $(basf)
+	$(extc) -o $@  rout=tbmvLTU      type=cplx
+ATL_creftbsvLTU.c  :   $(basf)
+	$(extc) -o $@  rout=tbsvLTU      type=cplx
+ATL_creftpmvLTU.c  :   $(basf)
+	$(extc) -o $@  rout=tpmvLTU      type=cplx
+ATL_creftpsvLTU.c  :   $(basf)
+	$(extc) -o $@  rout=tpsvLTU      type=cplx
+ATL_creftrmvLTU.c  :   $(basf)
+	$(extc) -o $@  rout=trmvLTU      type=cplx
+ATL_creftrsvLTU.c  :   $(basf)
+	$(extc) -o $@  rout=trsvLTU      type=cplx
+ATL_creftbmvLHN.c  :   $(basf)
+	$(extc) -o $@  rout=tbmvLHN      type=cplx
+ATL_creftbsvLHN.c  :   $(basf)
+	$(extc) -o $@  rout=tbsvLHN      type=cplx
+ATL_creftpmvLHN.c  :   $(basf)
+	$(extc) -o $@  rout=tpmvLHN      type=cplx
+ATL_creftpsvLHN.c  :   $(basf)
+	$(extc) -o $@  rout=tpsvLHN      type=cplx
+ATL_creftrmvLHN.c  :   $(basf)
+	$(extc) -o $@  rout=trmvLHN      type=cplx
+ATL_creftrsvLHN.c  :   $(basf)
+	$(extc) -o $@  rout=trsvLHN      type=cplx
+ATL_creftbmvLHU.c  :   $(basf)
+	$(extc) -o $@  rout=tbmvLHU      type=cplx
+ATL_creftbsvLHU.c  :   $(basf)
+	$(extc) -o $@  rout=tbsvLHU      type=cplx
+ATL_creftpmvLHU.c  :   $(basf)
+	$(extc) -o $@  rout=tpmvLHU      type=cplx
+ATL_creftpsvLHU.c  :   $(basf)
+	$(extc) -o $@  rout=tpsvLHU      type=cplx
+ATL_creftrmvLHU.c  :   $(basf)
+	$(extc) -o $@  rout=trmvLHU      type=cplx
+ATL_creftrsvLHU.c  :   $(basf)
+	$(extc) -o $@  rout=trsvLHU      type=cplx
+ATL_creftbmvUNN.c  :   $(basf)
+	$(extc) -o $@  rout=tbmvUNN      type=cplx
+ATL_creftbsvUNN.c  :   $(basf)
+	$(extc) -o $@  rout=tbsvUNN      type=cplx
+ATL_creftpmvUNN.c  :   $(basf)
+	$(extc) -o $@  rout=tpmvUNN      type=cplx
+ATL_creftpsvUNN.c  :   $(basf)
+	$(extc) -o $@  rout=tpsvUNN      type=cplx
+ATL_creftrmvUNN.c  :   $(basf)
+	$(extc) -o $@  rout=trmvUNN      type=cplx
+ATL_creftrsvUNN.c  :   $(basf)
+	$(extc) -o $@  rout=trsvUNN      type=cplx
+ATL_creftbmvUNU.c  :   $(basf)
+	$(extc) -o $@  rout=tbmvUNU      type=cplx
+ATL_creftbsvUNU.c  :   $(basf)
+	$(extc) -o $@  rout=tbsvUNU      type=cplx
+ATL_creftpmvUNU.c  :   $(basf)
+	$(extc) -o $@  rout=tpmvUNU      type=cplx
+ATL_creftpsvUNU.c  :   $(basf)
+	$(extc) -o $@  rout=tpsvUNU      type=cplx
+ATL_creftrmvUNU.c  :   $(basf)
+	$(extc) -o $@  rout=trmvUNU      type=cplx
+ATL_creftrsvUNU.c  :   $(basf)
+	$(extc) -o $@  rout=trsvUNU      type=cplx
+ATL_creftbmvUCN.c  :   $(basf)
+	$(extc) -o $@  rout=tbmvUCN      type=cplx
+ATL_creftbsvUCN.c  :   $(basf)
+	$(extc) -o $@  rout=tbsvUCN      type=cplx
+ATL_creftpmvUCN.c  :   $(basf)
+	$(extc) -o $@  rout=tpmvUCN      type=cplx
+ATL_creftpsvUCN.c  :   $(basf)
+	$(extc) -o $@  rout=tpsvUCN      type=cplx
+ATL_creftrmvUCN.c  :   $(basf)
+	$(extc) -o $@  rout=trmvUCN      type=cplx
+ATL_creftrsvUCN.c  :   $(basf)
+	$(extc) -o $@  rout=trsvUCN      type=cplx
+ATL_creftbmvUCU.c  :   $(basf)
+	$(extc) -o $@  rout=tbmvUCU      type=cplx
+ATL_creftbsvUCU.c  :   $(basf)
+	$(extc) -o $@  rout=tbsvUCU      type=cplx
+ATL_creftpmvUCU.c  :   $(basf)
+	$(extc) -o $@  rout=tpmvUCU      type=cplx
+ATL_creftpsvUCU.c  :   $(basf)
+	$(extc) -o $@  rout=tpsvUCU      type=cplx
+ATL_creftrmvUCU.c  :   $(basf)
+	$(extc) -o $@  rout=trmvUCU      type=cplx
+ATL_creftrsvUCU.c  :   $(basf)
+	$(extc) -o $@  rout=trsvUCU      type=cplx
+ATL_creftbmvUTN.c  :   $(basf)
+	$(extc) -o $@  rout=tbmvUTN      type=cplx
+ATL_creftbsvUTN.c  :   $(basf)
+	$(extc) -o $@  rout=tbsvUTN      type=cplx
+ATL_creftpmvUTN.c  :   $(basf)
+	$(extc) -o $@  rout=tpmvUTN      type=cplx
+ATL_creftpsvUTN.c  :   $(basf)
+	$(extc) -o $@  rout=tpsvUTN      type=cplx
+ATL_creftrmvUTN.c  :   $(basf)
+	$(extc) -o $@  rout=trmvUTN      type=cplx
+ATL_creftrsvUTN.c  :   $(basf)
+	$(extc) -o $@  rout=trsvUTN      type=cplx
+ATL_creftbmvUTU.c  :   $(basf)
+	$(extc) -o $@  rout=tbmvUTU      type=cplx
+ATL_creftbsvUTU.c  :   $(basf)
+	$(extc) -o $@  rout=tbsvUTU      type=cplx
+ATL_creftpmvUTU.c  :   $(basf)
+	$(extc) -o $@  rout=tpmvUTU      type=cplx
+ATL_creftpsvUTU.c  :   $(basf)
+	$(extc) -o $@  rout=tpsvUTU      type=cplx
+ATL_creftrmvUTU.c  :   $(basf)
+	$(extc) -o $@  rout=trmvUTU      type=cplx
+ATL_creftrsvUTU.c  :   $(basf)
+	$(extc) -o $@  rout=trsvUTU      type=cplx
+ATL_creftbmvUHN.c  :   $(basf)
+	$(extc) -o $@  rout=tbmvUHN      type=cplx
+ATL_creftbsvUHN.c  :   $(basf)
+	$(extc) -o $@  rout=tbsvUHN      type=cplx
+ATL_creftpmvUHN.c  :   $(basf)
+	$(extc) -o $@  rout=tpmvUHN      type=cplx
+ATL_creftpsvUHN.c  :   $(basf)
+	$(extc) -o $@  rout=tpsvUHN      type=cplx
+ATL_creftrmvUHN.c  :   $(basf)
+	$(extc) -o $@  rout=trmvUHN      type=cplx
+ATL_creftrsvUHN.c  :   $(basf)
+	$(extc) -o $@  rout=trsvUHN      type=cplx
+ATL_creftbmvUHU.c  :   $(basf)
+	$(extc) -o $@  rout=tbmvUHU      type=cplx
+ATL_creftbsvUHU.c  :   $(basf)
+	$(extc) -o $@  rout=tbsvUHU      type=cplx
+ATL_creftpmvUHU.c  :   $(basf)
+	$(extc) -o $@  rout=tpmvUHU      type=cplx
+ATL_creftpsvUHU.c  :   $(basf)
+	$(extc) -o $@  rout=tpsvUHU      type=cplx
+ATL_creftrmvUHU.c  :   $(basf)
+	$(extc) -o $@  rout=trmvUHU      type=cplx
+ATL_creftrsvUHU.c  :   $(basf)
+	$(extc) -o $@  rout=trsvUHU      type=cplx
+#
+ATL_zreftbmvLNN.c  :   $(basf)
+	$(extc) -o $@  rout=tbmvLNN      type=zplx
+ATL_zreftbsvLNN.c  :   $(basf)
+	$(extc) -o $@  rout=tbsvLNN      type=zplx
+ATL_zreftpmvLNN.c  :   $(basf)
+	$(extc) -o $@  rout=tpmvLNN      type=zplx
+ATL_zreftpsvLNN.c  :   $(basf)
+	$(extc) -o $@  rout=tpsvLNN      type=zplx
+ATL_zreftrmvLNN.c  :   $(basf)
+	$(extc) -o $@  rout=trmvLNN      type=zplx
+ATL_zreftrsvLNN.c  :   $(basf)
+	$(extc) -o $@  rout=trsvLNN      type=zplx
+ATL_zreftbmvLNU.c  :   $(basf)
+	$(extc) -o $@  rout=tbmvLNU      type=zplx
+ATL_zreftbsvLNU.c  :   $(basf)
+	$(extc) -o $@  rout=tbsvLNU      type=zplx
+ATL_zreftpmvLNU.c  :   $(basf)
+	$(extc) -o $@  rout=tpmvLNU      type=zplx
+ATL_zreftpsvLNU.c  :   $(basf)
+	$(extc) -o $@  rout=tpsvLNU      type=zplx
+ATL_zreftrmvLNU.c  :   $(basf)
+	$(extc) -o $@  rout=trmvLNU      type=zplx
+ATL_zreftrsvLNU.c  :   $(basf)
+	$(extc) -o $@  rout=trsvLNU      type=zplx
+ATL_zreftbmvLCN.c  :   $(basf)
+	$(extc) -o $@  rout=tbmvLCN      type=zplx
+ATL_zreftbsvLCN.c  :   $(basf)
+	$(extc) -o $@  rout=tbsvLCN      type=zplx
+ATL_zreftpmvLCN.c  :   $(basf)
+	$(extc) -o $@  rout=tpmvLCN      type=zplx
+ATL_zreftpsvLCN.c  :   $(basf)
+	$(extc) -o $@  rout=tpsvLCN      type=zplx
+ATL_zreftrmvLCN.c  :   $(basf)
+	$(extc) -o $@  rout=trmvLCN      type=zplx
+ATL_zreftrsvLCN.c  :   $(basf)
+	$(extc) -o $@  rout=trsvLCN      type=zplx
+ATL_zreftbmvLCU.c  :   $(basf)
+	$(extc) -o $@  rout=tbmvLCU      type=zplx
+ATL_zreftbsvLCU.c  :   $(basf)
+	$(extc) -o $@  rout=tbsvLCU      type=zplx
+ATL_zreftpmvLCU.c  :   $(basf)
+	$(extc) -o $@  rout=tpmvLCU      type=zplx
+ATL_zreftpsvLCU.c  :   $(basf)
+	$(extc) -o $@  rout=tpsvLCU      type=zplx
+ATL_zreftrmvLCU.c  :   $(basf)
+	$(extc) -o $@  rout=trmvLCU      type=zplx
+ATL_zreftrsvLCU.c  :   $(basf)
+	$(extc) -o $@  rout=trsvLCU      type=zplx
+ATL_zreftbmvLTN.c  :   $(basf)
+	$(extc) -o $@  rout=tbmvLTN      type=zplx
+ATL_zreftbsvLTN.c  :   $(basf)
+	$(extc) -o $@  rout=tbsvLTN      type=zplx
+ATL_zreftpmvLTN.c  :   $(basf)
+	$(extc) -o $@  rout=tpmvLTN      type=zplx
+ATL_zreftpsvLTN.c  :   $(basf)
+	$(extc) -o $@  rout=tpsvLTN      type=zplx
+ATL_zreftrmvLTN.c  :   $(basf)
+	$(extc) -o $@  rout=trmvLTN      type=zplx
+ATL_zreftrsvLTN.c  :   $(basf)
+	$(extc) -o $@  rout=trsvLTN      type=zplx
+ATL_zreftbmvLTU.c  :   $(basf)
+	$(extc) -o $@  rout=tbmvLTU      type=zplx
+ATL_zreftbsvLTU.c  :   $(basf)
+	$(extc) -o $@  rout=tbsvLTU      type=zplx
+ATL_zreftpmvLTU.c  :   $(basf)
+	$(extc) -o $@  rout=tpmvLTU      type=zplx
+ATL_zreftpsvLTU.c  :   $(basf)
+	$(extc) -o $@  rout=tpsvLTU      type=zplx
+ATL_zreftrmvLTU.c  :   $(basf)
+	$(extc) -o $@  rout=trmvLTU      type=zplx
+ATL_zreftrsvLTU.c  :   $(basf)
+	$(extc) -o $@  rout=trsvLTU      type=zplx
+ATL_zreftbmvLHN.c  :   $(basf)
+	$(extc) -o $@  rout=tbmvLHN      type=zplx
+ATL_zreftbsvLHN.c  :   $(basf)
+	$(extc) -o $@  rout=tbsvLHN      type=zplx
+ATL_zreftpmvLHN.c  :   $(basf)
+	$(extc) -o $@  rout=tpmvLHN      type=zplx
+ATL_zreftpsvLHN.c  :   $(basf)
+	$(extc) -o $@  rout=tpsvLHN      type=zplx
+ATL_zreftrmvLHN.c  :   $(basf)
+	$(extc) -o $@  rout=trmvLHN      type=zplx
+ATL_zreftrsvLHN.c  :   $(basf)
+	$(extc) -o $@  rout=trsvLHN      type=zplx
+ATL_zreftbmvLHU.c  :   $(basf)
+	$(extc) -o $@  rout=tbmvLHU      type=zplx
+ATL_zreftbsvLHU.c  :   $(basf)
+	$(extc) -o $@  rout=tbsvLHU      type=zplx
+ATL_zreftpmvLHU.c  :   $(basf)
+	$(extc) -o $@  rout=tpmvLHU      type=zplx
+ATL_zreftpsvLHU.c  :   $(basf)
+	$(extc) -o $@  rout=tpsvLHU      type=zplx
+ATL_zreftrmvLHU.c  :   $(basf)
+	$(extc) -o $@  rout=trmvLHU      type=zplx
+ATL_zreftrsvLHU.c  :   $(basf)
+	$(extc) -o $@  rout=trsvLHU      type=zplx
+ATL_zreftbmvUNN.c  :   $(basf)
+	$(extc) -o $@  rout=tbmvUNN      type=zplx
+ATL_zreftbsvUNN.c  :   $(basf)
+	$(extc) -o $@  rout=tbsvUNN      type=zplx
+ATL_zreftpmvUNN.c  :   $(basf)
+	$(extc) -o $@  rout=tpmvUNN      type=zplx
+ATL_zreftpsvUNN.c  :   $(basf)
+	$(extc) -o $@  rout=tpsvUNN      type=zplx
+ATL_zreftrmvUNN.c  :   $(basf)
+	$(extc) -o $@  rout=trmvUNN      type=zplx
+ATL_zreftrsvUNN.c  :   $(basf)
+	$(extc) -o $@  rout=trsvUNN      type=zplx
+ATL_zreftbmvUNU.c  :   $(basf)
+	$(extc) -o $@  rout=tbmvUNU      type=zplx
+ATL_zreftbsvUNU.c  :   $(basf)
+	$(extc) -o $@  rout=tbsvUNU      type=zplx
+ATL_zreftpmvUNU.c  :   $(basf)
+	$(extc) -o $@  rout=tpmvUNU      type=zplx
+ATL_zreftpsvUNU.c  :   $(basf)
+	$(extc) -o $@  rout=tpsvUNU      type=zplx
+ATL_zreftrmvUNU.c  :   $(basf)
+	$(extc) -o $@  rout=trmvUNU      type=zplx
+ATL_zreftrsvUNU.c  :   $(basf)
+	$(extc) -o $@  rout=trsvUNU      type=zplx
+ATL_zreftbmvUCN.c  :   $(basf)
+	$(extc) -o $@  rout=tbmvUCN      type=zplx
+ATL_zreftbsvUCN.c  :   $(basf)
+	$(extc) -o $@  rout=tbsvUCN      type=zplx
+ATL_zreftpmvUCN.c  :   $(basf)
+	$(extc) -o $@  rout=tpmvUCN      type=zplx
+ATL_zreftpsvUCN.c  :   $(basf)
+	$(extc) -o $@  rout=tpsvUCN      type=zplx
+ATL_zreftrmvUCN.c  :   $(basf)
+	$(extc) -o $@  rout=trmvUCN      type=zplx
+ATL_zreftrsvUCN.c  :   $(basf)
+	$(extc) -o $@  rout=trsvUCN      type=zplx
+ATL_zreftbmvUCU.c  :   $(basf)
+	$(extc) -o $@  rout=tbmvUCU      type=zplx
+ATL_zreftbsvUCU.c  :   $(basf)
+	$(extc) -o $@  rout=tbsvUCU      type=zplx
+ATL_zreftpmvUCU.c  :   $(basf)
+	$(extc) -o $@  rout=tpmvUCU      type=zplx
+ATL_zreftpsvUCU.c  :   $(basf)
+	$(extc) -o $@  rout=tpsvUCU      type=zplx
+ATL_zreftrmvUCU.c  :   $(basf)
+	$(extc) -o $@  rout=trmvUCU      type=zplx
+ATL_zreftrsvUCU.c  :   $(basf)
+	$(extc) -o $@  rout=trsvUCU      type=zplx
+ATL_zreftbmvUTN.c  :   $(basf)
+	$(extc) -o $@  rout=tbmvUTN      type=zplx
+ATL_zreftbsvUTN.c  :   $(basf)
+	$(extc) -o $@  rout=tbsvUTN      type=zplx
+ATL_zreftpmvUTN.c  :   $(basf)
+	$(extc) -o $@  rout=tpmvUTN      type=zplx
+ATL_zreftpsvUTN.c  :   $(basf)
+	$(extc) -o $@  rout=tpsvUTN      type=zplx
+ATL_zreftrmvUTN.c  :   $(basf)
+	$(extc) -o $@  rout=trmvUTN      type=zplx
+ATL_zreftrsvUTN.c  :   $(basf)
+	$(extc) -o $@  rout=trsvUTN      type=zplx
+ATL_zreftbmvUTU.c  :   $(basf)
+	$(extc) -o $@  rout=tbmvUTU      type=zplx
+ATL_zreftbsvUTU.c  :   $(basf)
+	$(extc) -o $@  rout=tbsvUTU      type=zplx
+ATL_zreftpmvUTU.c  :   $(basf)
+	$(extc) -o $@  rout=tpmvUTU      type=zplx
+ATL_zreftpsvUTU.c  :   $(basf)
+	$(extc) -o $@  rout=tpsvUTU      type=zplx
+ATL_zreftrmvUTU.c  :   $(basf)
+	$(extc) -o $@  rout=trmvUTU      type=zplx
+ATL_zreftrsvUTU.c  :   $(basf)
+	$(extc) -o $@  rout=trsvUTU      type=zplx
+ATL_zreftbmvUHN.c  :   $(basf)
+	$(extc) -o $@  rout=tbmvUHN      type=zplx
+ATL_zreftbsvUHN.c  :   $(basf)
+	$(extc) -o $@  rout=tbsvUHN      type=zplx
+ATL_zreftpmvUHN.c  :   $(basf)
+	$(extc) -o $@  rout=tpmvUHN      type=zplx
+ATL_zreftpsvUHN.c  :   $(basf)
+	$(extc) -o $@  rout=tpsvUHN      type=zplx
+ATL_zreftrmvUHN.c  :   $(basf)
+	$(extc) -o $@  rout=trmvUHN      type=zplx
+ATL_zreftrsvUHN.c  :   $(basf)
+	$(extc) -o $@  rout=trsvUHN      type=zplx
+ATL_zreftbmvUHU.c  :   $(basf)
+	$(extc) -o $@  rout=tbmvUHU      type=zplx
+ATL_zreftbsvUHU.c  :   $(basf)
+	$(extc) -o $@  rout=tbsvUHU      type=zplx
+ATL_zreftpmvUHU.c  :   $(basf)
+	$(extc) -o $@  rout=tpmvUHU      type=zplx
+ATL_zreftpsvUHU.c  :   $(basf)
+	$(extc) -o $@  rout=tpsvUHU      type=zplx
+ATL_zreftrmvUHU.c  :   $(basf)
+	$(extc) -o $@  rout=trmvUHU      type=zplx
+ATL_zreftrsvUHU.c  :   $(basf)
+	$(extc) -o $@  rout=trsvUHU      type=zplx
+#
+############################################################################

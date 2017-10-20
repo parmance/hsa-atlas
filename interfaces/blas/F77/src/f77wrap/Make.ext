@@ -1,0 +1,160 @@
+
+topd = /home/linehill/work/math-atlas/AtlasBase
+ext  = /home/linehill/work/math-atlas/atlas-src/xextract
+extF = $(ext) -langF -lnlen71 -Remtblank -llwarn2 -LAPACK1 $(incs)
+ext9 = $(ext) -langF -lnlen132 -RemtBlank $(incs)
+extC = $(ext) -langC -lnlen79 -Remtblank -llwarn2 $(incs)
+extM = $(ext) -langM -lnlen79 -llwarn2 $(incs)
+incs = -def topd /home/linehill/work/math-atlas/AtlasBase \
+       -def incd /home/linehill/work/math-atlas/AtlasBase/Clint \
+       -def ext  /home/linehill/work/math-atlas/atlas-src/xextract \
+       -def BASEdir /home/linehill/work/math-atlas/AtlasBase/Antoine/ \
+       -def basd /home/linehill/work/math-atlas/AtlasBase/Clint
+
+default: all
+force_build:
+basd = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdRCW = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdAPP = /home/linehill/work/math-atlas/AtlasBase/Antoine
+basdSTU = /home/linehill/work/math-atlas/AtlasBase/Students
+incf = /home/linehill/work/math-atlas/AtlasBase/gen.inc
+
+basfn = $(basdAPP)/atlF77wrap.base
+basf1 = $(basdRCW)/cblas-lvl1.base
+
+files = ATL_F77wrap_amax.c ATL_F77wrap_asum.c ATL_F77wrap_axpy.c \
+        ATL_F77wrap_copy.c ATL_F77wrap_dot.c ATL_F77wrap_dotc.c \
+        ATL_F77wrap_dotu.c ATL_F77wrap_dsdot.c ATL_F77wrap_gbmv.c \
+        ATL_F77wrap_gemm.c ATL_F77wrap_gemv.c ATL_F77wrap_ger.c \
+        ATL_F77wrap_ger2.c ATL_F77wrap_ger2c.c ATL_F77wrap_ger2u.c \
+        ATL_F77wrap_gerc.c ATL_F77wrap_geru.c ATL_F77wrap_hbmv.c \
+        ATL_F77wrap_hemm.c ATL_F77wrap_hemv.c ATL_F77wrap_her.c \
+        ATL_F77wrap_her2.c ATL_F77wrap_her2k.c ATL_F77wrap_herk.c \
+        ATL_F77wrap_hpmv.c ATL_F77wrap_hpr.c ATL_F77wrap_hpr2.c \
+        ATL_F77wrap_nrm2.c ATL_F77wrap_rot.c ATL_F77wrap_rotg.c \
+        ATL_F77wrap_rotm.c ATL_F77wrap_rotmg.c ATL_F77wrap_rscal.c \
+        ATL_F77wrap_sbmv.c ATL_F77wrap_scal.c ATL_F77wrap_sdsdot.c \
+        ATL_F77wrap_spmv.c ATL_F77wrap_spr.c ATL_F77wrap_spr2.c \
+        ATL_F77wrap_swap.c ATL_F77wrap_symm.c ATL_F77wrap_symv.c \
+        ATL_F77wrap_syr.c ATL_F77wrap_syr2.c ATL_F77wrap_syr2k.c \
+        ATL_F77wrap_syrk.c ATL_F77wrap_tbmv.c ATL_F77wrap_tbsv.c \
+        ATL_F77wrap_tpmv.c ATL_F77wrap_tpsv.c ATL_F77wrap_trmm.c \
+        ATL_F77wrap_trmv.c ATL_F77wrap_trsm.c ATL_F77wrap_trsv.c \
+        fatlas_axpby.c fatlas_set.c
+
+all : $(files)
+
+ATL_f77wrap_ilaenv.c : $(basdRCW)/atlas-ilp.base $(incf)
+	$(extC) -b $(basdRCW)/atlas-ilp.base -o $@ rout=$*
+ATL_F77wrap_rotg.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* type=none
+ATL_F77wrap_rotmg.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* type=none
+ATL_F77wrap_nrm2.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* type=none
+ATL_F77wrap_asum.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* type=none
+ATL_F77wrap_scal.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* type=none
+ATL_F77wrap_rscal.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* type=none
+ATL_F77wrap_amax.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* type=none
+ATL_F77wrap_axpy.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* type=none
+ATL_F77wrap_copy.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* type=none
+ATL_F77wrap_swap.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* type=none
+ATL_F77wrap_rot.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* type=none
+ATL_F77wrap_rotm.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* type=none
+ATL_F77wrap_dot.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* type=none
+ATL_F77wrap_dotc.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* type=none
+ATL_F77wrap_dotu.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* type=none
+ATL_F77wrap_gbmv.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* type=none
+ATL_F77wrap_gemv.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* type=none
+ATL_F77wrap_ger.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* type=none
+ATL_F77wrap_ger2.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* type=none
+ATL_F77wrap_ger2c.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* type=none
+ATL_F77wrap_ger2u.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* type=none
+ATL_F77wrap_gerc.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* type=none
+ATL_F77wrap_geru.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* type=none
+ATL_F77wrap_hbmv.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* type=none
+ATL_F77wrap_hpmv.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* type=none
+ATL_F77wrap_hemv.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* type=none
+ATL_F77wrap_hpr.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* type=none
+ATL_F77wrap_her.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* type=none
+ATL_F77wrap_hpr2.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* type=none
+ATL_F77wrap_her2.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* type=none
+ATL_F77wrap_sbmv.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* type=none
+ATL_F77wrap_spmv.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* type=none
+ATL_F77wrap_symv.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* type=none
+ATL_F77wrap_spr.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* type=none
+ATL_F77wrap_syr.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* type=none
+ATL_F77wrap_spr2.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* type=none
+ATL_F77wrap_syr2.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* type=none
+ATL_F77wrap_tbmv.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* type=none
+ATL_F77wrap_tpmv.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* type=none
+ATL_F77wrap_trmv.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* type=none
+ATL_F77wrap_tbsv.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* type=none
+ATL_F77wrap_tpsv.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* type=none
+ATL_F77wrap_trsv.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* type=none
+ATL_F77wrap_gemm.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* type=none
+ATL_F77wrap_hemm.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* type=none
+ATL_F77wrap_herk.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* type=none
+ATL_F77wrap_her2k.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* type=none
+ATL_F77wrap_symm.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* type=none
+ATL_F77wrap_syrk.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* type=none
+ATL_F77wrap_syr2k.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* type=none
+ATL_F77wrap_trmm.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* type=none
+ATL_F77wrap_trsm.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* type=none
+ATL_F77wrap_dsdot.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* type=none
+ATL_F77wrap_sdsdot.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* type=none
+fatlas_set.c : $(basf1) $(incf)
+	$(extC) -b $(basf1) -o $@ rout=$* type=none
+fatlas_axpby.c : $(basf1) $(incf)
+	$(extC) -b $(basf1) -o $@ rout=$* type=none

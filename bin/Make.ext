@@ -1,0 +1,148 @@
+
+topd = /home/linehill/work/math-atlas/AtlasBase
+ext  = /home/linehill/work/math-atlas/atlas-src/xextract
+extF = $(ext) -langF -lnlen71 -Remtblank -llwarn2 -LAPACK1 $(incs)
+ext9 = $(ext) -langF -lnlen132 -RemtBlank $(incs)
+extC = $(ext) -langC -lnlen79 -Remtblank -llwarn2 $(incs)
+extM = $(ext) -langM -lnlen79 -llwarn2 $(incs)
+incs = -def topd /home/linehill/work/math-atlas/AtlasBase \
+       -def incd /home/linehill/work/math-atlas/AtlasBase/Clint \
+       -def ext  /home/linehill/work/math-atlas/atlas-src/xextract \
+       -def BASEdir /home/linehill/work/math-atlas/AtlasBase/Antoine/ \
+       -def basd /home/linehill/work/math-atlas/AtlasBase/Clint
+
+default: all
+force_build:
+basd = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdRCW = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdAPP = /home/linehill/work/math-atlas/AtlasBase/Antoine
+basdSTU = /home/linehill/work/math-atlas/AtlasBase/Students
+incf = /home/linehill/work/math-atlas/AtlasBase/gen.inc
+
+files = atlas_install.c atlas_tee.c atlas_waitfile.c ccobj.c dlamchtest.f \
+        dlp1000.f extract.c ftime00.c gemmtst.c gpmmtst.c invtst.c \
+        l1blastst.c l2blastst.c l2peak.sh l3blastst.c lanbtst.c latime.c \
+        llttst.c lutst.c ormtst.c print_buildinfo.c printblk.c qrtst.c \
+        second.c slamchtest.f slvtst.c stattime.c substr.c sum2csv.sh \
+        trtritst.c uumtst.c
+
+all : $(files)
+#
+# Clint's extractors
+#
+Make.ext : $(topd)/make.base
+	$(extM) -o Make.ext -b $(topd)/make.base rout=atlas/bin
+sgelstest.f90 : $(basdRCW)/atlas-fbin.base
+	$(ext9) -b $(basdRCW)/atlas-fbin.base -o $@ rout=gelstest type=SREAL
+sscltest.f90 : $(basdRCW)/atlas-fbin.base
+	$(ext9) -b $(basdRCW)/atlas-fbin.base -o $@ rout=scltest type=SREAL
+sger2test.f90 : $(basdRCW)/atlas-fbin.base
+	$(ext9) -b $(basdRCW)/atlas-fbin.base -o $@ rout=ger2test type=SREAL
+stranstest.f90 : $(basdRCW)/atlas-fbin.base
+	$(ext9) -b $(basdRCW)/atlas-fbin.base -o $@ rout=transtest type=SREAL
+sqrtranstest.f90 : $(basdRCW)/atlas-fbin.base
+	$(ext9) -b $(basdRCW)/atlas-fbin.base -o $@ rout=qrtranstest type=SREAL
+dgelstest.f90 : $(basdRCW)/atlas-fbin.base
+	$(ext9) -b $(basdRCW)/atlas-fbin.base -o $@ rout=gelstest type=DREAL
+dscltest.f90 : $(basdRCW)/atlas-fbin.base
+	$(ext9) -b $(basdRCW)/atlas-fbin.base -o $@ rout=scltest type=DREAL
+dger2test.f90 : $(basdRCW)/atlas-fbin.base
+	$(ext9) -b $(basdRCW)/atlas-fbin.base -o $@ rout=ger2test type=DREAL
+dtranstest.f90 : $(basdRCW)/atlas-fbin.base
+	$(ext9) -b $(basdRCW)/atlas-fbin.base -o $@ rout=transtest type=DREAL
+dqrtranstest.f90 : $(basdRCW)/atlas-fbin.base
+	$(ext9) -b $(basdRCW)/atlas-fbin.base -o $@ rout=qrtranstest type=DREAL
+cgelstest.f90 : $(basdRCW)/atlas-fbin.base
+	$(ext9) -b $(basdRCW)/atlas-fbin.base -o $@ rout=gelstest type=SCPLX
+cscltest.f90 : $(basdRCW)/atlas-fbin.base
+	$(ext9) -b $(basdRCW)/atlas-fbin.base -o $@ rout=scltest type=SCPLX
+cger2test.f90 : $(basdRCW)/atlas-fbin.base
+	$(ext9) -b $(basdRCW)/atlas-fbin.base -o $@ rout=ger2test type=SCPLX
+ctranstest.f90 : $(basdRCW)/atlas-fbin.base
+	$(ext9) -b $(basdRCW)/atlas-fbin.base -o $@ rout=transtest type=SCPLX
+cqrtranstest.f90 : $(basdRCW)/atlas-fbin.base
+	$(ext9) -b $(basdRCW)/atlas-fbin.base -o $@ rout=qrtranstest type=SCPLX
+zgelstest.f90 : $(basdRCW)/atlas-fbin.base
+	$(ext9) -b $(basdRCW)/atlas-fbin.base -o $@ rout=gelstest type=DCPLX
+zscltest.f90 : $(basdRCW)/atlas-fbin.base
+	$(ext9) -b $(basdRCW)/atlas-fbin.base -o $@ rout=scltest type=DCPLX
+zger2test.f90 : $(basdRCW)/atlas-fbin.base
+	$(ext9) -b $(basdRCW)/atlas-fbin.base -o $@ rout=ger2test type=DCPLX
+ztranstest.f90 : $(basdRCW)/atlas-fbin.base
+	$(ext9) -b $(basdRCW)/atlas-fbin.base -o $@ rout=transtest type=DCPLX
+zqrtranstest.f90 : $(basdRCW)/atlas-fbin.base
+	$(ext9) -b $(basdRCW)/atlas-fbin.base -o $@ rout=qrtranstest type=DCPLX
+slamchtest.f : $(basdRCW)/atlas-fbin.base
+	$(extF) -b $(basdRCW)/atlas-fbin.base -o $@ rout=lamchtest type=SREAL
+dlamchtest.f : $(basdRCW)/atlas-fbin.base
+	$(extF) -b $(basdRCW)/atlas-fbin.base -o $@ rout=lamchtest type=DREAL
+sum2csv.sh : $(basdRCW)/script.base
+	$(extC) -b $(basdRCW)/script.base -o $@ rout=sum2csv.sh
+	chmod a+x sum2csv.sh
+l2peak.sh : $(basdRCW)/script.base
+	$(extC) -b $(basdRCW)/script.base -o $@ rout=l2peak.sh
+	chmod a+x l2peak.sh
+extract.c : $(topd)/../extract.c
+	cp $(topd)/../extract.c .
+atl2vec.c : $(basdRCW)/script.base
+	$(extC) -b $(basdRCW)/script.base -o $@ rout=$*
+stattime.c : $(basdRCW)/script.base
+	$(extC) -b $(basdRCW)/script.base -o $@ rout=$*
+gpmmtst.c : $(basdRCW)/atlas-pck.base
+	$(extC) -b $(basdRCW)/atlas-pck.base -o $@ rout=$*
+dlp1000.f : $(basdRCW)/atlas.base
+	$(extF) -b $(basdRCW)/atlas.base -o $@ rout=$*
+ccobj.c : $(basdRCW)/script.base $(incf)
+	$(extC) -b $(basdRCW)/script.base -o $@ rout=$*
+substr.c : $(basdRCW)/script.base $(incf)
+	$(extC) -b $(basdRCW)/script.base -o $@ rout=$*
+print_buildinfo.c : $(basdRCW)/atlas.base $(incf)
+	$(extC) -b $(basdRCW)/atlas.base -o $@ rout=$*
+ftime00.c : $(basdRCW)/atlas.base $(incf)
+	$(extC) -b $(basdRCW)/atlas.base -o $@ rout=$*
+second.c : $(basdRCW)/atlas.base $(incf)
+	$(extC) -b $(basdRCW)/atlas.base -o $@ rout=$*
+atlas_waitfile.c : $(basdRCW)/atlas.base $(incf)
+	$(extC) -b $(basdRCW)/atlas.base -o $@ rout=$*
+printblk.c : $(basdRCW)/atlas.base $(incf)
+	$(extC) -b $(basdRCW)/atlas.base -o $@ rout=$*
+atlas_tee.c : $(basdRCW)/atlas.base $(incf)
+	$(extC) -b $(basdRCW)/atlas.base -o $@ rout=$*
+atlas_install.c : $(basdRCW)/atlas.base $(incf)
+	$(extC) -b $(basdRCW)/atlas.base -o $@ rout=$*
+gemmtst.c : $(basdRCW)/atlas.base $(incf)
+	$(extC) -b $(basdRCW)/atlas.base -o $@ rout=$*
+lanbtst.c : $(basdRCW)/atlas-tlp.base $(incf)
+	$(extC) -b $(basdRCW)/atlas-tlp.base -o $@ rout=$*
+invtst.c : $(basdRCW)/atlas-tlp.base $(incf)
+	$(extC) -b $(basdRCW)/atlas-tlp.base -o $@ rout=$*
+trtritst.c : $(basdRCW)/atlas-tlp.base $(incf)
+	$(extC) -b $(basdRCW)/atlas-tlp.base -o $@ rout=$*
+slvtst.c : $(basdRCW)/atlas-tlp.base $(incf)
+	$(extC) -b $(basdRCW)/atlas-tlp.base -o $@ rout=$*
+lutst.c : $(basdRCW)/atlas-tlp.base $(incf)
+	$(extC) -b $(basdRCW)/atlas-tlp.base -o $@ rout=$*
+llttst.c : $(basdRCW)/atlas-tlp.base $(incf)
+	$(extC) -b $(basdRCW)/atlas-tlp.base -o $@ rout=$*
+uumtst.c : $(basdRCW)/atlas-tlp.base $(incf)
+	$(extC) -b $(basdRCW)/atlas-tlp.base -o $@ rout=$*
+lanbsrch.c : $(basdRCW)/atlas-tlp.base $(incf)
+	$(extC) -b $(basdRCW)/atlas-tlp.base -o $@ rout=$*
+latime.c : $(basdRCW)/atlas-tlp.base $(incf)
+	$(extC) -b $(basdRCW)/atlas-tlp.base -o $@ rout=$*
+#
+# Antoine's extractors
+#
+l3blastst.c : $(basdAPP)/atlbinblas.base $(incf)
+	$(extC) -b $(basdAPP)/atlbinblas.base -o $@ rout=$* type=none
+l2blastst.c : $(basdAPP)/atlbinblas.base $(incf)
+	$(extC) -b $(basdAPP)/atlbinblas.base -o $@ rout=$* type=none
+l1blastst.c : $(basdAPP)/atlbinblas.base $(incf)
+	$(extC) -b $(basdAPP)/atlbinblas.base -o $@ rout=$* type=none
+#
+# Student extractors
+#
+ormtst.c : $(basdSTU)/qr.base $(incf)
+	$(extC) -b $(basdSTU)/qr.base -o $@ rout=$*
+qrtst.c : $(basdSTU)/qr.base $(incf)
+	$(extC) -b $(basdSTU)/qr.base -o $@ rout=$*

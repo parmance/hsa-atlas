@@ -1,0 +1,152 @@
+
+topd = /home/linehill/work/math-atlas/AtlasBase
+ext  = /home/linehill/work/math-atlas/atlas-src/xextract
+extF = $(ext) -langF -lnlen71 -Remtblank -llwarn2 -LAPACK1 $(incs)
+ext9 = $(ext) -langF -lnlen132 -RemtBlank $(incs)
+extC = $(ext) -langC -lnlen79 -Remtblank -llwarn2 $(incs)
+extM = $(ext) -langM -lnlen79 -llwarn2 $(incs)
+incs = -def topd /home/linehill/work/math-atlas/AtlasBase \
+       -def incd /home/linehill/work/math-atlas/AtlasBase/Clint \
+       -def ext  /home/linehill/work/math-atlas/atlas-src/xextract \
+       -def BASEdir /home/linehill/work/math-atlas/AtlasBase/Antoine/ \
+       -def basd /home/linehill/work/math-atlas/AtlasBase/Clint
+
+default: all
+force_build:
+basd = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdRCW = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdAPP = /home/linehill/work/math-atlas/AtlasBase/Antoine
+basdSTU = /home/linehill/work/math-atlas/AtlasBase/Students
+incf = /home/linehill/work/math-atlas/AtlasBase/gen.inc
+
+basfn = $(basdRCW)/atlas-lp.base
+basfnqr = $(basdSTU)/qr.base
+
+files = ATL_gelq2.c ATL_gelqf.c ATL_gelqr.c ATL_gels.c ATL_geql2.c \
+        ATL_geqlf.c ATL_geqlr.c ATL_geqr2.c ATL_geqrf.c ATL_geqrr.c \
+        ATL_gerq2.c ATL_gerqf.c ATL_gerqr.c ATL_getf2.c ATL_getrf.c \
+        ATL_getrf4.c ATL_getrfC.c ATL_getrfR.c ATL_getri.c ATL_getriC.c \
+        ATL_getriR.c ATL_getrs.c ATL_ilaenv.c ATL_lacgv.c ATL_ladiv.c \
+        ATL_lamch.c ATL_lapy2.c ATL_lapy3.c ATL_larf.c ATL_larfb.c \
+        ATL_larfg.c ATL_larfgp.c ATL_larft.c ATL_lascl.c ATL_laswp.c \
+        ATL_lauum.c ATL_lauumL.c ATL_lauumU.c ATL_ormlq.c ATL_ormql.c \
+        ATL_ormqr.c ATL_ormrq.c ATL_potrf.c ATL_potrfL.c ATL_potrfRL.c \
+        ATL_potrfRU.c ATL_potrfU.c ATL_potrs.c ATL_trtri.c ATL_trtriCL.c \
+        ATL_trtriCU.c ATL_trtriRL.c ATL_trtriRU.c ATL_trtrs.c
+
+all : $(files)
+kill :
+	rm -f $(files)
+
+ATL_laswp.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_getrf.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_getrs.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_getrfC.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_getrfR.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_potrf.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_potrs.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_potrfU.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_potrfL.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_potrfRU.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_potrfRL.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_lauum.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_lauumU.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_lauumL.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_getri.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_getriR.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_getriC.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_getf2.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_getrf4.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_trtri.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_trtriCU.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_trtriCL.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_trtriRU.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_trtriRL.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_ilaenv.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_lamch.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_lascl.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_gels.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_trtrs.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_geqr2.c : $(basfnqr) $(incf)
+	$(extC) -b $(basfnqr) -o $@ rout=$*
+ATL_geqrf.c : $(basfnqr) $(incf)
+	$(extC) -b $(basfnqr) -o $@ rout=$*
+ATL_geqrr.c : $(basfnqr) $(incf)
+	$(extC) -b $(basfnqr) -o $@ rout=$*
+ATL_gerq2.c : $(basfnqr) $(incf)
+	$(extC) -b $(basfnqr) -o $@ rout=$*
+ATL_gerqf.c : $(basfnqr) $(incf)
+	$(extC) -b $(basfnqr) -o $@ rout=$*
+ATL_gerqr.c : $(basfnqr) $(incf)
+	$(extC) -b $(basfnqr) -o $@ rout=$*
+ATL_geql2.c : $(basfnqr) $(incf)
+	$(extC) -b $(basfnqr) -o $@ rout=$*
+ATL_geqlf.c : $(basfnqr) $(incf)
+	$(extC) -b $(basfnqr) -o $@ rout=$*
+ATL_geqlr.c : $(basfnqr) $(incf)
+	$(extC) -b $(basfnqr) -o $@ rout=$*
+ATL_gelq2.c : $(basfnqr) $(incf)
+	$(extC) -b $(basfnqr) -o $@ rout=$*
+ATL_gelqf.c : $(basfnqr) $(incf)
+	$(extC) -b $(basfnqr) -o $@ rout=$*
+ATL_gelqr.c : $(basfnqr) $(incf)
+	$(extC) -b $(basfnqr) -o $@ rout=$*
+ATL_lapy2.c : $(basfnqr) $(incf)
+	$(extC) -b $(basfnqr) -o $@ rout=$*
+ATL_larfb.c : $(basfnqr) $(incf)
+	$(extC) -b $(basfnqr) -o $@ rout=$*
+ATL_larf.c : $(basfnqr) $(incf)
+	$(extC) -b $(basfnqr) -o $@ rout=$*
+ATL_larfg.c : $(basfnqr) $(incf)
+	$(extC) -b $(basfnqr) -o $@ rout=$*
+ATL_larft.c : $(basfnqr) $(incf)
+	$(extC) -b $(basfnqr) -o $@ rout=$*
+ATL_ladiv.c : $(basfnqr) $(incf)
+	$(extC) -b $(basfnqr) -o $@ rout=$*
+ATL_lacgv.c : $(basfnqr) $(incf)
+	$(extC) -b $(basfnqr) -o $@ rout=$*
+ATL_lapy3.c : $(basfnqr) $(incf)
+	$(extC) -b $(basfnqr) -o $@ rout=$*
+ATL_larfgp.c : $(basfnqr) $(incf)
+	$(extC) -b $(basfnqr) -o $@ rout=$*
+ATL_ormqr.c : $(basfnqr) $(incf)
+	$(extC) -b $(basfnqr) -o $@ rout=$*
+ATL_ormrq.c : $(basfnqr) $(incf)
+	$(extC) -b $(basfnqr) -o $@ rout=$*
+ATL_ormql.c : $(basfnqr) $(incf)
+	$(extC) -b $(basfnqr) -o $@ rout=$*
+ATL_ormlq.c : $(basfnqr) $(incf)
+	$(extC) -b $(basfnqr) -o $@ rout=$*
+
+Make.ext : $(topd)/make.base
+	$(extM) -b $(topd)/make.base -o Make.ext rout=atlas/src/lapack
+

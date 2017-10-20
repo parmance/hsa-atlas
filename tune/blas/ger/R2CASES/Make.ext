@@ -1,0 +1,74 @@
+
+topd = /home/linehill/work/math-atlas/AtlasBase
+ext  = /home/linehill/work/math-atlas/atlas-src/xextract
+extF = $(ext) -langF -lnlen71 -Remtblank -llwarn2 -LAPACK1 $(incs)
+ext9 = $(ext) -langF -lnlen132 -RemtBlank $(incs)
+extC = $(ext) -langC -lnlen79 -Remtblank -llwarn2 $(incs)
+extM = $(ext) -langM -lnlen79 -llwarn2 $(incs)
+incs = -def topd /home/linehill/work/math-atlas/AtlasBase \
+       -def incd /home/linehill/work/math-atlas/AtlasBase/Clint \
+       -def ext  /home/linehill/work/math-atlas/atlas-src/xextract \
+       -def BASEdir /home/linehill/work/math-atlas/AtlasBase/Antoine/ \
+       -def basd /home/linehill/work/math-atlas/AtlasBase/Clint
+
+default: all
+force_build:
+basd = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdRCW = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdAPP = /home/linehill/work/math-atlas/AtlasBase/Antoine
+basdSTU = /home/linehill/work/math-atlas/AtlasBase/Students
+incf = /home/linehill/work/math-atlas/AtlasBase/gen.inc
+
+basfn = $(basdRCW)/atlas-lvl2.base
+bascm = /home/linehill/work/math-atlas/AtlasBase/kernel/CammMaguire/camm.base
+files = ATL_cger2k_1x1_1.c ATL_dger2k_2x2_sse3.c ATL_ger2k_1x1_1.c \
+        ATL_sger2K_NEON.S ATL_sger2K_NEON_lda4.S ATL_zger2k_2x1_sse3.c \
+        ATL_zger2k_rk2_avx.c ATL_zger2k_rk2_sse3.c cr2cases.idx dr2cases.idx \
+        sr2cases.idx zr2cases.idx
+
+all : $(files)
+kill : 
+	rm -f $(files)
+
+ATL_sger2K_NEON_lda4.S : /home/linehill/work/math-atlas/AtlasBase/kernel/external/extern.base /home/linehill/work/math-atlas/AtlasBase/kernel/external/ATL_sger2K_NEON_lda4.S
+	$(extC) -b /home/linehill/work/math-atlas/AtlasBase/kernel/external/extern.base -o $@ rout=$@ \
+                -def rout $@
+ATL_sger2K_NEON.S : /home/linehill/work/math-atlas/AtlasBase/kernel/external/extern.base /home/linehill/work/math-atlas/AtlasBase/kernel/external/ATL_sger2K_NEON.S
+	$(extC) -b /home/linehill/work/math-atlas/AtlasBase/kernel/external/extern.base -o $@ rout=$@ \
+                -def rout $@
+ATL_gerk_vx4_vsx.c : $(topd)/kernel/external/ATL_gerk_vx4_vsx.c
+	cp -f $(topd)/kernel/external/ATL_gerk_vx4_vsx.c .
+
+Make.ext : $(topd)/make.base
+	$(extM) -b $(topd)/make.base -o $@ rout=atlas/tune/blas/ger/r2cases
+ATL_cger2k_1x1_1.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=$* mu=0 nu=0
+ATL_ger2k_1x1_1.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=$* mu=0 nu=0
+ATL_dger2k_2x2_sse3.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=$* mu=0 nu=0
+ATL_zger2k_2x1_sse3.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=$* mu=0 nu=0
+ATL_zger2k_rk2_sse3.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=$* mu=0 nu=0
+ATL_zger2k_rk2_avx.c : $(basdRCW)/atlas-l2k.base
+	$(extC) -b $(basdRCW)/atlas-l2k.base -o $@ rout=$* mu=0 nu=0
+sr2cases.idx: $(basfn)
+	$(extC) -b $(basfn) -o $@ rout=sr2cases.idx
+scases.dsc: $(basfn)
+	$(extC) -b $(basfn) -o $@ rout=r1scases.dsc
+dr2cases.idx: $(basfn)
+	$(extC) -b $(basfn) -o $@ rout=dr2cases.idx
+dcases.dsc: $(basfn)
+	$(extC) -b $(basfn) -o $@ rout=r1dcases.dsc
+cr2cases.idx: $(basfn)
+	$(extC) -b $(basfn) -o $@ rout=cr2cases.idx
+ccases.dsc: $(basfn)
+	$(extC) -b $(basfn) -o $@ rout=r1ccases.dsc
+zr2cases.idx: $(basfn)
+	$(extC) -b $(basfn) -o $@ rout=zr2cases.idx
+zcases.dsc: $(basfn)
+	$(extC) -b $(basfn) -o $@ rout=r1zcases.dsc
+
+ATL_ger1_SSE.c : $(bascm) $(incf)
+	$(extC) -b $(bascm) -o $@ rout=$* -def rout $*

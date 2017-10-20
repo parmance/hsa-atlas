@@ -1,0 +1,212 @@
+
+topd = /home/linehill/work/math-atlas/AtlasBase
+ext  = /home/linehill/work/math-atlas/atlas-src/xextract
+extF = $(ext) -langF -lnlen71 -Remtblank -llwarn2 -LAPACK1 $(incs)
+ext9 = $(ext) -langF -lnlen132 -RemtBlank $(incs)
+extC = $(ext) -langC -lnlen79 -Remtblank -llwarn2 $(incs)
+extM = $(ext) -langM -lnlen79 -llwarn2 $(incs)
+incs = -def topd /home/linehill/work/math-atlas/AtlasBase \
+       -def incd /home/linehill/work/math-atlas/AtlasBase/Clint \
+       -def ext  /home/linehill/work/math-atlas/atlas-src/xextract \
+       -def BASEdir /home/linehill/work/math-atlas/AtlasBase/Antoine/ \
+       -def basd /home/linehill/work/math-atlas/AtlasBase/Clint
+
+default: all
+force_build:
+basd = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdRCW = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdAPP = /home/linehill/work/math-atlas/AtlasBase/Antoine
+basdSTU = /home/linehill/work/math-atlas/AtlasBase/Students
+incf = /home/linehill/work/math-atlas/AtlasBase/gen.inc
+
+files = C_lapack.h atlas_C2Flapack.h atlas_altivec.h atlas_asm.h atlas_aux.h \
+        atlas_cblascalias.h atlas_cblasdalias.h atlas_cblassalias.h \
+        atlas_cblastypealias.h atlas_cblaszalias.h atlas_cplxsimd.h \
+        atlas_enum.h atlas_f77.h atlas_f77blas.h atlas_f77wrap.h \
+        atlas_fopen.h atlas_genparse.h atlas_gentesttime.h atlas_kern3.h \
+        atlas_kernel2.h atlas_kernel3.h atlas_lamch.h atlas_lapack.h \
+        atlas_level1.h atlas_level2.h atlas_level3.h atlas_lvl2.h \
+        atlas_lvl3.h atlas_misc.h atlas_mmparse.h atlas_mmtesttime.h \
+        atlas_mv.h atlas_mvparse.h atlas_mvtesttime.h atlas_pca.h \
+        atlas_pkblas.h atlas_prefetch.h atlas_ptalias1.h atlas_ptalias2.h \
+        atlas_ptalias3.h atlas_ptalias_lapack.h atlas_ptlevel3.h \
+        atlas_ptlvl3.h atlas_ptmisc.h atlas_qrrmeth.h atlas_r1.h \
+        atlas_r1parse.h atlas_r1testtime.h atlas_r2.h atlas_r2testtime.h \
+        atlas_rblas3.h atlas_refalias1.h atlas_refalias2.h atlas_refalias3.h \
+        atlas_reflevel1.h atlas_reflevel2.h atlas_reflevel3.h atlas_reflvl2.h \
+        atlas_reflvl3.h atlas_refmisc.h atlas_simd.h atlas_sys.h \
+        atlas_threads.h atlas_tlapack.h atlas_tlevel3.h atlas_tlvl2.h \
+        atlas_tlvl3.h atlas_tst.h atlas_tvec.h cblas.h cblas_test.h clapack.h \
+        f77wrap_lapack.h
+
+all : $(files)
+
+atlas_genparse.h : $(basdRCW)/atlas-parse.base
+	$(extC) -b $(basdRCW)/atlas-parse.base -o $@ rout=genparse
+atlas_mmparse.h : $(basdRCW)/atlas-parse.base
+	$(extC) -b $(basdRCW)/atlas-parse.base -o $@ rout=mmread
+atlas_r1parse.h : $(basdRCW)/atlas-parse.base
+	$(extC) -b $(basdRCW)/atlas-parse.base -o $@ rout=r1read
+atlas_mvparse.h : $(basdRCW)/atlas-parse.base
+	$(extC) -b $(basdRCW)/atlas-parse.base -o $@ rout=mvread
+atlas_qrrmeth.h : /home/linehill/work/math-atlas/AtlasBase/Students/qr.base
+	$(extC) -b /home/linehill/work/math-atlas/AtlasBase/Students/qr.base -o $@ rout=$@
+atlas_tvec.h : $(basdRCW)/atlas-parse.base
+	$(extC) -b $(basdRCW)/atlas-parse.base -o $@ rout=$@
+atlas_service.h : $(basdRCW)/atlas-parse.base
+	$(extC) -b $(basdRCW)/atlas-parse.base -o $@ rout=$@
+atlas_cplxsimd.h : $(basdRCW)/simd.base
+	$(extC) -b $(basdRCW)/simd.base -o $@ rout=$@
+atlas_simd.h : $(basdRCW)/simd.base
+	$(extC) -b $(basdRCW)/simd.base -o $@ rout=$@
+atlas_pca.h : $(basdRCW)/atlas-thr.base
+	$(extC) -b $(basdRCW)/atlas-thr.base -o $@ rout=$@
+atlas_tlapack.h : $(basdRCW)/atlas-thr.base
+	$(extC) -b $(basdRCW)/atlas-thr.base -o $@ rout=$@
+atlas_mvtesttime.h : $(basdRCW)/atlas-parse.base
+	$(extC) -b $(basdRCW)/atlas-parse.base -o $@ rout=$@
+atlas_gentesttime.h : $(basdRCW)/atlas-parse.base
+	$(extC) -b $(basdRCW)/atlas-parse.base -o $@ rout=$@
+atlas_mmtesttime.h : $(basdRCW)/atlas-parse.base
+	$(extC) -b $(basdRCW)/atlas-parse.base -o $@ rout=$@
+atlas_r2testtime.h : $(basdRCW)/atlas-parse.base
+	$(extC) -b $(basdRCW)/atlas-parse.base -o $@ rout=$@
+atlas_r1testtime.h : $(basdRCW)/atlas-parse.base
+	$(extC) -b $(basdRCW)/atlas-parse.base -o $@ rout=$@
+atlas_tlvl2.h : $(basdRCW)/atlas-tl2.base
+	$(extC) -b $(basdRCW)/atlas-tl2.base -o $@ rout=$@
+atlas_sys.h : $(basdRCW)/atlconf.base
+	$(extC) -b $(basdRCW)/atlconf.base -o $@ rout=$@
+atlas_tlevel3.h : $(basdRCW)/atlas-thr.base
+	$(extC) -b $(basdRCW)/atlas-thr.base -o $@ rout=$@
+atlas_tlvl3.h : $(basdRCW)/atlas-thr.base
+	$(extC) -b $(basdRCW)/atlas-thr.base -o $@ rout=$@
+atlas_threads.h : $(basdRCW)/atlas-thr.base
+	$(extC) -b $(basdRCW)/atlas-thr.base -o $@ rout=$@
+atlas_omplvl3.h : $(basdSTU)/atlas-omp.base
+	$(extC) -b $(basdSTU)/atlas-omp.base -o $@ rout=$@
+atlas_pkblas.h : $(basdRCW)/atlas-pck.base
+	$(extC) -b $(basdRCW)/atlas-pck.base -o $@ rout=$@
+cblas_test.h : $(basdRCW)/misc/CBLATST/cblas_test.h
+	cp $(basdRCW)/misc/CBLATST/cblas_test.h .
+atlas_ptalias_lapack.h: $(basdRCW)/atlas-lp.base
+	$(extC) -b $(basdRCW)/atlas-lp.base -o $@ rout=$@
+atlas_cblassalias.h : $(basdRCW)/tlblas.inc
+	$(extC) -b $(basdRCW)/tlblas.inc -o $@ pre=s
+atlas_cblasdalias.h : $(basdRCW)/tlblas.inc
+	$(extC) -b $(basdRCW)/tlblas.inc -o $@ pre=d
+atlas_cblascalias.h : $(basdRCW)/tlblas.inc
+	$(extC) -b $(basdRCW)/tlblas.inc -o $@ pre=c
+atlas_cblaszalias.h : $(basdRCW)/tlblas.inc
+	$(extC) -b $(basdRCW)/tlblas.inc -o $@ pre=z
+atlas_cblastypealias.h : $(basdRCW)/atlas.base
+	$(extC) -b $(basdRCW)/atlas.base -o $@ rout=$@
+atlas_refalias1.h : $(basdRCW)/gblas.inc $(incf)
+	$(extC) -b $(basdRCW)/gblas.inc -o $@ rout=refblas lvl=1
+atlas_ptalias1.h : $(basdRCW)/gblas.inc $(incf)
+	$(extC) -b $(basdRCW)/gblas.inc -o $@ rout=ptblas lvl=1
+atlas_refalias2.h : $(basdRCW)/gblas.inc $(incf)
+	$(extC) -b $(basdRCW)/gblas.inc -o $@ rout=refblas lvl=2
+atlas_ptalias2.h : $(basdRCW)/gblas.inc $(incf)
+	$(extC) -b $(basdRCW)/gblas.inc -o $@ rout=ptblas lvl=2
+atlas_refalias3.h : $(basdRCW)/gblas.inc $(incf)
+	$(extC) -b $(basdRCW)/gblas.inc -o $@ rout=refblas lvl=3
+atlas_ptalias3.h : $(basdRCW)/gblas.inc $(incf)
+	$(extC) -b $(basdRCW)/gblas.inc -o $@ rout=ptblas lvl=3
+atlas_asm.h : $(basdRCW)/atlconf.base
+	$(extC) -b $(basdRCW)/atlconf.base -o atlas_asm.h rout=atlas_asm.h
+#
+# Extractors for Clint's files
+#
+atlas_lamch.h : $(basdRCW)/atlas-lp.base $(incf)
+	$(extC) -b $(basdRCW)/atlas-lp.base -o $@ rout=$@
+C_lapack.h : $(basdRCW)/atlas-c2flp.base $(incf)
+	$(extC) -b $(basdRCW)/atlas-c2flp.base -o $@ rout=$@
+atlas_C2Flapack.h : $(basdRCW)/atlas-c2flp.base $(incf)
+	$(extC) -b $(basdRCW)/atlas-c2flp.base -o $@ rout=$@
+atlas_altivec.h : $(basdRCW)/atlas-tl1.base $(incf)
+	$(extC) -b $(basdRCW)/atlas-tl1.base -o $@ rout=$@
+atlas_prefetch.h : $(basdRCW)/atlas-tl1.base $(incf)
+	$(extC) -b $(basdRCW)/atlas-tl1.base -o $@ rout=$@
+cblas.h : $(basdRCW)/atlas.base $(incf)
+	$(extC) -b $(basdRCW)/atlas.base -o $@ rout=$@
+f77wrap_lapack.h : $(basdRCW)/atlas-ilp.base $(incf)
+	$(extC) -b $(basdRCW)/atlas-ilp.base -o $@ rout=$@
+atlas_aux.h : $(basdRCW)/atlas-haux.base $(incf)
+	$(extC) -b $(basdRCW)/atlas-haux.base -o $@ rout=$@
+atlas_level1.h : $(basdRCW)/atlas-lvl1.base $(incf)
+	$(extC) -b $(basdRCW)/atlas-lvl1.base -o $@ rout=$@
+atlas_tst.h : $(basdRCW)/atlas-tst.base $(incf)
+	$(extC) -b $(basdRCW)/atlas-tst.base -o $@ rout=$@
+atlas_f77blas.h : $(basdRCW)/atlas-tst.base $(incf)
+	$(extC) -b $(basdRCW)/atlas-tst.base -o $@ rout=$@
+atlas_lapack.h : $(basdRCW)/atlas-lp.base $(incf)
+	$(extC) -b $(basdRCW)/atlas-lp.base -o $@ rout=$@
+clapack.h : $(basdRCW)/atlas-clp.base $(incf)
+	$(extC) -b $(basdRCW)/atlas-clp.base -o $@ rout=$@
+atlas_kernel3.h : $(basdRCW)/atlas-hkern3.base $(incf)
+	$(extC) -b $(basdRCW)/atlas-hkern3.base -o $@ rout=$@
+atlas_kern3.h : $(basdRCW)/atlas-hkern3.base $(incf)
+	$(extC) -b $(basdRCW)/atlas-hkern3.base -o $@ rout=$@
+
+atlas_fopen.h : $(basdRCW)/atlas.base $(incf)
+	$(extC) -b $(basdRCW)/atlas.base -o $@ rout=$@
+atlas_enum.h : $(basdRCW)/atlas.base $(incf)
+	$(extC) -b $(basdRCW)/atlas.base -o $@ rout=$@
+atlas_misc.h : $(basdRCW)/atlas.base $(incf)
+	$(extC) -b $(basdRCW)/atlas.base -o $@ rout=$@
+atlas_level3.h : $(basdRCW)/atlas.base $(incf)
+	$(extC) -b $(basdRCW)/atlas.base -o $@ rout=$@
+atlas_lvl3.h : $(basdRCW)/atlas.base $(incf)
+	$(extC) -b $(basdRCW)/atlas.base -o $@ rout=$@
+atlas_f77.h : $(basdRCW)/atlas.base $(incf)
+	$(extC) -b $(basdRCW)/atlas.base -o $@ rout=$@
+
+atlas_r2.h : $(basdRCW)/atlas-lvl2.base $(incf)
+	$(extC) -b $(basdRCW)/atlas-lvl2.base -o $@ rout=$@
+atlas_r1.h : $(basdRCW)/atlas-lvl2.base $(incf)
+	$(extC) -b $(basdRCW)/atlas-lvl2.base -o $@ rout=$@
+atlas_mv.h : $(basdRCW)/atlas-lvl2.base $(incf)
+	$(extC) -b $(basdRCW)/atlas-lvl2.base -o $@ rout=$@
+atlas_lvl2.h : $(basdRCW)/atlas-lvl2.base $(incf)
+	$(extC) -b $(basdRCW)/atlas-lvl2.base -o $@ rout=$@
+atlas_level2.h : $(basdRCW)/atlas-lvl2.base $(incf)
+	$(extC) -b $(basdRCW)/atlas-lvl2.base -o $@ rout=$@
+
+#
+# Extractors for Antoine's files
+#
+atlas_ptlevel3.h : $(basdAPP)/atlpt3blas.base $(incf)
+	$(extC) -b $(basdAPP)/atlpt3blas.base -o $@ rout=$@
+atlas_ptlevel2.h : $(basdAPP)/atlpt2blas.base $(incf)
+	$(extC) -b $(basdAPP)/atlpt2blas.base -o $@ rout=$@
+atlas_ptlevel1.h : $(basdAPP)/atlpt1blas.base $(incf)
+	$(extC) -b $(basdAPP)/atlpt1blas.base -o $@ rout=$@
+atlas_ptlvl3.h : $(basdAPP)/atlpt3blas.base $(incf)
+	$(extC) -b $(basdAPP)/atlpt3blas.base -o $@ rout=$@
+atlas_ptlvl2.h : $(basdAPP)/atlpt2blas.base $(incf)
+	$(extC) -b $(basdAPP)/atlpt2blas.base -o $@ rout=$@
+atlas_ptlvl1.h : $(basdAPP)/atlpt1blas.base $(incf)
+	$(extC) -b $(basdAPP)/atlpt1blas.base -o $@ rout=$@
+atlas_ptmisc.h : $(basdAPP)/atlptmblas.base $(incf)
+	$(extC) -b $(basdAPP)/atlptmblas.base -o $@ rout=$@
+atlas_rblas3.h : $(basdAPP)/atlrc3blas.base $(incf)
+	$(extC) -b $(basdAPP)/atlrc3blas.base -o $@ rout=$@
+atlas_kernel2.h : $(basdAPP)/atlrc2blas.base $(incf)
+	$(extC) -b $(basdAPP)/atlrc2blas.base -o $@ rout=$@
+atlas_f77wrap.h : $(basdAPP)/atlF77wrap.base $(incf)
+	$(extC) -b $(basdAPP)/atlF77wrap.base -o $@ rout=$@
+atlas_reflevel3.h : $(basdAPP)/atlrefblas.base 
+	$(extC) -b $(basdAPP)/atlrefblas.base -o $@ rout=$@ type=none
+atlas_reflevel2.h : $(basdAPP)/atlrefblas.base 
+	$(extC) -b $(basdAPP)/atlrefblas.base -o $@ rout=$@ type=none
+atlas_reflevel1.h : $(basdAPP)/atlrefblas.base 
+	$(extC) -b $(basdAPP)/atlrefblas.base -o $@ rout=$@ type=none
+atlas_reflvl3.h : $(basdAPP)/atlrefblas.base 
+	$(extC) -b $(basdAPP)/atlrefblas.base -o $@ rout=$@ type=none
+atlas_reflvl2.h : $(basdAPP)/atlrefblas.base 
+	$(extC) -b $(basdAPP)/atlrefblas.base -o $@ rout=$@ type=none
+atlas_refmisc.h : $(basdAPP)/atlrefblas.base 
+	$(extC) -b $(basdAPP)/atlrefblas.base -o $@ rout=$@ type=none
+Make.ext : $(topd)/make.base
+	$(extM) -o Make.ext -b $(topd)/make.base rout=ATLAS/include

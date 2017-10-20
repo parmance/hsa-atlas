@@ -1,0 +1,61 @@
+
+topd = /home/linehill/work/math-atlas/AtlasBase
+ext  = /home/linehill/work/math-atlas/atlas-src/xextract
+extF = $(ext) -langF -lnlen71 -Remtblank -llwarn2 -LAPACK1 $(incs)
+ext9 = $(ext) -langF -lnlen132 -RemtBlank $(incs)
+extC = $(ext) -langC -lnlen79 -Remtblank -llwarn2 $(incs)
+extM = $(ext) -langM -lnlen79 -llwarn2 $(incs)
+incs = -def topd /home/linehill/work/math-atlas/AtlasBase \
+       -def incd /home/linehill/work/math-atlas/AtlasBase/Clint \
+       -def ext  /home/linehill/work/math-atlas/atlas-src/xextract \
+       -def BASEdir /home/linehill/work/math-atlas/AtlasBase/Antoine/ \
+       -def basd /home/linehill/work/math-atlas/AtlasBase/Clint
+
+default: all
+force_build:
+basd = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdRCW = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdAPP = /home/linehill/work/math-atlas/AtlasBase/Antoine
+basdSTU = /home/linehill/work/math-atlas/AtlasBase/Students
+incf = /home/linehill/work/math-atlas/AtlasBase/gen.inc
+
+basfn = $(basdRCW)/atlas-lvl2.base
+
+files = r1hgen.c r1ksearch.c r1ktest.c r1ktime.c r1sum2csv.c r2hgen.c \
+        r2ksearch.c r2ktest.c r2ktime.c s1nxtune.c s2nxtune.c
+
+all : $(files)
+kill :
+	rm -f $(files)
+
+r1ktime.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* which=example
+r1ktest.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* which=example
+r2ktime.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* which=example
+r2ktest.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* which=example
+s1nxtune.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* which=example
+s2nxtune.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* which=example
+
+Make.ext : $(topd)/make.base
+	$(extM) -b $(topd)/make.base -o Make.ext rout=atlas/tune/blas/ger
+r1sum2csv.c : $(basdRCW)/script.base
+	$(extC) -b $(basdRCW)/script.base -o $@ rout=$*
+r2hgen.c : $(basdRCW)/atlas-lvl2.base $(basdRCW)/atlas-parse.base
+	$(extC) -b $(basdRCW)/atlas-lvl2.base -o $@ rout=r2hgen
+r2ksearch.c : $(basdRCW)/atlas-lvl2.base $(basdRCW)/atlas-parse.base
+	$(extC) -b $(basdRCW)/atlas-lvl2.base -o $@ rout=r2ksearch
+r1hgen.c : $(basdRCW)/atlas-lvl2.base $(basdRCW)/atlas-parse.base
+	$(extC) -b $(basdRCW)/atlas-lvl2.base -o $@ rout=r1hgen
+r1ksearch.c : $(basdRCW)/atlas-lvl2.base $(basdRCW)/atlas-parse.base
+	$(extC) -b $(basdRCW)/atlas-lvl2.base -o $@ rout=r1ksearch
+r1gen_sse.c : $(basdRCW)/atlas-gen.base $(incf)
+	$(extC) -b $(basdRCW)/atlas-gen.base -o $@ rout=$*
+
+Make.ext : $(topd)/make.base
+	$(extM) -b $(topd)/make.base -o Make.ext rout=atlas/tune/blas/ger
+

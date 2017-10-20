@@ -1,0 +1,74 @@
+
+topd = /home/linehill/work/math-atlas/AtlasBase
+ext  = /home/linehill/work/math-atlas/atlas-src/xextract
+extF = $(ext) -langF -lnlen71 -Remtblank -llwarn2 -LAPACK1 $(incs)
+ext9 = $(ext) -langF -lnlen132 -RemtBlank $(incs)
+extC = $(ext) -langC -lnlen79 -Remtblank -llwarn2 $(incs)
+extM = $(ext) -langM -lnlen79 -llwarn2 $(incs)
+incs = -def topd /home/linehill/work/math-atlas/AtlasBase \
+       -def incd /home/linehill/work/math-atlas/AtlasBase/Clint \
+       -def ext  /home/linehill/work/math-atlas/atlas-src/xextract \
+       -def BASEdir /home/linehill/work/math-atlas/AtlasBase/Antoine/ \
+       -def basd /home/linehill/work/math-atlas/AtlasBase/Clint
+
+default: all
+force_build:
+basd = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdRCW = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdAPP = /home/linehill/work/math-atlas/AtlasBase/Antoine
+basdSTU = /home/linehill/work/math-atlas/AtlasBase/Students
+incf = /home/linehill/work/math-atlas/AtlasBase/gen.inc
+
+basfn = $(basdRCW)/atlas-tl1.base
+
+files = axpbytst.c cblat1.f cblat2.dat cblat2.f cblat3.dat cblat3.f dblat1.f \
+        dblat2.dat dblat2.f dblat3.dat dblat3.f sblat1.f sblat2.dat sblat2.f \
+        sblat3.dat sblat3.f settst.c zblat1.f zblat2.dat zblat2.f zblat3.dat \
+        zblat3.f
+
+all : $(files)
+
+cblat2.f : $(basdRCW)/misc/FBLATST/cblat2.f
+	cp $(basdRCW)/misc/FBLATST/cblat2.f .
+dblat2.dat : $(basdRCW)/misc/FBLATST/dblat2.dat
+	cp $(basdRCW)/misc/FBLATST/dblat2.dat .
+sblat1.f : $(basdRCW)/misc/FBLATST/sblat1.f
+	cp $(basdRCW)/misc/FBLATST/sblat1.f .
+sblat3.f : $(basdRCW)/misc/FBLATST/sblat3.f
+	cp $(basdRCW)/misc/FBLATST/sblat3.f .
+zblat3.dat : $(basdRCW)/misc/FBLATST/zblat3.dat
+	cp $(basdRCW)/misc/FBLATST/zblat3.dat .
+cblat3.dat : $(basdRCW)/misc/FBLATST/cblat3.dat
+	cp $(basdRCW)/misc/FBLATST/cblat3.dat .
+dblat2.f : $(basdRCW)/misc/FBLATST/dblat2.f
+	cp $(basdRCW)/misc/FBLATST/dblat2.f .
+sblat2.dat : $(basdRCW)/misc/FBLATST/sblat2.dat
+	cp $(basdRCW)/misc/FBLATST/sblat2.dat .
+zblat1.f : $(basdRCW)/misc/FBLATST/zblat1.f
+	cp $(basdRCW)/misc/FBLATST/zblat1.f .
+zblat3.f : $(basdRCW)/misc/FBLATST/zblat3.f
+	cp $(basdRCW)/misc/FBLATST/zblat3.f .
+cblat1.f : $(basdRCW)/misc/FBLATST/cblat1.f
+	cp $(basdRCW)/misc/FBLATST/cblat1.f .
+cblat3.f : $(basdRCW)/misc/FBLATST/cblat3.f
+	cp $(basdRCW)/misc/FBLATST/cblat3.f .
+dblat3.dat : $(basdRCW)/misc/FBLATST/dblat3.dat
+	cp $(basdRCW)/misc/FBLATST/dblat3.dat .
+sblat2.f : $(basdRCW)/misc/FBLATST/sblat2.f
+	cp $(basdRCW)/misc/FBLATST/sblat2.f .
+zblat2.dat : $(basdRCW)/misc/FBLATST/zblat2.dat
+	cp $(basdRCW)/misc/FBLATST/zblat2.dat .
+cblat2.dat : $(basdRCW)/misc/FBLATST/cblat2.dat
+	cp $(basdRCW)/misc/FBLATST/cblat2.dat .
+dblat1.f : $(basdRCW)/misc/FBLATST/dblat1.f
+	cp $(basdRCW)/misc/FBLATST/dblat1.f .
+dblat3.f : $(basdRCW)/misc/FBLATST/dblat3.f
+	cp $(basdRCW)/misc/FBLATST/dblat3.f .
+sblat3.dat : $(basdRCW)/misc/FBLATST/sblat3.dat
+	cp $(basdRCW)/misc/FBLATST/sblat3.dat .
+zblat2.f : $(basdRCW)/misc/FBLATST/zblat2.f
+	cp $(basdRCW)/misc/FBLATST/zblat2.f .
+settst.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+axpbytst.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*

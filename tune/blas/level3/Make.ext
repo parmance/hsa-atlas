@@ -1,0 +1,37 @@
+
+topd = /home/linehill/work/math-atlas/AtlasBase
+ext  = /home/linehill/work/math-atlas/atlas-src/xextract
+extF = $(ext) -langF -lnlen71 -Remtblank -llwarn2 -LAPACK1 $(incs)
+ext9 = $(ext) -langF -lnlen132 -RemtBlank $(incs)
+extC = $(ext) -langC -lnlen79 -Remtblank -llwarn2 $(incs)
+extM = $(ext) -langM -lnlen79 -llwarn2 $(incs)
+incs = -def topd /home/linehill/work/math-atlas/AtlasBase \
+       -def incd /home/linehill/work/math-atlas/AtlasBase/Clint \
+       -def ext  /home/linehill/work/math-atlas/atlas-src/xextract \
+       -def BASEdir /home/linehill/work/math-atlas/AtlasBase/Antoine/ \
+       -def basd /home/linehill/work/math-atlas/AtlasBase/Clint
+
+default: all
+force_build:
+basd = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdRCW = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdAPP = /home/linehill/work/math-atlas/AtlasBase/Antoine
+basdSTU = /home/linehill/work/math-atlas/AtlasBase/Students
+incf = /home/linehill/work/math-atlas/AtlasBase/gen.inc
+
+basfn = $(basdRCW)/atlas.base
+
+files = ATL_trsm.c gen_trsmnb.c invtrsm.c tsmfc.c
+
+all : $(files)
+kill :
+	rm -f $(files)
+
+tsmfc.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* which=example
+invtrsm.c : $(basdRCW)/atlas-tlp.base $(incf)
+	$(extC) -b $(basdRCW)/atlas-tlp.base -o $@ rout=$*
+ATL_trsm.c : $(basdRCW)/atlas-tlp.base $(incf)
+	$(extC) -b $(basdRCW)/atlas-tlp.base -o $@ rout=$*
+gen_trsmnb.c : $(basdRCW)/atlas-tlp.base $(incf)
+	$(extC) -b $(basdRCW)/atlas-tlp.base -o $@ rout=$*

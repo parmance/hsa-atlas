@@ -1,0 +1,82 @@
+
+topd = /home/linehill/work/math-atlas/AtlasBase
+ext  = /home/linehill/work/math-atlas/atlas-src/xextract
+extF = $(ext) -langF -lnlen71 -Remtblank -llwarn2 -LAPACK1 $(incs)
+ext9 = $(ext) -langF -lnlen132 -RemtBlank $(incs)
+extC = $(ext) -langC -lnlen79 -Remtblank -llwarn2 $(incs)
+extM = $(ext) -langM -lnlen79 -llwarn2 $(incs)
+incs = -def topd /home/linehill/work/math-atlas/AtlasBase \
+       -def incd /home/linehill/work/math-atlas/AtlasBase/Clint \
+       -def ext  /home/linehill/work/math-atlas/atlas-src/xextract \
+       -def BASEdir /home/linehill/work/math-atlas/AtlasBase/Antoine/ \
+       -def basd /home/linehill/work/math-atlas/AtlasBase/Clint
+
+default: all
+force_build:
+basd = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdRCW = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdAPP = /home/linehill/work/math-atlas/AtlasBase/Antoine
+basdSTU = /home/linehill/work/math-atlas/AtlasBase/Students
+incf = /home/linehill/work/math-atlas/AtlasBase/gen.inc
+
+basfn = $(basdRCW)/atlas.base
+
+files = ATL_resfind.c GetSysSum.c emit_mm.c fc.c findCE.c gmmsearch.c \
+        hcsearch.c mmcuncpsearch.c mmflagsearch.c mmgen_sse.c mmksearch_sse.c \
+        mmsearch.c mmtime_pt.c mmtst.c tfc.c ummsearch.c usercomb.c \
+        userflag.c userindex.c
+
+all : $(files)
+kill :
+	rm -f $(files)
+
+hcsearch.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* which=example
+tfc.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* which=example
+fc.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* which=example
+findCE.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* which=example
+ATL_resfind.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* which=example
+mmtime_pt.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* which=example
+ummsearch.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* which=example
+GetSysSum.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* which=example
+userflag.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* which=example
+usercomb.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* which=example
+userindex.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* which=example
+mmtst.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* which=example
+
+Make.ext : $(topd)/make.base
+	$(extM) -b $(topd)/make.base -o Make.ext rout=atlas/tune/blas/gemm
+mm_old2new.c : $(basdRCW)/gemmVNB.base $(incf)
+	$(extC) -b $(basdRCW)/gemmVNB.base -o $@ rout=$*
+vnbmmsearch.c : $(basdRCW)/gemmVNB.base $(incf)
+	$(extC) -b $(basdRCW)/gemmVNB.base -o $@ rout=$*
+emit_vKB.c : $(basdRCW)/gemmVNB.base $(incf)
+	$(extC) -b $(basdRCW)/gemmVNB.base -o $@ rout=$*
+mmksearch_sse.c : $(topd)/Students/ssegen.base $(incf)
+	$(extC) -b $(topd)/Students/ssegen.base -o $@ rout=$*
+mmgen_sse.c : $(topd)/Students/ssegen.base $(incf)
+	$(extC) -b $(topd)/Students/ssegen.base -o $@ rout=$*
+vmmf_gccsub.c : $(basdRCW)/script.base $(incf)
+	$(extC) -b $(basdRCW)/script.base -o $@ rout=$*
+
+mmflagsearch.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+gmmsearch.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+mmsearch.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=mmsearchN
+mmcuncpsearch.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=mmsearch
+emit_mm.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=emit_mmN

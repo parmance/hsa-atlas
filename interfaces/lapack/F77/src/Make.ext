@@ -1,0 +1,186 @@
+
+topd = /home/linehill/work/math-atlas/AtlasBase
+ext  = /home/linehill/work/math-atlas/atlas-src/xextract
+extF = $(ext) -langF -lnlen71 -Remtblank -llwarn2 -LAPACK1 $(incs)
+ext9 = $(ext) -langF -lnlen132 -RemtBlank $(incs)
+extC = $(ext) -langC -lnlen79 -Remtblank -llwarn2 $(incs)
+extM = $(ext) -langM -lnlen79 -llwarn2 $(incs)
+incs = -def topd /home/linehill/work/math-atlas/AtlasBase \
+       -def incd /home/linehill/work/math-atlas/AtlasBase/Clint \
+       -def ext  /home/linehill/work/math-atlas/atlas-src/xextract \
+       -def BASEdir /home/linehill/work/math-atlas/AtlasBase/Antoine/ \
+       -def basd /home/linehill/work/math-atlas/AtlasBase/Clint
+
+default: all
+force_build:
+basd = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdRCW = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdAPP = /home/linehill/work/math-atlas/AtlasBase/Antoine
+basdSTU = /home/linehill/work/math-atlas/AtlasBase/Students
+incf = /home/linehill/work/math-atlas/AtlasBase/gen.inc
+
+basfn = $(basdRCW)/atlas-fint.base
+
+files = cgelqf.f cgels.f cgeqlf.f cgeqrf.f cgerqf.f cgesv.f cgetrf.f cgetri.f \
+        cgetrs.f clarfb.f clarft.f clauum.f cposv.f cpotrf.f cpotri.f \
+        cpotrs.f ctrtri.f dgelqf.f dgels.f dgeqlf.f dgeqrf.f dgerqf.f dgesv.f \
+        dgetrf.f dgetri.f dgetrs.f dlamc3.f dlarfb.f dlarft.f dlauum.f \
+        dposv.f dpotrf.f dpotri.f dpotrs.f dtrtri.f ieeeck.f ilaenv.f lamch.c \
+        sgelqf.f sgels.f sgeqlf.f sgeqrf.f sgerqf.f sgesv.f sgetrf.f sgetri.f \
+        sgetrs.f slamc3.f slarfb.f slarft.f slauum.f sposv.f spotrf.f \
+        spotri.f spotrs.f strtri.f zgelqf.f zgels.f zgeqlf.f zgeqrf.f \
+        zgerqf.f zgesv.f zgetrf.f zgetri.f zgetrs.f zlarfb.f zlarft.f \
+        zlauum.f zposv.f zpotrf.f zpotri.f zpotrs.f ztrtri.f
+
+all : $(files)
+kill : 
+	rm -f $(files)
+
+Make.ext : $(topd)/make.base
+	$(extM) -b $(topd)/make.base -o Make.ext rout=atlas/interfaces/lapack/f77/src
+lamch.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$* type=none
+ieeeck.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=$* type=none
+ilaenv.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=$* type=none
+slamc3.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=lamc3 type=sreal
+dlamc3.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=lamc3 type=dreal
+sgetri.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=getri type=SREAL
+slauum.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=lauum type=SREAL
+spotri.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=potri type=SREAL
+strtri.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=trtri type=SREAL
+spotrs.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=potrs type=SREAL
+spotrf.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=potrf type=SREAL
+sposv.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=posv type=SREAL
+sgetrs.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=getrs type=SREAL
+sgetrf.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=getrf type=SREAL
+sgesv.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=gesv type=SREAL
+sgels.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=gels type=SREAL
+slarft.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=larft type=SREAL
+slarfb.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=larfb type=SREAL
+sgelqf.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=gelqf type=SREAL
+sgerqf.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=gerqf type=SREAL
+sgeqlf.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=geqlf type=SREAL
+sgeqrf.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=geqrf type=SREAL
+dgetri.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=getri type=DREAL
+dlauum.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=lauum type=DREAL
+dpotri.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=potri type=DREAL
+dtrtri.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=trtri type=DREAL
+dpotrs.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=potrs type=DREAL
+dpotrf.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=potrf type=DREAL
+dposv.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=posv type=DREAL
+dgetrs.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=getrs type=DREAL
+dgetrf.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=getrf type=DREAL
+dgesv.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=gesv type=DREAL
+dgels.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=gels type=DREAL
+dlarft.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=larft type=DREAL
+dlarfb.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=larfb type=DREAL
+dgelqf.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=gelqf type=DREAL
+dgerqf.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=gerqf type=DREAL
+dgeqlf.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=geqlf type=DREAL
+dgeqrf.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=geqrf type=DREAL
+cgetri.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=getri type=SCPLX
+clauum.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=lauum type=SCPLX
+cpotri.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=potri type=SCPLX
+ctrtri.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=trtri type=SCPLX
+cpotrs.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=potrs type=SCPLX
+cpotrf.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=potrf type=SCPLX
+cposv.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=posv type=SCPLX
+cgetrs.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=getrs type=SCPLX
+cgetrf.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=getrf type=SCPLX
+cgesv.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=gesv type=SCPLX
+cgels.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=gels type=SCPLX
+clarft.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=larft type=SCPLX
+clarfb.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=larfb type=SCPLX
+cgelqf.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=gelqf type=SCPLX
+cgerqf.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=gerqf type=SCPLX
+cgeqlf.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=geqlf type=SCPLX
+cgeqrf.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=geqrf type=SCPLX
+zgetri.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=getri type=DCPLX
+zlauum.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=lauum type=DCPLX
+zpotri.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=potri type=DCPLX
+ztrtri.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=trtri type=DCPLX
+zpotrs.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=potrs type=DCPLX
+zpotrf.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=potrf type=DCPLX
+zposv.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=posv type=DCPLX
+zgetrs.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=getrs type=DCPLX
+zgetrf.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=getrf type=DCPLX
+zgesv.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=gesv type=DCPLX
+zgels.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=gels type=DCPLX
+zlarft.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=larft type=DCPLX
+zlarfb.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=larfb type=DCPLX
+zgelqf.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=gelqf type=DCPLX
+zgerqf.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=gerqf type=DCPLX
+zgeqlf.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=geqlf type=DCPLX
+zgeqrf.f : $(basfn) $(incf)
+	$(extF) -b $(basfn) -o $@ rout=geqrf type=DCPLX

@@ -1,0 +1,86 @@
+
+topd = /home/linehill/work/math-atlas/AtlasBase
+ext  = /home/linehill/work/math-atlas/atlas-src/xextract
+extF = $(ext) -langF -lnlen71 -Remtblank -llwarn2 -LAPACK1 $(incs)
+ext9 = $(ext) -langF -lnlen132 -RemtBlank $(incs)
+extC = $(ext) -langC -lnlen79 -Remtblank -llwarn2 $(incs)
+extM = $(ext) -langM -lnlen79 -llwarn2 $(incs)
+incs = -def topd /home/linehill/work/math-atlas/AtlasBase \
+       -def incd /home/linehill/work/math-atlas/AtlasBase/Clint \
+       -def ext  /home/linehill/work/math-atlas/atlas-src/xextract \
+       -def BASEdir /home/linehill/work/math-atlas/AtlasBase/Antoine/ \
+       -def basd /home/linehill/work/math-atlas/AtlasBase/Clint
+
+default: all
+force_build:
+basd = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdRCW = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdAPP = /home/linehill/work/math-atlas/AtlasBase/Antoine
+basdSTU = /home/linehill/work/math-atlas/AtlasBase/Students
+incf = /home/linehill/work/math-atlas/AtlasBase/gen.inc
+
+basfw = $(basdRCW)/atlas-lvl2.base
+basfn = $(basdAPP)/atllv2blas.base
+
+files = ATL_L2AIsOverlapped.c ATL_gbmv.c ATL_gpmv.c ATL_gpr.c ATL_gprc.c \
+        ATL_gpru.c ATL_hbmv.c ATL_hemv.c ATL_her.c ATL_her2.c ATL_hpmv.c \
+        ATL_hpr.c ATL_hpr2.c ATL_sbmv.c ATL_spmv.c ATL_spr.c ATL_spr2.c \
+        ATL_symv.c ATL_syr.c ATL_syr2.c ATL_tbmv.c ATL_tbsv.c ATL_tpmv.c \
+        ATL_tpsv.c ATL_trmv.c ATL_trsv.c
+
+all : $(files)
+
+ATL_hbmv.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_hpmv.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_hpr2.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_hpr.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_sbmv.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_spmv.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_spr.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_spr2.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_tbmv.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_tbsv.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_tpmv.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_tpsv.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_gbmv.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_gpmv.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_gpr.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_gprc.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_gpru.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+Make.ext : $(topd)/make.base
+	$(extM) -b $(topd)/make.base -o Make.ext rout=atlas/src/blas/level2
+ATL_L2AIsOverlapped.c : $(basfw) $(incf)
+	$(extC) -b $(basfw) -o $@ rout=$*
+ATL_hemv.c : $(basfw) $(incf)
+	$(extC) -b $(basfw) -o $@ rout=$*
+ATL_symv.c : $(basfw) $(incf)
+	$(extC) -b $(basfw) -o $@ rout=$*
+ATL_trsv.c : $(basfw) $(incf)
+	$(extC) -b $(basfw) -o $@ rout=$*
+ATL_trmv.c : $(basfw) $(incf)
+	$(extC) -b $(basfw) -o $@ rout=$*
+ATL_syr2.c : $(basfw) $(incf)
+	$(extC) -b $(basfw) -o $@ rout=$*
+ATL_her2.c : $(basfw) $(incf)
+	$(extC) -b $(basfw) -o $@ rout=$*
+ATL_syr.c : $(basfw) $(incf)
+	$(extC) -b $(basfw) -o $@ rout=$*
+ATL_her.c : $(basfw) $(incf)
+	$(extC) -b $(basfw) -o $@ rout=$*

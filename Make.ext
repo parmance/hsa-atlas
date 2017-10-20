@@ -1,0 +1,40 @@
+
+topd = /home/linehill/work/math-atlas/AtlasBase
+ext  = /home/linehill/work/math-atlas/atlas-src/xextract
+extF = $(ext) -langF -lnlen71 -Remtblank -llwarn2 -LAPACK1 $(incs)
+ext9 = $(ext) -langF -lnlen132 -RemtBlank $(incs)
+extC = $(ext) -langC -lnlen79 -Remtblank -llwarn2 $(incs)
+extM = $(ext) -langM -lnlen79 -llwarn2 $(incs)
+incs = -def topd /home/linehill/work/math-atlas/AtlasBase \
+       -def incd /home/linehill/work/math-atlas/AtlasBase/Clint \
+       -def ext  /home/linehill/work/math-atlas/atlas-src/xextract \
+       -def BASEdir /home/linehill/work/math-atlas/AtlasBase/Antoine/ \
+       -def basd /home/linehill/work/math-atlas/AtlasBase/Clint
+
+default: all
+force_build:
+basd = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdRCW = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdAPP = /home/linehill/work/math-atlas/AtlasBase/Antoine
+basdSTU = /home/linehill/work/math-atlas/AtlasBase/Students
+incf = /home/linehill/work/math-atlas/AtlasBase/gen.inc
+
+files = Make.top INSTALL.txt README configure
+all : $(files)
+kill :
+	rm -f $(files)
+extall:
+
+configure: $(basdRCW)/atlconf.base
+	$(extM) -b $(basdRCW)/atlconf.base -o $@ rout=$@
+	chmod a+x configure
+Makefile : $(basdRCW)/atlas-make.base
+	$(extM) -b $(basdRCW)/atlas-make.base -o $@ rout=$@
+Make.top : $(basdRCW)/atlas-make.base
+	$(extM) -b $(basdRCW)/atlas-make.base -o $@ rout=$@
+config.c: $(basdRCW)/config.base 
+	$(extC) -b $(basdRCW)/config.base -o $@ rout=$*
+README      : $(basdRCW)/atlas-doc.base
+	$(extC) -b $(basdRCW)/atlas-doc.base -o $@ rout=index.txt
+INSTALL.txt : $(basdRCW)/atlas-doc.base
+	$(extC) -b $(basdRCW)/atlas-doc.base -o $@ rout=$@

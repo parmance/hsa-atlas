@@ -1,0 +1,104 @@
+
+topd = /home/linehill/work/math-atlas/AtlasBase
+ext  = /home/linehill/work/math-atlas/atlas-src/xextract
+extF = $(ext) -langF -lnlen71 -Remtblank -llwarn2 -LAPACK1 $(incs)
+ext9 = $(ext) -langF -lnlen132 -RemtBlank $(incs)
+extC = $(ext) -langC -lnlen79 -Remtblank -llwarn2 $(incs)
+extM = $(ext) -langM -lnlen79 -llwarn2 $(incs)
+incs = -def topd /home/linehill/work/math-atlas/AtlasBase \
+       -def incd /home/linehill/work/math-atlas/AtlasBase/Clint \
+       -def ext  /home/linehill/work/math-atlas/atlas-src/xextract \
+       -def BASEdir /home/linehill/work/math-atlas/AtlasBase/Antoine/ \
+       -def basd /home/linehill/work/math-atlas/AtlasBase/Clint
+
+default: all
+force_build:
+basd = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdRCW = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdAPP = /home/linehill/work/math-atlas/AtlasBase/Antoine
+basdSTU = /home/linehill/work/math-atlas/AtlasBase/Students
+incf = /home/linehill/work/math-atlas/AtlasBase/gen.inc
+
+basfn = $(basdRCW)/atlas-l3kern.base
+
+files = ATL_CtrsmK.c ATL_ctrsmKL_rk2.c ATL_ctrsmKR_rk2.c ATL_hemmL.c \
+        ATL_hemmR.c ATL_her2k.c ATL_herk_N.c ATL_herk_T.c ATL_sycopyL.c \
+        ATL_sycopyU.c ATL_symmL.c ATL_symmR.c ATL_syr2k_N.c ATL_syr2k_T.c \
+        ATL_syr2k_putL.c ATL_syr2k_putU.c ATL_syrk_N.c ATL_syrk_T.c \
+        ATL_trcopyL2L.c ATL_trcopyL2U.c ATL_trcopyU2L.c ATL_trcopyU2U.c \
+        ATL_trinvert.c ATL_trmmL.c ATL_trmmR.c ATL_trmv_scal.c ATL_trputL.c \
+        ATL_trputU.c ATL_trsmKL.c ATL_trsmKL_rk4.c ATL_trsmKR.c \
+        ATL_trsmKR_rk4.c ATL_trsmL.c ATL_trsmR.c
+
+all : $(files)
+
+ATL_sycopyL.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_sycopyU.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_symmL.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_symmR.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_syr2k_putL.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_syr2k_putU.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_syr2k_N.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_syr2k_T.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_trputL.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_trputU.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_syrk_N.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_syrk_T.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_trinvert.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_trsmL.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_trsmR.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_trcopyU2L.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_trcopyU2U.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_trcopyL2L.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_trcopyL2U.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_trmmL.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_trmmR.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_hemmL.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_hemmR.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_herk_N.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_herk_T.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_her2k.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_trmv_scal.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_trsmKL.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_trsmKR.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ATL_CtrsmK.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+Make.ext : $(topd)/make.base
+	$(extM) -b $(topd)/make.base -o Make.ext rout=atlas/src/blas/level3/kernel
+ATL_ctrsmKR_rk2.c : $(basdRCW)/atlas-trsm.base
+	$(extC) -b $(basdRCW)/atlas-trsm.base -o $@ rout=$*
+ATL_ctrsmKL_rk2.c : $(basdRCW)/atlas-trsm.base
+	$(extC) -b $(basdRCW)/atlas-trsm.base -o $@ rout=$*
+ATL_trsmKR_rk4.c : $(basdRCW)/atlas-trsm.base
+	$(extC) -b $(basdRCW)/atlas-trsm.base -o $@ rout=$*
+ATL_trsmKL_rk4.c : $(basdRCW)/atlas-trsm.base
+	$(extC) -b $(basdRCW)/atlas-trsm.base -o $@ rout=$*

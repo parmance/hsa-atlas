@@ -1,0 +1,82 @@
+
+topd = /home/linehill/work/math-atlas/AtlasBase
+ext  = /home/linehill/work/math-atlas/atlas-src/xextract
+extF = $(ext) -langF -lnlen71 -Remtblank -llwarn2 -LAPACK1 $(incs)
+ext9 = $(ext) -langF -lnlen132 -RemtBlank $(incs)
+extC = $(ext) -langC -lnlen79 -Remtblank -llwarn2 $(incs)
+extM = $(ext) -langM -lnlen79 -llwarn2 $(incs)
+incs = -def topd /home/linehill/work/math-atlas/AtlasBase \
+       -def incd /home/linehill/work/math-atlas/AtlasBase/Clint \
+       -def ext  /home/linehill/work/math-atlas/atlas-src/xextract \
+       -def BASEdir /home/linehill/work/math-atlas/AtlasBase/Antoine/ \
+       -def basd /home/linehill/work/math-atlas/AtlasBase/Clint
+
+default: all
+force_build:
+basd = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdRCW = /home/linehill/work/math-atlas/AtlasBase/Clint
+basdAPP = /home/linehill/work/math-atlas/AtlasBase/Antoine
+basdSTU = /home/linehill/work/math-atlas/AtlasBase/Students
+incf = /home/linehill/work/math-atlas/AtlasBase/gen.inc
+
+basfn = $(basdRCW)/atlas-ul1.base
+
+files = ccases.dsc ciamax_abs1_x0.c ciamax_abs1_x1.c ciamax_abs2_x1.c \
+        ciamax_abs2p32.c ciamax_avx.c ciamax_noabs1_x0.c ciamax_noabs1_x1.c \
+        dcases.dsc iamax8_x86.c iamax_abs1_x0.c iamax_abs1_x1.c \
+        iamax_abs2_x1.c iamax_abs2p24_x1.c iamax_abs2p36_x1.c iamax_abs3_x1.c \
+        iamax_abs4_x1.c iamax_absg_x1.c iamax_noabs1_x0.c iamax_noabs4_x1.c \
+        iamax_sse.c iamax_stub.c scases.dsc zcases.dsc
+
+all : $(files)
+
+ciamax_avx.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ciamax_abs2p32.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+iamax_abs2p24_x1.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+iamax_abs4_x1.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ciamax_noabs1_x0.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+iamax_abs2p36_x1.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+iamax_noabs1_x0.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ciamax_noabs1_x1.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+iamax_noabs4_x1.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ciamax_abs1_x0.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+iamax_abs1_x0.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+iamax_stub.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ciamax_abs1_x1.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+iamax_abs1_x1.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+iamax_abs3_x1.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+ciamax_abs2_x1.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+iamax_abs2_x1.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+iamax_absg_x1.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+iamax8_x86.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+iamax_sse.c : $(basfn) $(incf)
+	$(extC) -b $(basfn) -o $@ rout=$*
+scases.dsc : $(basfn)
+	$(extC) -b $(basfn) -o $@ rout=scases.iamax
+dcases.dsc : $(basfn)
+	$(extC) -b $(basfn) -o $@ rout=dcases.iamax
+ccases.dsc : $(basfn)
+	$(extC) -b $(basfn) -o $@ rout=ccases.iamax
+zcases.dsc : $(basfn)
+	$(extC) -b $(basfn) -o $@ rout=zcases.iamax
+Make.ext : $(topd)/make.base $(topd)/gen.inc
+	$(extM) -b $(topd)/make.base -o Make.ext rout=atlas/tune/blas/level1/iamax
