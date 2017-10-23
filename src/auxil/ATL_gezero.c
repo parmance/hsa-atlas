@@ -117,34 +117,3 @@ void Mjoin3(PATL,gezero,PHSA_FN)(
    }
 }
 
-/* TODO: remove all below when not needed.  */
-
-#ifdef DIRECTHSA
-
-typedef struct gezero_args_s {
-   const int M0;
-   const int N;
-   TYPE *C;
-   const int ldc0;
-} gezero_args_t;
-
-HSA_KERNEL
-static void Mjoin3(PATL,gezero,_kernel)(
-   gezero_args_t* args) {
-
-   const int M0 = args->M0;
-   const int N = args->N;
-   TYPE *C = args->C;
-   const int ldc0 = args->ldc0;
-
-   Mjoin3(PATL,gezero,PHSA_FN)(M0, N, C, ldc0);
-}
-
-void Mjoin3(PATL,gezero,PHSA)(
-   const int M0, const int N, TYPE *C, const int ldc0) {
-
-   gezero_args_t args = { M0, N, C, ldc0 };
-   HSA_LAUNCH (Mjoin3(PATL,gezero,_kernel), &args);
-}
-
-#endif /* DIRECTHSA */

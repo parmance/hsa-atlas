@@ -55,33 +55,3 @@ void Mjoin3(PATL,gescal,PHSA_FN)
 #endif
 }
 
-#ifdef DIRECTHSA
-
-typedef struct Mjoin(PATL,gescal_args_s) {
-   const int M;
-   const int N;
-   const SCALAR beta;
-   TYPE *C;
-   const int ldc;
-} Mjoin(PATL,gescal_args_t);
-
-HSA_KERNEL
-void Mjoin(PATL,gescal_kernel)(Mjoin(PATL,gescal_args_t)* args)
-{
-   const int M = args->M;
-   const int N = args->N;
-   const SCALAR beta = args->beta;
-   TYPE *C = args->C;
-   const int ldc = args->ldc;
-
-   Mjoin3(PATL,gescal,PHSA_FN)(M, N, beta, C, ldc);
-}
-
-void Mjoin3(PATL,gescal,PHSA)
-   (const int M, const int N, const SCALAR beta, TYPE *C, const int ldc)
-{
-   Mjoin(PATL,gescal_args_t) args = { M, N, beta, C, ldc };
-   HSA_LAUNCH(Mjoin(PATL,gescal_kernel), &args);
-}
-
-#endif /* DIRECTHSA */

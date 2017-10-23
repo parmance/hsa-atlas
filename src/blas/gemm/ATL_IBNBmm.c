@@ -83,38 +83,3 @@ void Mjoin3(PATL,IBNBmm,PHSA_FN)(
    }
 }
 
-#ifdef DIRECTHSA
-
-typedef struct IBNBmm_args_s {
-   const int M;
-   const int K;
-   const TYPE *A;
-   const TYPE *B;
-   const TYPE beta;
-   TYPE *C;
-   const int ldc;
-} Mjoin(PATL,IBNBmm_args_t);
-
-HSA_KERNEL
-void Mjoin3(PATL,IBNBmm,_kernel)(Mjoin(PATL,IBNBmm_args_t)* args)
-{
-   const int M = args->M;
-   const int K = args->K;
-   const TYPE *A = args->A;
-   const TYPE *B = args->B;
-   const TYPE beta = args->beta;
-   TYPE *C = args->C;
-   const int ldc = args->ldc;
-
-   Mjoin3(PATL,IBNBmm,PHSA_FN)(M, K, A, B, beta, C, ldc);
-}
-
-void Mjoin3(PATL,IBNBmm,PHSA)(
-   const int M, const int K, const TYPE *A, const TYPE *B,
-   const TYPE beta, TYPE *C, const int ldc)
-{
-   Mjoin(PATL,IBNBmm_args_t) args = { M, K, A, B, beta, C, ldc };
-   HSA_LAUNCH(Mjoin3(PATL,IBNBmm,_kernel), &args);
-}
-
-#endif /* DIRECTHSA */

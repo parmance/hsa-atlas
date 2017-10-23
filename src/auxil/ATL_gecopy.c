@@ -69,35 +69,3 @@ void Mjoin3(PATL,gecopy,PHSA_FN)
          C[i] = A[i];
 }
 
-#ifdef DIRECTHSA
-typedef struct Mjoin(PATL,gecopy_args_s) {
-   const int M0;
-   const int N;
-   const TYPE *A;
-   const int lda;
-   TYPE *C;
-   const int ldc;
-} Mjoin(PATL,gecopy_args_t);
-
-HSA_KERNEL
-void Mjoin(PATL,gecopy_kernel)(Mjoin(PATL,gecopy_args_t)* args)
-{
-   const int M0 = args->M0;
-   const int N = args->N;
-   const TYPE *A = args->A;
-   const int lda = args->lda;
-   TYPE *C = args->C;
-   const int ldc = args->ldc;
-
-   Mjoin3(PATL,gecopy,PHSA_FN)(M0, N, A, lda, C, ldc);
-}
-
-void Mjoin3(PATL,gecopy,PHSA)
-   (const int M0, const int N, const TYPE *A, const int lda,
-    TYPE *C, const int ldc)
-{
-   Mjoin(PATL,gecopy_args_t) args = { M0, N, A, lda, C, ldc };
-   HSA_LAUNCH(Mjoin(PATL,gecopy_kernel), &args);
-}
-
-#endif /* DIRECTHSA */

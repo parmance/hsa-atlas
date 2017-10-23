@@ -58,38 +58,3 @@ void Mjoin3(PATL,gemove,PHSA_FN)
 #endif
 }
 
-#ifdef DIRECTHSA
-
-typedef struct Mjoin(PATL,gemove_args_s) {
-   const int M;
-   const int N;
-   const SCALAR alpha;
-   const TYPE *A;
-   const int lda;
-   TYPE *C;
-   const int ldc;
-} Mjoin(PATL,gemove_args_t);
-
-HSA_KERNEL
-void Mjoin3(PATL,gemove,_kernel)(Mjoin(PATL,gemove_args_t)* args)
-{
-   const int M = args->M;
-   const int N = args->N;
-   const SCALAR alpha = args->alpha;
-   const TYPE *A = args->A;
-   const int lda = args->lda;
-   TYPE *C = args->C;
-   const int ldc = args->ldc;
-
-   Mjoin3(PATL,gemove,PHSA_FN)(M, N, alpha, A, lda, C, ldc);
-}
-
-void Mjoin3(PATL,gemove,PHSA)
-(const int M, const int N, const SCALAR alpha, const TYPE *A, const int lda,
- TYPE *C, const int ldc)
-{
-   Mjoin(PATL,gemove_args_t) args = { M, N, alpha, A, lda, C, ldc };
-   HSA_LAUNCH(Mjoin3(PATL,gemove,_kernel), &args);
-}
-
-#endif /* DIRECTHSA */

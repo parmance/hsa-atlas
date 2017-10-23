@@ -32,45 +32,6 @@
 #endif
 #include "atlas_misc.h"
 
-#ifdef DIRECTHSA
-typedef struct Mjoin(PATL,geadd_args_s) {
-   ATL_CINT M;
-   ATL_CINT N;
-   const SCALAR alpha;
-   const TYPE *A;
-   ATL_CINT lda;
-   const SCALAR beta;
-   TYPE *C;
-   ATL_CINT ldc;
-} Mjoin(PATL,geadd_args_t);
-
-#define GEADD_HSA_LAUNCHER(basefn)                                      \
-   HSA_KERNEL                                                           \
-   void Mjoin(basefn,_kernel)(Mjoin(PATL,geadd_args_t)* args)           \
-   {                                                                    \
-      ATL_CINT M = args->M;                                             \
-      ATL_CINT N = args->N;                                             \
-      const SCALAR alpha = args->alpha;                                 \
-      const TYPE *A = args->A;                                          \
-      ATL_CINT lda = args->lda;                                         \
-      const SCALAR beta = args->beta;                                   \
-      TYPE *C = args->C;                                                \
-      ATL_CINT ldc = args->ldc;                                         \
-                                                                        \
-      Mjoin(basefn,PHSA_FN)(M, N, alpha, A, lda, beta, C, ldc);         \
-   }                                                                    \
-                                                                        \
-   void Mjoin(basefn,PHSA)                                              \
-   (ATL_CINT M, ATL_CINT N, const SCALAR alpha, const TYPE *A, ATL_CINT lda, \
-    const SCALAR beta, TYPE *C, ATL_CINT ldc)                           \
-   {                                                                    \
-      Mjoin(PATL,geadd_args_t) args = { M, N, alpha, A, lda, beta, C, ldc }; \
-      HSA_LAUNCH(Mjoin(basefn,_kernel), &args);                         \
-   }
-#else
-#define GEADD_HSA_LAUNCHER(basefn)
-#endif /* DIRECTHSA */
-
 #ifdef ALPHA0
 
 HSA_FUNCTION
@@ -83,9 +44,6 @@ void Mjoin5(PATL,geadd,NM,BNM,PHSA_FN)
 {
    Mjoin4(PATL,gescal,BNM,PHSA_FN)(M, N, beta, C, ldc);
 }
-
-GEADD_HSA_LAUNCHER(Mjoin4(PATL,geadd,NM,BNM))
-
 #elif defined(BETA0)
 
 HSA_FUNCTION
@@ -98,9 +56,6 @@ void Mjoin5(PATL,geadd,NM,BNM,PHSA_FN)
 {
    Mjoin4(PATL,gemove,NM,PHSA_FN)(M, N, alpha, A, lda, C, ldc);
 }
-
-GEADD_HSA_LAUNCHER(Mjoin4(PATL,geadd,NM,BNM))
-
 #else
 
 #ifdef TREAL
@@ -174,9 +129,6 @@ void Mjoin5(PATL,geadd,NM,BNM,PHSA_FN)
       }
    }
 }
-
-GEADD_HSA_LAUNCHER(Mjoin4(PATL,geadd,NM,BNM))
-
 #elif (defined(ALPHA0) && defined(BETA0))
 HSA_FUNCTION
 void Mjoin3(PATL,geadd_a0_b0,PHSA_FN)
@@ -186,9 +138,6 @@ void Mjoin3(PATL,geadd_a0_b0,PHSA_FN)
    Mjoin4(ATL_,UPR,geadd_a0_b0,PHSA_FN)(M<<1, N, *alpha, A, lda<<1, *beta,
                                         C, ldc<<1);
 }
-
-GEADD_HSA_LAUNCHER(Mjoin(PATL,geadd_a0_b0))
-
 #elif (defined(ALPHA0) && defined(BETA1))
 HSA_FUNCTION
 void Mjoin3(PATL,geadd_a0_b1,PHSA_FN)
@@ -198,9 +147,6 @@ void Mjoin3(PATL,geadd_a0_b1,PHSA_FN)
    Mjoin4(ATL_,UPR,geadd_a0_b1,PHSA_FN)(M<<1, N, *alpha, A, lda<<1, *beta,
                                         C, ldc<<1);
 }
-
-GEADD_HSA_LAUNCHER(Mjoin(PATL,geadd_a0_b1))
-
 #elif (defined(ALPHA0) && defined(BETAXI0))
 HSA_FUNCTION
 void Mjoin3(PATL,geadd_a0_bXi0,PHSA_FN)
@@ -219,9 +165,6 @@ void Mjoin3(PATL,geadd_a1_b0,PHSA_FN)
    Mjoin4(ATL_,UPR,geadd_a1_b0,PHSA_FN)(M<<1, N, *alpha, A, lda<<1, *beta,
                                         C, ldc<<1);
 }
-
-GEADD_HSA_LAUNCHER(Mjoin(PATL,geadd_a1_b0))
-
 #elif (defined(ALPHA1) && defined(BETA1))
 HSA_FUNCTION
 void Mjoin3(PATL,geadd_a1_b1,PHSA_FN)
@@ -231,9 +174,6 @@ void Mjoin3(PATL,geadd_a1_b1,PHSA_FN)
    Mjoin4(ATL_,UPR,geadd_a1_b1,PHSA_FN)(M<<1, N, *alpha, A, lda<<1, *beta,
                                         C, ldc<<1);
 }
-
-GEADD_HSA_LAUNCHER(Mjoin(PATL,geadd_a1_b1))
-
 #elif (defined(ALPHA1) && defined(BETAXI0))
 HSA_FUNCTION
 void Mjoin3(PATL,geadd_a1_bXi0,PHSA_FN)

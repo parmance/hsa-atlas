@@ -83,34 +83,3 @@ void Mjoin4(PATL,putblk,BNM,PHSA_FN)(int M, int N, TYPE *V, TYPE *C, int ldc,
    while(V != st0);
 }
 
-#ifdef DIRECTHSA
-
-typedef struct putblk_args_s {
-   int M;
-   int N;
-   TYPE *V;
-   TYPE *C;
-   int ldc;
-   const SCALAR beta0;
-} putblk_args_t;
-
-HSA_KERNEL
-void Mjoin4(PATL,putblk,BNM,_kernel)(putblk_args_t* args)
-{
-   int M = args->M;
-   int N = args->N;
-   TYPE *V = args->V;
-   TYPE *C = args->C;
-   int ldc = args->ldc;
-   const SCALAR beta0 = args->beta0;
-   Mjoin4(PATL,putblk,BNM,PHSA_FN)(M, N, V, C, ldc, beta0);
-}
-
-void Mjoin4(PATL,putblk,BNM,PHSA)(int M, int N, TYPE *V, TYPE *C, int ldc,
-                                  const SCALAR beta0)
-{
-   putblk_args_t args = { M, N, V, C, ldc, beta0 };
-   HSA_LAUNCH(Mjoin4(PATL,putblk,BNM,_kernel), &args);
-}
-
-#endif /* DIRECTHSA */

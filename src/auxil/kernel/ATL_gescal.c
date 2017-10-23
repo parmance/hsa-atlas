@@ -156,33 +156,3 @@ void Mjoin4(PATL,gescal,BNM,PHSA_FN)
 #endif
 }
 
-#ifdef DIRECTHSA
-
-typedef struct Mjoin4(PATL,gescal,BNM,_args_s) {
-   ATL_CINT M;
-   ATL_CINT N;
-   const SCALAR beta0;
-   TYPE *C;
-   ATL_CINT ldc;
-} Mjoin4(PATL,gescal,BNM,_args_t);
-
-HSA_KERNEL
-void Mjoin4(PATL,gescal,BNM,_kernel)(Mjoin4(PATL,gescal,BNM,_args_t)*args)
-{
-   ATL_CINT M = args->M;
-   ATL_CINT N = args->N;
-   const SCALAR beta0 = args->beta0;
-   TYPE *C = args->C;
-   ATL_CINT ldc = args->ldc;
-
-   Mjoin4(PATL,gescal,BNM,PHSA_FN)(M, N, beta0, C, ldc);
-}
-
-void Mjoin4(PATL,gescal,BNM,PHSA)
-   (ATL_CINT M, ATL_CINT N, const SCALAR beta0, TYPE *C, ATL_CINT ldc)
-{
-   Mjoin4(PATL,gescal,BNM,_args_t) args = { M, N, beta0, C, ldc };
-   HSA_LAUNCH(Mjoin4(PATL,gescal,BNM,_kernel), &args);
-}
-
-#endif /* DIRECTHSA */
