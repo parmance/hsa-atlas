@@ -32,7 +32,7 @@ sobj = ATL_sMBJBmm.o ATL_sIBNBmm.o ATL_sIBJBmm.o ATL_sGetNB.o \
        ATL_sputblk_bn1.o ATL_sputblk_b0.o ATL_malloc.o
 stobj = ATL_stgemmNN.o ATL_stgemmNT.o ATL_stgemmTN.o ATL_stgemmTT.o
 
-# Object compiled with -DDIRECTHSA
+# Object compiled with -fdirecthsa -DDIRECTHSA
 sHSAobj = ATL_sgemm_hsa.o \
           ATL_sMBJBmm_hsa.o ATL_sIBNBmm_hsa.o ATL_sIBJBmm_hsa.o \
           ATL_sGetNB_hsa.o ATL_sGetNCNB_hsa.o ATL_sgemmNN_hsa.o \
@@ -44,20 +44,10 @@ sHSAobj = ATL_sgemm_hsa.o \
           ATL_srow2blkT_aX_hsa.o ATL_scol2blk_a1_hsa.o \
           ATL_srow2blkT_a1_hsa.o ATL_sputblk_bX_hsa.o ATL_sputblk_b1_hsa.o \
           ATL_sputblk_bn1_hsa.o ATL_sputblk_b0_hsa.o ATL_malloc_hsa.o \
-          ATL_sNCmm_jumptables_hsa.o \
-          ATL_sjumptable_mat2blk_hsa.o \
-          ATL_sjumptable_mat2blk2_hsa.o \
-          ATL_sjumptable_nbmm0_hsa.o \
-          ATL_sjumptable_putblk_hsa.o \
-          ATL_sjumptable_mmintr_hsa.o \
-          ATL_sjumptable_geadd_hsa.o \
-          ATL_malloc_actual_hsa.o
-
-          # ATL_sgemm_hsa.o \
-# Not needed (yet):
-          # ATL_saliased_gemm_hsa.o ATL_sAgemmNN_hsa.o \
-          # ATL_sAgemmNT_hsa.o ATL_sAgemmTN_hsa.o ATL_sAgemmTT_hsa.o \
-
+          ATL_sjumptable_mat2blk_hsa.o ATL_sjumptable_mat2blk2_hsa.o \
+          ATL_sjumptable_nbmm0_hsa.o ATL_sjumptable_putblk_hsa.o \
+          ATL_sjumptable_mmintr_hsa.o ATL_sjumptable_geadd_hsa.o \
+          ATL_sNCmm_jumptables_hsa.o
 
 dINCdep = $(INCSdir)/atlas_misc.h $(INCAdir)/atlas_type.h \
           $(INCAdir)/dmm.h $(INCSdir)/atlas_lvl3.h
@@ -298,13 +288,7 @@ ATL_sFindCE_mm.o : $(mySRCdir)/ATL_gemm.c $(mySRCdir)/ATL_gemmXX.c $(sINCdep) \
 ATL_sNCgemm.o : $(mySRCdir)/ATL_NCgemm.c $(sINCdep)
 	$(SKC) -o $@ -c $(sKCFLAGS) -DSREAL $(mySRCdir)/ATL_NCgemm.c
 
-###
-# ATL_stgemmNNS_hsa.o : $(mySRCdir)/ATL_gemmXX.c $(sINCdep) $(INCAdir)/atlas_tcacheedge.h
-# 	$(SKC) -o $@ -c $(sKCFLAGS) -DSREAL \
-#               -DNoTransA_ -DNoTransB_ -DATL_TGEMM $(mySRCdir)/ATL_gemmXX.c
-# ATL_sgemmRecNN_hsa.o : $(mySRCdir)/ATL_gemmRecXX.c $(sINCdep) $(INCAdir)/atlas_cacheedge.h
-# 	$(SKC) -o $@ -c $(sKCFLAGS) -DSREAL \
-#               -DNoTransA_ -DNoTransB_ $(mySRCdir)/ATL_gemmRecXX.c
+
 ATL_sgemmNN_hsa.o : $(mySRCdir)/ATL_gemmXX.c $(sINCdep) $(INCAdir)/atlas_cacheedge.h
 	$(SKC) -o $@ -c -fdirecthsa -DDIRECTHSA $(sKCFLAGS) -DSREAL \
               -DNoTransA_ -DNoTransB_ $(mySRCdir)/ATL_gemmXX.c
@@ -326,18 +310,12 @@ ATL_sAgemmNT_hsa.o : $(mySRCdir)/ATL_AgemmXX.c $(sINCdep) $(INCAdir)/atlas_cache
 ATL_stgemmTN_hsa.o : $(mySRCdir)/ATL_gemmXX.c $(sINCdep) $(INCAdir)/atlas_tcacheedge.h
 	$(SKC) -o $@ -c -DDIRECTHSA $(sKCFLAGS) -DSREAL \
               -DTransA_ -DNoTransB_ -DATL_TGEMM $(mySRCdir)/ATL_gemmXX.c
-# ATL_sgemmRecTN_hsa.o : $(mySRCdir)/ATL_gemmRecXX.c $(sINCdep) $(INCAdir)/atlas_cacheedge.h
-# 	$(SKC) -o $@ -c $(sKCFLAGS) -DSREAL \
-#               -DTransA_ -DNoTransB_ $(mySRCdir)/ATL_gemmRecXX.c
 ATL_sgemmTN_hsa.o : $(mySRCdir)/ATL_gemmXX.c $(sINCdep) $(INCAdir)/atlas_cacheedge.h
 	$(SKC) -o $@ -c -fdirecthsa -DDIRECTHSA $(sKCFLAGS) -DSREAL \
               -DTransA_ -DNoTransB_ $(mySRCdir)/ATL_gemmXX.c
 ATL_sAgemmTN_hsa.o : $(mySRCdir)/ATL_AgemmXX.c $(sINCdep) $(INCAdir)/atlas_cacheedge.h
 	$(SKC) -o $@ -c -DDIRECTHSA $(sKCFLAGS) -DSREAL \
               -DTransA_ -DNoTransB_ $(mySRCdir)/ATL_AgemmXX.c
-# ATL_stgemmTT_hsa.o : $(mySRCdir)/ATL_gemmXX.c $(sINCdep) $(INCAdir)/atlas_tcacheedge.h
-# 	$(SKC) -o $@ -c -fdirecthsa -DDIRECTHSA $(sKCFLAGS) -DSREAL \
-#               -DTransA_ -DTransB_ -DATL_TGEMM $(mySRCdir)/ATL_gemmXX.c
 ATL_sgemmTT_hsa.o : $(mySRCdir)/ATL_gemmXX.c $(sINCdep) $(INCAdir)/atlas_cacheedge.h
 	$(SKC) -o $@ -c -fdirecthsa -DDIRECTHSA $(sKCFLAGS) -DSREAL \
               -DTransA_ -DTransB_ $(mySRCdir)/ATL_gemmXX.c
@@ -399,11 +377,6 @@ ATL_sputblk_b1_hsa.o : $(mySRCdir)/ATL_putblk.c $(sINCdep)
 ATL_sputblk_b0_hsa.o : $(mySRCdir)/ATL_putblk.c $(sINCdep)
 	$(SKC) -o $@ -c -fdirecthsa -DDIRECTHSA $(sKCFLAGS) -DSREAL -DBETA0 $(mySRCdir)/ATL_putblk.c
 
-ATL_saliased_gemm_hsa.o : $(mySRCdir)/ATL_gemm.c $(mySRCdir)/ATL_AgemmXX.c $(sINCdep) \
-                           $(INCAdir)/sXover.h $(INCAdir)/atlas_cacheedge.h
-	$(SKC) -o $@ -c -DDIRECTHSA $(sKCFLAGS) -DSREAL -DALIASED_GEMM -I./ \
-              $(mySRCdir)/ATL_gemm.c
-
 ATL_sgemm_hsa.o : $(mySRCdir)/ATL_gemm.c $(mySRCdir)/ATL_gemmXX.c $(sINCdep) \
                   $(INCAdir)/atlas_cacheedge.h $(INCAdir)/sXover.h
 	$(SKC) -o $@ -c -fdirecthsa $(sKCFLAGS) -DDIRECTHSA -DSREAL -DATLGEMM -I./ \
@@ -413,56 +386,28 @@ ATL_sNCgemm_hsa.o : $(mySRCdir)/ATL_NCgemm.c $(sINCdep)
 	$(SKC) -o $@ -c -DDIRECTHSA $(sKCFLAGS) -DSREAL $(mySRCdir)/ATL_NCgemm.c
 
 ATL_malloc_hsa.o: $(mySRCdir)/ATL_malloc.c $(sINCdep)
-	$(KC) -o $@ -c -DDIRECTHSA $(KCFLAGS) $<
-
-# DEVTEMP
-ATL_malloc_actual_hsa.o: $(mySRCdir)/ATL_malloc.c $(sINCdep)
 	$(KC) -o $@ -c -fdirecthsa -DDIRECTHSA -DHSADECLS $(KCFLAGS) $<
-
-ATL_sjumptable_mat2blk.o: $(mySRCdir)/ATL_jumptables.c $(sINCdep)
-	$(SKC) -o $@ -c -DDIRECTHSA $(sKCFLAGS) -DSREAL -DGEN_JT_MAT2BLK $<
 
 ATL_sjumptable_mat2blk_hsa.o: $(mySRCdir)/ATL_jumptables.c $(sINCdep)
 	$(SKC) -o $@ -c -fdirecthsa -DDIRECTHSA -DHSADECLS $(sKCFLAGS) -DSREAL -DGEN_JT_MAT2BLK $<
 
-ATL_sjumptable_mat2blk2.o: $(mySRCdir)/ATL_jumptables.c $(sINCdep)
-	$(SKC) -o $@ -c -DDIRECTHSA $(sKCFLAGS) -DSREAL -DGEN_JT_MAT2BLK2 $<
-
 ATL_sjumptable_mat2blk2_hsa.o: $(mySRCdir)/ATL_jumptables.c $(sINCdep)
 	$(SKC) -o $@ -c -fdirecthsa -DDIRECTHSA -DHSADECLS $(sKCFLAGS) -DSREAL -DGEN_JT_MAT2BLK2 $<
-
-ATL_sjumptable_nbmm0.o: $(mySRCdir)/ATL_jumptables.c $(sINCdep)
-	$(SKC) -o $@ -c -DDIRECTHSA $(sKCFLAGS) -DSREAL -DGEN_JT_NBMM0 $<
 
 ATL_sjumptable_nbmm0_hsa.o: $(mySRCdir)/ATL_jumptables.c $(sINCdep)
 	$(SKC) -o $@ -c -fdirecthsa -DDIRECTHSA -DHSADECLS $(sKCFLAGS) -DSREAL -DGEN_JT_NBMM0 $<
 
-ATL_sjumptable_putblk.o: $(mySRCdir)/ATL_jumptables.c $(sINCdep)
-	$(SKC) -o $@ -c -DDIRECTHSA $(sKCFLAGS) -DSREAL -DGEN_JT_PUTBLK $<
-
 ATL_sjumptable_putblk_hsa.o: $(mySRCdir)/ATL_jumptables.c $(sINCdep)
 	$(SKC) -o $@ -c -fdirecthsa -DDIRECTHSA -DHSADECLS $(sKCFLAGS) -DSREAL -DGEN_JT_PUTBLK $<
-
-ATL_sjumptable_mmintr.o: $(mySRCdir)/ATL_jumptables.c $(sINCdep)
-	$(SKC) -o $@ -c -DDIRECTHSA $(sKCFLAGS) -DSREAL -DGEN_JT_MMINTR $<
 
 ATL_sjumptable_mmintr_hsa.o: $(mySRCdir)/ATL_jumptables.c $(sINCdep)
 	$(SKC) -o $@ -c -fdirecthsa -DDIRECTHSA -DHSADECLS $(sKCFLAGS) -DSREAL -DGEN_JT_MMINTR $<
 
-ATL_sjumptable_geadd.o: $(mySRCdir)/ATL_jumptables.c $(sINCdep)
-	$(SKC) -o $@ -c -DDIRECTHSA $(sKCFLAGS) -DSREAL -DGEN_JT_GEADD $<
-
 ATL_sjumptable_geadd_hsa.o: $(mySRCdir)/ATL_jumptables.c $(sINCdep)
 	$(SKC) -o $@ -c -fdirecthsa -DDIRECTHSA -DHSADECLS $(sKCFLAGS) -DSREAL -DGEN_JT_GEADD $<
 
-ATL_sNCmm_jumptables.o: $(mySRCdir)/ATL_NCmm_jumptables.c $(sINCdep)
-	$(SKC) -o $@ -c -DDIRECTHSA $(sKCFLAGS) -DSREAL $<
-
 ATL_sNCmm_jumptables_hsa.o: $(mySRCdir)/ATL_NCmm_jumptables.c $(sINCdep)
 	$(SKC) -o $@ -c -fdirecthsa -DDIRECTHSA -DHSADECLS $(sKCFLAGS) -DSREAL $<
-
-
-###
 
 
 dclean :
