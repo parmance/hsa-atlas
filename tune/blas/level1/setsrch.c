@@ -784,32 +784,6 @@ void GenMainRout(char pre, int n, int *ix, int *iy, int *ia, int *ib,
    else fprintf(fpout, "   Mjoin(ATL_%cset,PHSA_FN)(N, ATL_rzero, X, incX);\n", pre);
    fprintf(fpout, "}\n");
 
-   /* DEVTEMP */
-   fprintf(fpout, "\n#ifdef DIRECTHSA\n");
-
-   fprintf(fpout,
-           "typedef struct %cset_args_s {\n"
-           "   const int N;\n"
-           "   TYPE *X;\n"
-           "   const int incX;\n"
-           "} %cset_args_t;\n\n", pre, pre);
-   fprintf(fpout,
-           "void HSA_KERNEL ATL_%cset_kernel(%cset_args_t* args)\n"
-           "{\n"
-           "   const int N = args->N;\n"
-           "   TYPE *X = args->X;\n"
-           "   const int incX = args->incX;\n"
-           "   Mjoin(ATL_%czero,PHSA_FN)(N, X, incX);\n"
-           "}\n", pre, pre, pre);
-   fprintf(fpout,
-           "void Mjoin(ATL_%czero,PHSA)"
-           "(const int N, TYPE *X, const int incX)\n{\n"
-           "   %cset_args_t args = { N, X, incX };\n"
-           "   HSA_LAUNCH(ATL_%cset_kernel, &args);\n"
-           "}\n\n",
-           pre, pre, pre);
-   fprintf(fpout, "#endif /* DIRECTHSA */ \n");
-
    fclose(fpout);
 }
 

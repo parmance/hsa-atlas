@@ -1044,42 +1044,6 @@ void GenMainRout(char pre, int n, int *ix, int *iy, int *ia, int *ib,
            GetNam(pre, AlphaX, AlphaX, 0, 0), args);
    fprintf(fpout, "   }\n");
    fprintf(fpout, "}\n");
-
-   /* DEVTEMP */
-   fprintf(fpout, "\n#ifdef DIRECTHSA\n");
-
-   fprintf(fpout,
-           "typedef struct %caxpby_args_s {\n"
-           "   const int N;\n"
-           "   const SCALAR alpha;\n"
-           "   TYPE *X;\n"
-           "   const int incX;\n"
-           "   const SCALAR beta;\n"
-           "   TYPE *Y;\n"
-           "   const int incY;\n"
-           "} %caxpby_args_t;\n\n", pre, pre);
-   fprintf(fpout,
-           "void HSA_KERNEL ATL_%caxpby_kernel(%caxpby_args_t* args)\n"
-           "{\n"
-           "   const int N = args->N;\n"
-           "   const SCALAR alpha = args->alpha;\n"
-           "   TYPE *X = args->X;\n"
-           "   const int incX = args->incX;\n"
-           "   const SCALAR beta = args->beta;\n"
-           "   TYPE *Y = args->Y;\n"
-           "   const int incY = args->incY;\n"
-           "   Mjoin(ATL_%caxpby,PHSA_FN)(N, alpha, X, incX, beta, Y, incY);\n"
-           "}\n", pre, pre, pre);
-   fprintf(fpout,
-           "void Mjoin(ATL_%caxpby,PHSA)"
-           "(const int N, const SCALAR alpha, TYPE *X, const int incX,\n"
-           " const SCALAR beta, TYPE *Y, const int incY)\n{\n"
-           "   %caxpby_args_t args = { N, alpha, X, incX, beta, Y, incY };\n"
-           "   HSA_LAUNCH(ATL_%caxpby_kernel, &args);\n"
-           "}\n\n",
-           pre, pre, pre);
-   fprintf(fpout, "#endif /* DIRECTHSA */ \n");
-
    fclose(fpout);
 }
 

@@ -901,39 +901,6 @@ void GenMainRout(char pre, int n, int *ix, int *iy, int *ia, int *ib,
    fprintf(fpout, "   }\n");
    fprintf(fpout, "}\n");
 
-   /* DEVTEMP */
-   fprintf(fpout, "\n#ifdef DIRECTHSA\n");
-
-   fprintf(fpout,
-           "typedef struct %caxpy_args_s {\n"
-           "   const int N;\n"
-           "   const SCALAR alpha;\n"
-           "   TYPE *X;\n"
-           "   const int incX;\n"
-           "   TYPE *Y;\n"
-           "   const int incY;\n"
-           "} %caxpy_args_t;\n\n", pre, pre);
-   fprintf(fpout,
-           "void HSA_KERNEL ATL_%caxpy_kernel(%caxpy_args_t* args)\n"
-           "{\n"
-           "   const int N = args->N;\n"
-           "   const SCALAR alpha = args->alpha;\n"
-           "   TYPE *X = args->X;\n"
-           "   const int incX = args->incX;\n"
-           "   TYPE *Y = args->Y;\n"
-           "   const int incY = args->incY;\n"
-           "   Mjoin(ATL_%caxpy,PHSA_FN)(N, alpha, X, incX, Y, incY);\n"
-           "}\n", pre, pre, pre);
-   fprintf(fpout,
-           "void Mjoin(ATL_%caxpy,PHSA)"
-           "(const int N, const SCALAR alpha, TYPE *X, const int incX,\n"
-           " TYPE *Y, const int incY)\n{\n"
-           "   %caxpy_args_t args = { N, alpha, X, incX, Y, incY };\n"
-           "   HSA_LAUNCH(ATL_%caxpy_kernel, &args);\n"
-           "}\n\n",
-           pre, pre, pre);
-   fprintf(fpout, "#endif /* DIRECTHSA */ \n");
-
    fclose(fpout);
 }
 
