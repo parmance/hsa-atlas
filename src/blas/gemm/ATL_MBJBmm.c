@@ -27,16 +27,11 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  */
-
-#ifdef DIRECTHSA
-#  define HSADECLS
-#endif
-
 #include "atlas_misc.h"
 #include "atlas_lvl3.h"
 
 HSA_FUNCTION
-void Mjoin3(PATL,MBJBmm,PHSA_FN)(
+void Mjoin3(PATL,MBJBmm,PHSA)(
    const int N, const int K, const TYPE *A, const TYPE *B,
    const TYPE beta, TYPE *C, const int ldc)
 {
@@ -55,31 +50,31 @@ void Mjoin3(PATL,MBJBmm,PHSA_FN)(
    if (nKb)
    {
       if (beta == ATL_rone)
-         Mjoin3(PATL,pNBmm_b1,PHSA_FN)(MB, N, KB, ATL_rone, A, KB, B, KB, beta,
-                                       C, ldc);
+         Mjoin3(PATL,pNBmm_b1,PHSA)(MB, N, KB, ATL_rone, A, KB, B, KB, beta,
+                                    C, ldc);
       else if (beta == ATL_rzero)
-         Mjoin3(PATL,pNBmm_b0,PHSA_FN)(MB, N, KB, ATL_rone, A, KB, B, KB, beta,
-                                       C, ldc);
+         Mjoin3(PATL,pNBmm_b0,PHSA)(MB, N, KB, ATL_rone, A, KB, B, KB, beta,
+                                    C, ldc);
       else
-         Mjoin3(PATL,pNBmm_bX,PHSA_FN)(MB, N, KB, ATL_rone, A, KB, B, KB, beta,
-                                       C, ldc);
+         Mjoin3(PATL,pNBmm_bX,PHSA)(MB, N, KB, ATL_rone, A, KB, B, KB, beta,
+                                    C, ldc);
       A += incA;
       B += incB;
       for (k=nKb-1; k; k--)
       {
-         Mjoin3(PATL,pNBmm_b1,PHSA_FN)(MB, N, KB, ATL_rone, A, KB, B, KB,
-                                       ATL_rone, C, ldc);
+         Mjoin3(PATL,pNBmm_b1,PHSA)(MB, N, KB, ATL_rone, A, KB, B, KB,
+                                    ATL_rone, C, ldc);
          A += incA;
          B += incB;
       }
       if (k = K - ATL_MulByNB(nKb))
-         Mjoin3(PATL,pKBmm,PHSA_FN)(MB, N, k, ATL_rone, A, k, B, k, ATL_rone,
-                                    C, ldc);
+         Mjoin3(PATL,pKBmm,PHSA)(MB, N, k, ATL_rone, A, k, B, k, ATL_rone,
+                                 C, ldc);
    }
    else if (k = K - ATL_MulByNB(nKb))
    {
-      if (beta == ATL_rzero) Mjoin3(PATL,gezero,PHSA_FN)(MB, N, C, ldc);
-      Mjoin3(PATL,pKBmm,PHSA_FN)(MB, N, k, ATL_rone, A, k, B, k, beta, C, ldc);
+      if (beta == ATL_rzero) Mjoin3(PATL,gezero,PHSA)(MB, N, C, ldc);
+      Mjoin3(PATL,pKBmm,PHSA)(MB, N, k, ATL_rone, A, k, B, k, beta, C, ldc);
    }
 }
 

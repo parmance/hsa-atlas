@@ -27,10 +27,8 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  */
-
-#ifdef DIRECTHSA /* DEVTEMP */
+#ifdef DIRECTHSA
 #  define ATL_no_icalls
-#  define HSADECLS
 #endif
 
 #include "atlas_misc.h"
@@ -38,7 +36,7 @@
 #include "atlas_malloc.h"
 
 HSA_FUNCTION
-int Mjoin3(PATL,mmJITcp,PHSA_FN)(
+int Mjoin3(PATL,mmJITcp,PHSA)(
    MemBlob* memBlob,
    const enum ATLAS_TRANS TA, const enum ATLAS_TRANS TB,
    const int M0, const int N, const int K,
@@ -66,7 +64,7 @@ int Mjoin3(PATL,mmJITcp,PHSA_FN)(
  * can sometimes avoid doing cleanup forall cases
  */
    if (M <= MB && N <= NB && (M != MB || N != NB))
-      return (Mjoin3(PATL,mmBPP,PHSA_FN)(memBlob, TA, TB, M, N, K, alpha,
+      return (Mjoin3(PATL,mmBPP,PHSA)(memBlob, TA, TB, M, N, K, alpha,
                                       A, lda, B, ldb, beta, C, ldc));
 /*
  * If these workspace increments are 0, we do JIT NBxNB copies instead of
@@ -117,31 +115,31 @@ int Mjoin3(PATL,mmJITcp,PHSA_FN)(
    }
    i *= sizeof(TYPE);
    if (i <= ATL_MaxMalloc || !(incAW | incBW))
-      v = Mjoin(simple_malloc,PHSA_FN)(memBlob, ATL_Cachelen+i);
+      v = Mjoin(simple_malloc,PHSA)(memBlob, ATL_Cachelen+i);
    if (!v) return(-1);
    pA = ATL_AlignPtr(v);
    pB0 = pA + (incAW ? bigK*MB : KB*MB);
    if (TA == AtlasNoTrans)
    {
-      A2blk = ATL_TargetFn(Mjoin3(PATL,gemoveT,PHSA_FN));
+      A2blk = ATL_TargetFn(Mjoin3(PATL,gemoveT,PHSA));
       incAk = lda*KB;
       incAm = MB;
    }
    else
    {
-      A2blk = ATL_TargetFn(Mjoin3(PATL,gemove,PHSA_FN));
+      A2blk = ATL_TargetFn(Mjoin3(PATL,gemove,PHSA));
       incAk = KB;
       incAm = MB*lda;
    }
    if (TB == AtlasNoTrans)
    {
-      B2blk = ATL_TargetFn(Mjoin3(PATL,gemove,PHSA_FN));
+      B2blk = ATL_TargetFn(Mjoin3(PATL,gemove,PHSA));
       incBk = KB;
       incBn = NB*ldb;
    }
    else
    {
-      B2blk = ATL_TargetFn(Mjoin3(PATL,gemoveT,PHSA_FN));
+      B2blk = ATL_TargetFn(Mjoin3(PATL,gemoveT,PHSA));
       incBk = ldb*KB;
       incBn = NB;
    }
@@ -151,17 +149,17 @@ int Mjoin3(PATL,mmJITcp,PHSA_FN)(
    if ( SCALAR_IS_ONE(beta) )
    {
       NBmm0 = ATL_TargetFn(NBmm_b1);
-      pNBmm0 = ATL_TargetFn(Mjoin3(PATL,pNBmm_b1,PHSA_FN));
+      pNBmm0 = ATL_TargetFn(Mjoin3(PATL,pNBmm_b1,PHSA));
    }
    else if ( SCALAR_IS_ZERO(beta) )
    {
       NBmm0 = ATL_TargetFn(NBmm_b0);
-      pNBmm0 = ATL_TargetFn(Mjoin3(PATL,pNBmm_b0,PHSA_FN));
+      pNBmm0 = ATL_TargetFn(Mjoin3(PATL,pNBmm_b0,PHSA));
    }
    else
    {
       NBmm0 = ATL_TargetFn(NBmm_bX);
-      pNBmm0 = ATL_TargetFn(Mjoin3(PATL,pNBmm_bX,PHSA_FN));
+      pNBmm0 = ATL_TargetFn(Mjoin3(PATL,pNBmm_bX,PHSA));
    }
    KR = (KR == KB) ? KB : 0;
    ZEROC = !KR && SCALAR_IS_ZERO(beta);
@@ -172,7 +170,7 @@ int Mjoin3(PATL,mmJITcp,PHSA_FN)(
       pB = pB0;       /* foreach row-panel of A, start at B's copy space */
       for (j=nnblks; j; j--)
       {
-         Mjoin3(PATL,mmK,PHSA_FN)(
+         Mjoin3(PATL,mmK,PHSA)(
             MB, MB, NB, NB, nkblks, kr, KR, ATL_rone,
             alpha, beta, a, lda, incAk, pA, incAW,
             B, ldb, incBk, pB, incBW, C, ldc, A2blk, B2blk,
@@ -185,12 +183,12 @@ int Mjoin3(PATL,mmJITcp,PHSA_FN)(
       if (nr)
       {
          if (ZEROC)
-            Mjoin3(PATL,gezero,PHSA_FN)(MB, nr, C, ldc);
-         Mjoin3(PATL,mmK,PHSA_FN)(
+            Mjoin3(PATL,gezero,PHSA)(MB, nr, C, ldc);
+         Mjoin3(PATL,mmK,PHSA)(
             MB, MB, nr, nr, nkblks, kr, KR, ATL_rone,
             alpha, beta, a, lda, incAk, pA, incAW,
             B, ldb, incBk, pB, incBWp, C, ldc, A2blk, B2blk,
-            pNBmm0, ATL_TargetFn(Mjoin3(PATL,pNBmm_b1,PHSA_FN)));
+            pNBmm0, ATL_TargetFn(Mjoin3(PATL,pNBmm_b1,PHSA)));
       }
       C += MB - nnblks*ldc*NB;
       if (incBW)
@@ -206,18 +204,18 @@ int Mjoin3(PATL,mmJITcp,PHSA_FN)(
       a = A + nmblks*incAm;
       pB = pB0;
       if ( SCALAR_IS_ONE(beta) )
-         NBmm0 = ATL_TargetFn(Mjoin3(PATL,pMBmm_b1,PHSA_FN));
+         NBmm0 = ATL_TargetFn(Mjoin3(PATL,pMBmm_b1,PHSA));
       else if ( SCALAR_IS_ZERO(beta) )
-         NBmm0 = ATL_TargetFn(Mjoin3(PATL,pMBmm_b0,PHSA_FN));
+         NBmm0 = ATL_TargetFn(Mjoin3(PATL,pMBmm_b0,PHSA));
       else
-         NBmm0 = ATL_TargetFn(Mjoin3(PATL,pMBmm_bX,PHSA_FN));
+         NBmm0 = ATL_TargetFn(Mjoin3(PATL,pMBmm_bX,PHSA));
       for (j=nnblks; j; j--)
       {
-         Mjoin3(PATL,mmK,PHSA_FN)(
+         Mjoin3(PATL,mmK,PHSA)(
             mr, mr, NB, NB, nkblks, kr, KR, ATL_rone, alpha,
             beta, a, lda, incAk, pA, incAWp, B, ldb, incBk,
             pB, incBW, C, ldc, A2blk, B2blk, NBmm0,
-            ATL_TargetFn(Mjoin3(PATL,pMBmm_b1,PHSA_FN)));
+            ATL_TargetFn(Mjoin3(PATL,pMBmm_b1,PHSA)));
          B += incBn;              /* copy next col panel of B */
          pB += incW;              /* to next col panel of pB  */
          a = (incAW ? NULL : a);  /* reuse row-panel of A if copied */
@@ -226,16 +224,16 @@ int Mjoin3(PATL,mmJITcp,PHSA_FN)(
       if (nr)
       {
          if ( SCALAR_IS_ZERO(beta) )
-            Mjoin3(PATL,gezero,PHSA_FN)(mr, nr, C, ldc);
-         Mjoin3(PATL,mmK,PHSA_FN)(
+            Mjoin3(PATL,gezero,PHSA)(mr, nr, C, ldc);
+         Mjoin3(PATL,mmK,PHSA)(
             mr, mr, nr, nr, nkblks, kr, (incAW | incBW) ? KR:0,
             ATL_rone, alpha, beta, a, lda, incAk, pA, incAWp,
             B, ldb, incBk, pB, incBWp, C, ldc, A2blk, B2blk,
-            ATL_TargetFn(Mjoin3(PATL,pKBmm,PHSA_FN)),
-            ATL_TargetFn(Mjoin3(PATL,pKBmm,PHSA_FN)));
+            ATL_TargetFn(Mjoin3(PATL,pKBmm,PHSA)),
+            ATL_TargetFn(Mjoin3(PATL,pKBmm,PHSA)));
       }
    }
-   Mjoin(simple_free,PHSA_FN)(memBlob, v);
+   Mjoin(simple_free,PHSA)(memBlob, v);
    return(0);
 }
 

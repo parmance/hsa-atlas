@@ -27,15 +27,12 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  */
-#ifdef DIRECTHSA
-#  define HSADECLS
-#endif
 #include "atlas_misc.h"
 #include "atlas_lvl3.h"
 #include "atlas_malloc.h"
 
 HSA_FUNCTION
-void Mjoin3(PATL,mm_axpy,PHSA_FN)
+void Mjoin3(PATL,mm_axpy,PHSA)
    (const enum ATLAS_TRANS TA, const enum ATLAS_TRANS TB, const int M,
     const int N, const int K, const SCALAR alpha, const TYPE *A, const int lda,
     const TYPE *B, const int ldb, const SCALAR beta, TYPE *C, const int ldc)
@@ -65,7 +62,7 @@ void Mjoin3(PATL,mm_axpy,PHSA_FN)
          for(j=0; j < N; j++)
          {
             for (k=0; k < K; k++, B += incBk, A += lda)
-               Mjoin3(PATL,axpy,PHSA_FN)(M, *B, A, 1, C, 1);
+               Mjoin3(PATL,axpy,PHSA)(M, *B, A, 1, C, 1);
             C += ldc;
             B += incBn;
             A -= incAn;
@@ -75,11 +72,11 @@ void Mjoin3(PATL,mm_axpy,PHSA_FN)
       {
          for(j=0; j < N; j++)
          {
-            Mjoin3(PATL,axpby,PHSA_FN)(M, alpha*(*B), A, 1, beta, C, 1);
+            Mjoin3(PATL,axpby,PHSA)(M, alpha*(*B), A, 1, beta, C, 1);
             B += incBk;
             A += lda;
             for (k=1; k < K; k++, B += incBk, A += lda)
-               Mjoin3(PATL,axpy,PHSA_FN)(M, alpha*(*B), A, 1, C, 1);
+               Mjoin3(PATL,axpy,PHSA)(M, alpha*(*B), A, 1, C, 1);
             C += ldc;
             B += incBn;
             A -= incAn;
@@ -92,11 +89,11 @@ void Mjoin3(PATL,mm_axpy,PHSA_FN)
       {
          for(j=0; j < N; j++)
          {
-            Mjoin3(PATL,axpby,PHSA_FN)(M, *B, A, 1, beta, C, 1);
+            Mjoin3(PATL,axpby,PHSA)(M, *B, A, 1, beta, C, 1);
             B += incBk;
             A += lda;
             for (k=1; k < K; k++, B += incBk, A += lda)
-               Mjoin3(PATL,axpy,PHSA_FN)(M, *B, A, 1, C, 1);
+               Mjoin3(PATL,axpy,PHSA)(M, *B, A, 1, C, 1);
             C += ldc;
             B += incBn;
             A -= incAn;
@@ -106,11 +103,11 @@ void Mjoin3(PATL,mm_axpy,PHSA_FN)
       {
          for(j=0; j < N; j++)
          {
-            Mjoin3(PATL,axpby,PHSA_FN)(M, alpha*(*B), A, 1, beta, C, 1);
+            Mjoin3(PATL,axpby,PHSA)(M, alpha*(*B), A, 1, beta, C, 1);
             B += incBk;
             A += lda;
             for (k=1; k < K; k++, B += incBk, A += lda)
-               Mjoin3(PATL,axpy,PHSA_FN)(M, alpha*(*B), A, 1, C, 1);
+               Mjoin3(PATL,axpy,PHSA)(M, alpha*(*B), A, 1, C, 1);
             C += ldc;
             B += incBn;
             A -= incAn;
@@ -120,7 +117,7 @@ void Mjoin3(PATL,mm_axpy,PHSA_FN)
 }
 
 HSA_FUNCTION
-int Mjoin3(PATL,mmJKI,PHSA_FN)(
+int Mjoin3(PATL,mmJKI,PHSA)(
    MemBlob* memBlob,
    const enum ATLAS_TRANS TA, const enum ATLAS_TRANS TB,
    const int M, const int N, const int K,
@@ -174,8 +171,8 @@ int Mjoin3(PATL,mmJKI,PHSA_FN)(
  */
    if (TA != AtlasNoTrans)
    {
-      vA = Mjoin(simple_malloc,PHSA_FN)(memBlob,
-                                        ATL_Cachelen + Mp*ATL_MulBySize(K));
+      vA = Mjoin(simple_malloc,PHSA)(memBlob,
+                                     ATL_Cachelen + Mp*ATL_MulBySize(K));
       if (!vA) return(-1);
       pA = ATL_AlignPtr(vA);
       alp = ATL_rone;
@@ -196,15 +193,15 @@ int Mjoin3(PATL,mmJKI,PHSA_FN)(
       {
          pA -= Mp;
          for (k=0; k < K; k++)
-            Mjoin3(PATL,cpsc,PHSA_FN)(mp, alpha, A+k, lda, pA+k*ldaa, 1);
+            Mjoin3(PATL,cpsc,PHSA)(mp, alpha, A+k, lda, pA+k*ldaa, 1);
          A += mp*lda;
       }
-      Mjoin3(PATL,mm_axpy,PHSA_FN)(AtlasNoTrans, TB, mp, N, K, alp, pA, ldaa,
-                                   B, ldb, beta, C, ldc);
+      Mjoin3(PATL,mm_axpy,PHSA)(AtlasNoTrans, TB, mp, N, K, alp, pA, ldaa,
+                                B, ldb, beta, C, ldc);
       pA += mp;
       C += mp;
    }
-   if (vA) Mjoin(simple_free,PHSA_FN)(memBlob, vA);
+   if (vA) Mjoin(simple_free,PHSA)(memBlob, vA);
    return(0);
 }
 

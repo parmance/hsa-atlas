@@ -27,14 +27,10 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  */
-
-#ifdef DIRECTHSA /* DEVTEMP */
-#  define HSADECLS
-#endif
 #include "atlas_misc.h"
 
 HSA_FUNCTION
-void Mjoin3(PATL,gemove,PHSA_FN)
+void Mjoin3(PATL,gemove,PHSA)
    (const int M, const int N, const SCALAR alpha, const TYPE *A, const int lda,
     TYPE *C, const int ldc)
 /*
@@ -42,9 +38,9 @@ void Mjoin3(PATL,gemove,PHSA_FN)
  */
 {
 #ifdef TREAL
-   if (alpha == ATL_rone) Mjoin3(PATL,gecopy,PHSA_FN)(M, N, A, lda, C, ldc);
-   else if (alpha == ATL_rzero) Mjoin3(PATL,gezero,PHSA_FN)(M, N, C, ldc);
-   else Mjoin3(PATL,gemove_aX,PHSA_FN)(M, N, alpha, A, lda, C, ldc);
+   if (alpha == ATL_rone) Mjoin3(PATL,gecopy,PHSA)(M, N, A, lda, C, ldc);
+   else if (alpha == ATL_rzero) Mjoin3(PATL,gezero,PHSA)(M, N, C, ldc);
+   else Mjoin3(PATL,gemove_aX,PHSA)(M, N, alpha, A, lda, C, ldc);
 #else
    TYPE ralpha = *alpha;
 

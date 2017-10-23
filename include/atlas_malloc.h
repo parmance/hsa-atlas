@@ -63,24 +63,19 @@ typedef struct {
 extern MemBlob* globalMemBlob;
 #endif
 
-/* Kludge. PHSA and PHSA_FN macros are not what is wanted because no
+/* Kludge. PHSA macro is not what is wanted because no
  * -DSREAL is not given.  */
 #if defined(DIRECTHSA)
-#  if defined(HSADECLS) /* DEVTEMP */
-#    undef PHSA_FN
-#    define PHSA_FN _hsa_function
-#  else
-#    undef PHSA_FN
-#    define PHSA_FN _hsa
-#  endif
+#undef PHSA
+#define PHSA _hsa_function
 #endif
 
 HSA_FUNCTION
-void Mjoin(init_mem_blob,PHSA_FN)(MemBlob* memblob,
+void Mjoin(init_mem_blob,PHSA)(MemBlob* memblob,
                                   void* blob, mem_size_t size);
 HSA_FUNCTION
-void* Mjoin(simple_malloc,PHSA_FN)(MemBlob* memblob, mem_size_t size);
+void* Mjoin(simple_malloc,PHSA)(MemBlob* memblob, mem_size_t size);
 HSA_FUNCTION
-void Mjoin(simple_free,PHSA_FN)(MemBlob* memblob, void* prt);
+void Mjoin(simple_free,PHSA)(MemBlob* memblob, void* prt);
 
 #endif

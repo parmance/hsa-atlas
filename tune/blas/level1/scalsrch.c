@@ -621,7 +621,7 @@ void GenAlphCase(char pre, char *spc, FILE *fpout, int alpha,
             fprintf(fpout, "%s   if (incy == %d)\n      {\n", spc, iy[i]);
          else if (ix[i])
             fprintf(fpout, "%s   if (incx == %d)\n      {\n", spc, ix[i]);
-         fprintf(fpout, "%s      Mjoin(%s,PHSA_FN)(N, alpha, X, incx);\n",
+         fprintf(fpout, "%s      Mjoin(%s,PHSA)(N, alpha, X, incx);\n",
                  spc, GetNam(pre, alpha, ib[i], ix[i], iy[i]));
          fprintf(fpout, "%s      return;\n", spc);
          if (ix[i] || iy[i]) fprintf(fpout, "%s   }\n", spc);
@@ -732,7 +732,6 @@ void GenMainRout(char pre, int n, int *ix, int *iy, int *ia, int *ib,
    sprintf(ln, "GEN/ATL_%cscal.c", pre);
    fpout = fopen(ln, "w");
    assert(fpout);
-   fprintf(fpout, "#ifdef DIRECTHSA\n#define HSADECLS\n#endif\n"); /* DEVTEMP */
    fprintf(fpout, "#include \"atlas_misc.h\"\n\n");
    gp = FindGen(n, ix, iy, ia, ib, bp);
    assert(gp);
@@ -741,17 +740,17 @@ void GenMainRout(char pre, int n, int *ix, int *iy, int *ia, int *ib,
  */
    for (i=0; i < n; i++)
    {
-      fprintf(fpout, "void HSA_FUNCTION Mjoin(%s,PHSA_FN)\n   (%s);\n",
+      fprintf(fpout, "void HSA_FUNCTION Mjoin(%s,PHSA)\n   (%s);\n",
               GetNam(pre, ia[i], ib[i], ix[i], iy[i]), dargs);
    }
 
    fprintf(fpout,
-           "void HSA_FUNCTION Mjoin(ATL_%cset,PHSA_FN)(const int, const SCALAR, TYPE*, const int);\n",
+           "void HSA_FUNCTION Mjoin(ATL_%cset,PHSA)(const int, const SCALAR, TYPE*, const int);\n",
            pre);
    if (pre == 'c' || pre == 'z')
       fprintf(fpout, "void Mjoin(PATLU,scal)\n   (const int, const TYPE, TYPE*, const int);\n");
 
-   fprintf(fpout, "\nvoid HSA_FUNCTION Mjoin(ATL_%cscal,PHSA_FN)(const int N, const SCALAR alpha, TYPE *X, const int incX)\n{\n", pre);
+   fprintf(fpout, "\nvoid HSA_FUNCTION Mjoin(ATL_%cscal,PHSA)(const int N, const SCALAR alpha, TYPE *X, const int incX)\n{\n", pre);
    fprintf(fpout, "   int incx;\n\n");
    fprintf(fpout, "   if (N > 0)\n   {\n");
    spc -= 6;
@@ -783,7 +782,7 @@ void GenMainRout(char pre, int n, int *ix, int *iy, int *ia, int *ib,
    {
       if (ia[i] != AlphaX) continue;
       fprintf(fpout, "%s%s (incx == %d)\n", spc, ifs, ix[i]);
-      fprintf(fpout, "%s   Mjoin(%s,PHSA_FN)(%s);\n", spc,
+      fprintf(fpout, "%s   Mjoin(%s,PHSA)(%s);\n", spc,
               GetNam(pre, ia[i], ib[i], ix[i], iy[i]), args);
       ifs = els;
       NeedElse = 1;
@@ -794,7 +793,7 @@ void GenMainRout(char pre, int n, int *ix, int *iy, int *ia, int *ib,
       fprintf(fpout, "%selse\n", spc);
       spc -= 3;
    }
-   fprintf(fpout, "%sMjoin(%s,PHSA_FN)(%s);\n", spc,
+   fprintf(fpout, "%sMjoin(%s,PHSA)(%s);\n", spc,
            GetNam(pre, AlphaX, AlphaX, 0, 0), args);
    fprintf(fpout, "   }\n");
    fprintf(fpout, "}\n");
@@ -834,8 +833,7 @@ void GenFiles(char pre, int n, int *ix, int *iy, int *ia, int *ib,
       if (pre == 's' || pre == 'd')
       {
          fprintf(fpout, "#ifdef DIRECTHSA\n");
-         fprintf(fpout, "#define HSADECLS\n"); /* DEVTEMP */
-         fprintf(fpout, "#define ATL_USCAL HSA_FUNCTION Mjoin(%s,PHSA_FN)\n",
+         fprintf(fpout, "#define ATL_USCAL HSA_FUNCTION Mjoin(%s,PHSA)\n",
                  nam);
          fprintf(fpout, "#else\n");
       }

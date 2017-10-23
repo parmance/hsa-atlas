@@ -33,24 +33,7 @@
 #  include <stdint.h> /* uintptr_t*/
 
 #define POINTER_SIZE sizeof(void*)
-/* Kludge fix. There is bug in the HLC. sizeof(void*) returns 4 for
- * hsail64 target where pointer is 64 bits. */
-/* #define POINTER_SIZE 8 */
 #define MAX(x, y) (x) > (y) ? (x) : (y)
-
-/* #define DEBUG_SIMPLE_MALLOC */
-#ifdef DEBUG_SIMPLE_MALLOC
-#include <stdio.h>
-#include <assert.h>
-#  define ASSERT(x) assert(x)
-#  define DEBUG_MSG printf
-#  define PING printf("%d: ping\n", __LINE__)
-#else
-#  define ASSERT(x)
-#  define DEBUG_MSG (void)
-#  define PING do {} while(0);
-#endif
-
 
 /* TODO fix for code style. */
 
@@ -74,40 +57,27 @@ static MemBlob globalMemBlobData = { &globalMem, sizeof(globalMem), NULL };
 MemBlob* globalMemBlob = &globalMemBlobData;
 #endif
 
-typedef struct MemBlockHeader MemBlockHeader;
-
-struct MemBlockHeader {
+typedef struct mem_block_header {
   /* Block is free if non-zero. */
   unsigned free;
   /* Size of the reserved block in bytes. Always aligned to  */
   mem_size_t size;
   /* Pointer to previous reserved block. */
-  MemBlockHeader* prev;
-};
+  struct mem_block_header* prev;
+} mem_block_header;
 
 
 
-void Mjoin(init_mem_blob,PHSA_FN)(MemBlob* memBlob, void* blob,
+void Mjoin(init_mem_blob,PHSA)(MemBlob* memBlob, void* blob,
                                mem_size_t size)
 {
   memBlob->blob = blob;
   memBlob->size = size;
   memBlob->tail = NULL;
-  /* DEBUG_MSG ("init blob. Start addr = %p\n", blob); */
 }
 
-/* Get block header for the pointer returned by simple_malloc.
-   Return NULL if error. */
-/* static MemBlockHeader* getHeader(MemBlob* memBlob, void* ptr) */
-/* { */
-/*   /\* Note: risky assumption that the ptr is valid. *\/ */
-/*   return (MemBlockHeader*)ptr - sizeof(MemHeaderBlock); */
-/* } */
-
-/* Aligns pointer for block header. */
-
 HSA_FUNCTION
-static void* Mjoin(alignForHeader,PHSA_FN)(void* ptr) {
+static void* Mjoin(align_for_header,PHSA)(void* ptr) {
   /* Can not use c11's alignof() :(  */
   const uintptr_t align = MAX(POINTER_SIZE, sizeof(mem_size_t));
   if (((uintptr_t)ptr % align) != 0)
@@ -119,40 +89,38 @@ static void* Mjoin(alignForHeader,PHSA_FN)(void* ptr) {
    Pointer is aligned for the block header. */
 
 HSA_FUNCTION
-static void* Mjoin(nextBlockLoc,PHSA_FN)(MemBlockHeader* blkHeader) {
-  ASSERT(blkHeader);
+static void* Mjoin(next_block_loc,PHSA)(mem_block_header* blkHeader) {
   void* next =
-     (char*)blkHeader + sizeof(MemBlockHeader) + blkHeader->size;
-  return Mjoin(alignForHeader,PHSA_FN)(next);
+     (char*)blkHeader + sizeof(mem_block_header) + blkHeader->size;
+  return Mjoin(align_for_header,PHSA)(next);
 }
 
 /* Book block reservation and return pointer to block data - the
    memory the user asked for.  */
 
 HSA_FUNCTION
-void* Mjoin(reserveBlock,PHSA_FN)(MemBlockHeader* newTail,
-                               MemBlockHeader* prev,
+void* Mjoin(reserve_block,PHSA)(mem_block_header* newTail,
+                               mem_block_header* prev,
                                mem_size_t size) {
   newTail->size = size;
   newTail->free = 0;
   newTail->prev = prev;
-  /* DEBUG_MSG("init header at %p. (prev=%p)\n", */
-  /*           (void*)newTail, (void*)prev); */
-  return (char*)newTail + sizeof(MemBlockHeader);
+  return (char*)newTail + sizeof(mem_block_header);
 }
 
 /* Return bytes of available memory for the allocation. */
 
 HSA_FUNCTION
-static mem_size_t Mjoin(available_mem,PHSA_FN)(MemBlob* memBlob) {
-  if (memBlob->tail == NULL) {
-    if (sizeof(MemBlockHeader) > memBlob->size)
+static mem_size_t Mjoin(available_mem,PHSA)(MemBlob* memBlob) {
+  if (memBlob->tail == NULL)
+  {
+    if (sizeof(mem_block_header) > memBlob->size)
       return 0;
-    return memBlob->size - sizeof(MemBlockHeader);
+    return memBlob->size - sizeof(mem_block_header);
   }
-  MemBlockHeader* tail = (MemBlockHeader*)memBlob->tail;
-  uintptr_t next = (uintptr_t)Mjoin(nextBlockLoc,PHSA_FN)(tail) +
-     sizeof(MemBlockHeader);
+  mem_block_header* tail = (mem_block_header*)memBlob->tail;
+  uintptr_t next = (uintptr_t)Mjoin(next_block_loc,PHSA)(tail) +
+     sizeof(mem_block_header);
   uintptr_t end = (uintptr_t)((char*)memBlob->blob + memBlob->size);
   if (next > end)
     return 0;
@@ -163,24 +131,20 @@ static mem_size_t Mjoin(available_mem,PHSA_FN)(MemBlob* memBlob) {
    reserved block or NULL if all memory is freed. */
 
 HSA_FUNCTION
-static MemBlockHeader* Mjoin(cleanUp,PHSA_FN) (MemBlockHeader* tail)
+static mem_block_header* Mjoin(clean_up,PHSA) (mem_block_header* tail)
 {
-  while (tail != NULL && tail->free) {
-    /* DEBUG_MSG("cleaning up block (%p)\n", (void*)tail); */
-    tail = tail->prev;
-  }
+  while (tail != NULL && tail->free) tail = tail->prev;
   return tail;
 }
 
 HSA_FUNCTION
-void* Mjoin(simple_malloc,PHSA_FN)(MemBlob* memBlob, mem_size_t size)
+void* Mjoin(simple_malloc,PHSA)(MemBlob* memBlob, mem_size_t size)
 {
    if (memBlob == NULL) return NULL;
 
-  mem_size_t freeMem = Mjoin(available_mem,PHSA_FN)(memBlob);
-  if (size > freeMem) {
-     /* DEBUG_MSG("out of memory (tried alloc %llub, %llub left).\n", */
-     /*           size, freeMem); */
+  mem_size_t freeMem = Mjoin(available_mem,PHSA)(memBlob);
+  if (size > freeMem)
+  {
 #ifndef DIRECTHSA
      static unsigned fail_count = 0;
      if ((fail_count % 1000) == 0)
@@ -189,56 +153,48 @@ void* Mjoin(simple_malloc,PHSA_FN)(MemBlob* memBlob, mem_size_t size)
                size, freeMem);
      fail_count++;
 #endif
-    return NULL;
+     return NULL;
   }
 
-  MemBlockHeader* tail = (MemBlockHeader*)memBlob->tail;
-  MemBlockHeader* next = NULL;
-  MemBlockHeader* prev = NULL;
+  mem_block_header* tail = (mem_block_header*)memBlob->tail;
+  mem_block_header* next = NULL;
+  mem_block_header* prev = NULL;
   if (tail == NULL)
      memBlob->tail = tail = next =
-        (MemBlockHeader*)Mjoin(alignForHeader,PHSA_FN)(memBlob->blob);
-  /* DirectHSA specific check. Without this GCC emits __builtin_trap()
-   * which fails during finalization.  */
+        (mem_block_header*)Mjoin(align_for_header,PHSA)(memBlob->blob);
+  /* DirectHSA specific kludge fix. Without this GCC emits
+   * __builtin_trap() which fails during BRIG finalization.
+   */
   if (tail == NULL) return NULL;
-  if (next == NULL) {
-     next = (MemBlockHeader*)Mjoin(nextBlockLoc,PHSA_FN)(tail);
+  if (next == NULL)
+  {
+     next = (mem_block_header*)Mjoin(next_block_loc,PHSA)(tail);
      prev = tail;
      memBlob->tail = next;
   }
 
-  void* addr = Mjoin(reserveBlock,PHSA_FN)(next, prev, size);
-  /* DEBUG_MSG("Allocated mem at %p of size %llub (%llub left).\n", */
-  /*           addr, size, Mjoin(available_mem,PHSA_FN)(memBlob)); */
+  void* addr = Mjoin(reserve_block,PHSA)(next, prev, size);
   return addr;
 }
 
-
 HSA_FUNCTION
-void Mjoin(simple_free,PHSA_FN)(MemBlob* memBlob, void* ptr)
+void Mjoin(simple_free,PHSA)(MemBlob* memBlob, void* ptr)
 {
   if (ptr == NULL) /* Quick return for NULL. */
     return;
 
-  MemBlockHeader* tail = (MemBlockHeader*)memBlob->tail;
-  MemBlockHeader* found = tail;
+  mem_block_header* tail = (mem_block_header*)memBlob->tail;
+  mem_block_header* found = tail;
   /* TODO may just assume the ptr is always valid. For free() it is
      undefined behavior to double free, free unallocated mem
      etc. anyway */
   /* Pointer to the assumed block header. */
-  void* toSearch = (char*)ptr - sizeof(MemBlockHeader);
+  void* toSearch = (char*)ptr - sizeof(mem_block_header);
 
-  while (found != NULL && found != toSearch) {
-    found = found->prev;
-  }
+  while (found != NULL && found != toSearch) found = found->prev;
 
-  if (found) {
-    found->free = 1;
-    /* DEBUG_MSG("Free mem at %p\n", ptr); */
-  } else {
-    /* DEBUG_MSG("Nothing to free at %p\n", ptr); */
-  }
+  if (found) found->free = 1;
 
   /* TODO update prev pointer of the block after the freed one? */
-  memBlob->tail = Mjoin(cleanUp,PHSA_FN)(tail);
+  memBlob->tail = Mjoin(clean_up,PHSA)(tail);
 }

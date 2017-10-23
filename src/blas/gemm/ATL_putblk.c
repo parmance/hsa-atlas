@@ -27,15 +27,11 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  */
-#ifdef DIRECTHSA
-#  define HSADECLS
-#endif
-
 #include "atlas_misc.h"
 #include "atlas_lvl3.h"
 
 HSA_FUNCTION
-void Mjoin4(PATL,putblk,BNM,PHSA_FN)(int M, int N, TYPE *V, TYPE *C, int ldc,
+void Mjoin4(PATL,putblk,BNM,PHSA)(int M, int N, TYPE *V, TYPE *C, int ldc,
                                   const SCALAR beta0)
 {
    TYPE *st0 = V + (M*N SHIFT), *st1 = V + (M SHIFT);

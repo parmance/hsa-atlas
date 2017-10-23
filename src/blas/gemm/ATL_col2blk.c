@@ -27,17 +27,12 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  */
-
-#ifdef DIRECTHSA
-#  define HSADECLS
-#endif
-
 #include "atlas_misc.h"
 #include "atlas_lvl3.h"
 #include "atlas_prefetch.h"
 
 HSA_FUNCTION
-void Mjoin4(PATL,col2blk,NM,PHSA_FN)
+void Mjoin4(PATL,col2blk,NM,PHSA)
    (const int M, const int N, const TYPE *A, const int lda, TYPE *V,
     const SCALAR alpha0)
 {
@@ -70,7 +65,7 @@ L1:
    #endif
 #if defined(DREAL) && defined(ATL_GAS_x8664) && 0
    for (jb=Nb; jb; jb--, v0 += M*NB, pA0 += NB*lda)
-      Mjoin3(ATL_dcol2blk_NB,NM,PHSA_FN)(M, NB, pA0, lda, v0, alpha);
+      Mjoin3(ATL_dcol2blk_NB,NM,PHSA)(M, NB, pA0, lda, v0, alpha);
    pA1 = pA0 + lda;
 #else
    for (jb=Nb; jb; jb--, v0 += incVv)
@@ -138,10 +133,10 @@ L1:
 }
 
 HSA_FUNCTION
-void Mjoin4(PATL,col2blk2,NM,PHSA_FN)
+void Mjoin4(PATL,col2blk2,NM,PHSA)
    (const int M, const int N, const TYPE *A, const int lda,
     TYPE *V, const SCALAR alpha)
 {
-   Mjoin4(PATL,col2blk,NM,PHSA_FN)(M, N, A, lda, V, alpha);
+   Mjoin4(PATL,col2blk,NM,PHSA)(M, N, A, lda, V, alpha);
 }
 

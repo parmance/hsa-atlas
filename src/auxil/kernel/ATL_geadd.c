@@ -27,40 +27,37 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  */
-#ifdef DIRECTHSA /* DEVTEMP */
-#  define HSADECLS
-#endif
 #include "atlas_misc.h"
 
 #ifdef ALPHA0
 
 HSA_FUNCTION
-void Mjoin5(PATL,geadd,NM,BNM,PHSA_FN)
+void Mjoin5(PATL,geadd,NM,BNM,PHSA)
    (ATL_CINT M, ATL_CINT N, const SCALAR alpha, const TYPE *A, ATL_CINT lda,
     const SCALAR beta, TYPE *C, ATL_CINT ldc)
 /*
  * C <- alpha*A + beta*C
  */
 {
-   Mjoin4(PATL,gescal,BNM,PHSA_FN)(M, N, beta, C, ldc);
+   Mjoin4(PATL,gescal,BNM,PHSA)(M, N, beta, C, ldc);
 }
 #elif defined(BETA0)
 
 HSA_FUNCTION
-void Mjoin5(PATL,geadd,NM,BNM,PHSA_FN)
+void Mjoin5(PATL,geadd,NM,BNM,PHSA)
    (ATL_CINT M, ATL_CINT N, const SCALAR alpha, const TYPE *A, ATL_CINT lda,
     const SCALAR beta, TYPE *C, ATL_CINT ldc)
 /*
  * C <- alpha*A + beta*C
  */
 {
-   Mjoin4(PATL,gemove,NM,PHSA_FN)(M, N, alpha, A, lda, C, ldc);
+   Mjoin4(PATL,gemove,NM,PHSA)(M, N, alpha, A, lda, C, ldc);
 }
 #else
 
 #ifdef TREAL
 HSA_FUNCTION
-void Mjoin5(PATL,geadd,NM,BNM,PHSA_FN)
+void Mjoin5(PATL,geadd,NM,BNM,PHSA)
    (ATL_CINT M, ATL_CINT N, const SCALAR alpha, const TYPE *A, ATL_CINT lda,
     const SCALAR beta, TYPE *C, ATL_CINT ldc)
 /*
@@ -131,88 +128,88 @@ void Mjoin5(PATL,geadd,NM,BNM,PHSA_FN)
 }
 #elif (defined(ALPHA0) && defined(BETA0))
 HSA_FUNCTION
-void Mjoin3(PATL,geadd_a0_b0,PHSA_FN)
+void Mjoin3(PATL,geadd_a0_b0,PHSA)
    (ATL_CINT M, ATL_CINT N, const SCALAR alpha, const TYPE *A, ATL_CINT lda,
     const SCALAR beta, TYPE *C, ATL_CINT ldc)
 {
-   Mjoin4(ATL_,UPR,geadd_a0_b0,PHSA_FN)(M<<1, N, *alpha, A, lda<<1, *beta,
-                                        C, ldc<<1);
+   Mjoin4(ATL_,UPR,geadd_a0_b0,PHSA)(M<<1, N, *alpha, A, lda<<1, *beta,
+                                     C, ldc<<1);
 }
 #elif (defined(ALPHA0) && defined(BETA1))
 HSA_FUNCTION
-void Mjoin3(PATL,geadd_a0_b1,PHSA_FN)
+void Mjoin3(PATL,geadd_a0_b1,PHSA)
    (ATL_CINT M, ATL_CINT N, const SCALAR alpha, const TYPE *A, ATL_CINT lda,
     const SCALAR beta, TYPE *C, ATL_CINT ldc)
 {
-   Mjoin4(ATL_,UPR,geadd_a0_b1,PHSA_FN)(M<<1, N, *alpha, A, lda<<1, *beta,
-                                        C, ldc<<1);
+   Mjoin4(ATL_,UPR,geadd_a0_b1,PHSA)(M<<1, N, *alpha, A, lda<<1, *beta,
+                                     C, ldc<<1);
 }
 #elif (defined(ALPHA0) && defined(BETAXI0))
 HSA_FUNCTION
-void Mjoin3(PATL,geadd_a0_bXi0,PHSA_FN)
+void Mjoin3(PATL,geadd_a0_bXi0,PHSA)
    (ATL_CINT M, ATL_CINT N, const SCALAR alpha, const TYPE *A, ATL_CINT lda,
     const SCALAR beta, TYPE *C, ATL_CINT ldc)
 {
-   Mjoin4(ATL_,UPR,geadd_a0_bX,PHSA_FN)(M<<1, N, *alpha, A, lda<<1, *beta,
+   Mjoin4(ATL_,UPR,geadd_a0_bX,PHSA)(M<<1, N, *alpha, A, lda<<1, *beta,
                                      C, ldc<<1);
 }
 #elif (defined(ALPHA1) && defined(BETA0))
 HSA_FUNCTION
-void Mjoin3(PATL,geadd_a1_b0,PHSA_FN)
+void Mjoin3(PATL,geadd_a1_b0,PHSA)
    (ATL_CINT M, ATL_CINT N, const SCALAR alpha, const TYPE *A, ATL_CINT lda,
     const SCALAR beta, TYPE *C, ATL_CINT ldc)
 {
-   Mjoin4(ATL_,UPR,geadd_a1_b0,PHSA_FN)(M<<1, N, *alpha, A, lda<<1, *beta,
-                                        C, ldc<<1);
+   Mjoin4(ATL_,UPR,geadd_a1_b0,PHSA)(M<<1, N, *alpha, A, lda<<1, *beta,
+                                     C, ldc<<1);
 }
 #elif (defined(ALPHA1) && defined(BETA1))
 HSA_FUNCTION
-void Mjoin3(PATL,geadd_a1_b1,PHSA_FN)
+void Mjoin3(PATL,geadd_a1_b1,PHSA)
    (ATL_CINT M, ATL_CINT N, const SCALAR alpha, const TYPE *A, ATL_CINT lda,
     const SCALAR beta, TYPE *C, ATL_CINT ldc)
 {
-   Mjoin4(ATL_,UPR,geadd_a1_b1,PHSA_FN)(M<<1, N, *alpha, A, lda<<1, *beta,
-                                        C, ldc<<1);
+   Mjoin4(ATL_,UPR,geadd_a1_b1,PHSA)(M<<1, N, *alpha, A, lda<<1, *beta,
+                                     C, ldc<<1);
 }
 #elif (defined(ALPHA1) && defined(BETAXI0))
 HSA_FUNCTION
-void Mjoin3(PATL,geadd_a1_bXi0,PHSA_FN)
+void Mjoin3(PATL,geadd_a1_bXi0,PHSA)
    (ATL_CINT M, ATL_CINT N, const SCALAR alpha, const TYPE *A, ATL_CINT lda,
     const SCALAR beta, TYPE *C, ATL_CINT ldc)
 {
-   Mjoin4(ATL_,UPR,geadd_a1_bX,PHSA_FN)(M<<1, N, *alpha, A, lda<<1, *beta,
-                                        C, ldc<<1);
+   Mjoin4(ATL_,UPR,geadd_a1_bX,PHSA)(M<<1, N, *alpha, A, lda<<1, *beta,
+                                     C, ldc<<1);
 }
 #elif (defined(ALPHAXI0) && defined(BETA0))
 HSA_FUNCTION
-void Mjoin3(PATL,geadd_aXi0_b0,PHSA_FN)
+void Mjoin3(PATL,geadd_aXi0_b0,PHSA)
    (ATL_CINT M, ATL_CINT N, const SCALAR alpha, const TYPE *A, ATL_CINT lda,
     const SCALAR beta, TYPE *C, ATL_CINT ldc)
 {
-   Mjoin4(ATL_,UPR,geadd_aX_b0,PHSA_FN)(M<<1, N, *alpha, A, lda<<1, *beta,
-                                        C, ldc<<1);
+   Mjoin4(ATL_,UPR,geadd_aX_b0,PHSA)(M<<1, N, *alpha, A, lda<<1, *beta,
+                                     C, ldc<<1);
 }
 #elif (defined(ALPHAXI0) && defined(BETA1))
 HSA_FUNCTION
-void Mjoin3(PATL,geadd_aXi0_b1,PHSA_FN)
+void Mjoin3(PATL,geadd_aXi0_b1,PHSA)
    (ATL_CINT M, ATL_CINT N, const SCALAR alpha, const TYPE *A, ATL_CINT lda,
     const SCALAR beta, TYPE *C, ATL_CINT ldc)
 {
-   Mjoin4(ATL_,UPR,geadd_aX_b1,PHSA_FN)(M<<1, N, *alpha, A, lda<<1, *beta,
-                                        C, ldc<<1);
+   Mjoin4(ATL_,UPR,geadd_aX_b1,PHSA)(M<<1, N, *alpha, A, lda<<1, *beta,
+                                     C, ldc<<1);
 }
 #elif (defined(ALPHAXI0) && defined(BETAXI0))
 HSA_FUNCTION
-void Mjoin3(PATL,geadd_aXi0_bXi0,PHSA_FN)
+void Mjoin3(PATL,geadd_aXi0_bXi0,PHSA)
    (ATL_CINT M, ATL_CINT N, const SCALAR alpha, const TYPE *A, ATL_CINT lda,
     const SCALAR beta, TYPE *C, ATL_CINT ldc)
 {
-   Mjoin4(ATL_,UPR,geadd_aX_bX,PHSA_FN)(M<<1, N, *alpha, A, lda<<1, *beta,
-                                        C, ldc<<1);
+   Mjoin4(ATL_,UPR,geadd_aX_bX,PHSA)(M<<1, N, *alpha, A, lda<<1, *beta,
+                                     C, ldc<<1);
 }
 #else
 HSA_FUNCTION
-void Mjoin5(PATL,geadd,NM,BNM,PHSA_FN)
+void Mjoin5(PATL,geadd,NM,BNM,PHSA)
    (ATL_CINT M, ATL_CINT N, const SCALAR alpha, const TYPE *A, ATL_CINT lda,
     const SCALAR beta, TYPE *C, ATL_CINT ldc)
 /*

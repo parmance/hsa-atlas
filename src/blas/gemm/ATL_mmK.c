@@ -30,18 +30,17 @@
 
 #ifdef DIRECTHSA /* DEVTEMP */
 #  define ATL_no_icalls
-#  define HSADECLS
 #endif
 
 #include "atlas_misc.h"
 #include "atlas_lvl3.h"
 
-#define NBMM_ICALL Mjoin3(PATL,icall_site_NBMM0,HSADECL)
-#define MAT2BLK2_ICALL Mjoin3(PATL,icall_site_MAT2BLK2,HSADECL)
+#define NBMM_ICALL Mjoin3(PATL,icall_site_NBMM0,PHSA)
+#define MAT2BLK2_ICALL Mjoin3(PATL,icall_site_MAT2BLK2,PHSA)
 #include "ATL_indir_call.c"
 
 HSA_FUNCTION
-void Mjoin3(PATL,mmK,PHSA_FN)(
+void Mjoin3(PATL,mmK,PHSA)(
    int M,  /* true # of rows in row-panel, M <= MB */
    int m,  /* # of rows to operate on, m >= M */
    int N,  /* true # of cols in col-panel, N < = NB */
@@ -112,12 +111,12 @@ void Mjoin3(PATL,mmK,PHSA_FN)(
          if (B)
          {
             MAT2BLK2_ICALL(B2blk, kr, N, alphaB, B, ldb, pB, KB);
-            Mjoin3(PATL,gezero,PHSA_FN)(KB-kr, n, pB+kr, KB);
+            Mjoin3(PATL,gezero,PHSA)(KB-kr, n, pB+kr, KB);
          }
          if (A)
          {
             MAT2BLK2_ICALL(A2blk, kr, M, alphaA, A, lda, pA, KB);
-            Mjoin3(PATL,gezero,PHSA_FN)(KB-kr, m, pA+kr, KB);
+            Mjoin3(PATL,gezero,PHSA)(KB-kr, m, pA+kr, KB);
          }
          if (nblk)
             NBMM_ICALL(NBmm1, m, n, KB, ATL_rone, pA, KB, pB, KB, ATL_rone, C, ldc);
@@ -128,8 +127,8 @@ void Mjoin3(PATL,mmK,PHSA_FN)(
       {
          if (B) MAT2BLK2_ICALL(B2blk, kr, N, alphaB, B, ldb, pB, kr);
          if (A) MAT2BLK2_ICALL(A2blk, kr, M, alphaA, A, lda, pA, kr);
-         Mjoin3(PATL,pKBmm,PHSA_FN)(M, N, kr, ATL_rone, pA, kr, pB, kr,
-                                    nblk ? ATL_rone : beta, C, ldc);
+         Mjoin3(PATL,pKBmm,PHSA)(M, N, kr, ATL_rone, pA, kr, pB, kr,
+                                 nblk ? ATL_rone : beta, C, ldc);
       }
    }
 }

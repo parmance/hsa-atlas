@@ -31,7 +31,6 @@
 #include <stdarg.h>
 #ifdef DIRECTHSA /* DEVTEMP */
 #  define ATL_no_icalls /* DEVTEMP */
-#  define HSADECLS
 #endif
 #include "atlas_misc.h"
 #include "atlas_lvl3.h"
@@ -80,10 +79,10 @@
  * These are included & declared "static void" to encourage inlining
  */
 #else
-   #define CgemmNN Mjoin4(PATL,GEMM2,NN,PHSA_FN)
-   #define CgemmNT Mjoin4(PATL,GEMM2,NT,PHSA_FN)
-   #define CgemmTN Mjoin4(PATL,GEMM2,TN,PHSA_FN)
-   #define CgemmTT Mjoin4(PATL,GEMM2,TT,PHSA_FN)
+   #define CgemmNN Mjoin4(PATL,GEMM2,NN,PHSA)
+   #define CgemmNT Mjoin4(PATL,GEMM2,NT,PHSA)
+   #define CgemmTN Mjoin4(PATL,GEMM2,TN,PHSA)
+   #define CgemmTT Mjoin4(PATL,GEMM2,TT,PHSA)
    #ifdef TCPLX
       #define CgemmCN Mjoin(Mjoin(PATL,GEMM2),CN)
       #define CgemmNC Mjoin(Mjoin(PATL,GEMM2),NC)
@@ -193,7 +192,7 @@ typedef struct Mjoin(PATL,gemm_args_s) {
 } Mjoin(PATL,gemm_args_t);
 
 HSA_KERNEL
-static void Mjoin3(Cgemm,_kernel,PHSA_FN)(
+static void Mjoin3(Cgemm,_kernel,PHSA)(
    Mjoin(PATL,gemm_args_t)* args)
 /*
  * Actual function to do work.
@@ -218,17 +217,17 @@ static void Mjoin3(Cgemm,_kernel,PHSA_FN)(
    if ( SCALAR_IS_ZERO(alpha) || !K)
    {
       #ifdef TREAL
-      if (beta == ATL_rzero) Mjoin3(PATL,gezero,PHSA_FN)(M, N, C, ldc);
+      if (beta == ATL_rzero) Mjoin3(PATL,gezero,PHSA)(M, N, C, ldc);
       else if (beta != ATL_rone)
-         Mjoin3(PATL,gescal_bX,PHSA_FN)(M, N, beta, C, ldc);
+         Mjoin3(PATL,gescal_bX,PHSA)(M, N, beta, C, ldc);
       #else
          if (beta[1] == ATL_rzero)
          {
-            if (*beta == ATL_rzero) Mjoin3(PATL,gezero,PHSA_FN)(M, N, C, ldc);
+            if (*beta == ATL_rzero) Mjoin3(PATL,gezero,PHSA)(M, N, C, ldc);
             else if (*beta != ATL_rone)
-               Mjoin3(PATL,gescal_bXi0,PHSA_FN)(M, N, beta, C, ldc);
+               Mjoin3(PATL,gescal_bXi0,PHSA)(M, N, beta, C, ldc);
          }
-         else Mjoin3(PATL,gescal_bX,PHSA_FN)(M, N, beta, C, ldc);
+         else Mjoin3(PATL,gescal_bX,PHSA)(M, N, beta, C, ldc);
       #endif
       return;
    }
@@ -287,12 +286,12 @@ void Cgemm(
 #if defined(ATLGEMM) && defined(DIRECTHSA)
     Mjoin(PATL,gemm_args_t) args = {
        Mjoin(Cgemm,DynMemBlob), TA, TB, M, N, K, alpha, A, lda, B, ldb, beta,
-                                C, ldc };
-    HSA_LAUNCH(Mjoin3(Cgemm,_kernel,PHSA_FN), &args);
+       C, ldc };
+    HSA_LAUNCH(Mjoin3(Cgemm,_kernel,PHSA), &args);
 #else
     Mjoin(PATL,gemm_args_t) args = {
        globalMemBlob, TA, TB, M, N, K, alpha, A, lda, B, ldb, beta, C, ldc };
-    Mjoin3(Cgemm,_kernel,PHSA_FN)(&args);
+    Mjoin3(Cgemm,_kernel,PHSA)(&args);
 #endif
 }
 

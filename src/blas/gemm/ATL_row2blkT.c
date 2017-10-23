@@ -27,22 +27,18 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  */
-#ifdef DIRECTHSA
-#  define HSADECLS
-#endif
-
 #include "atlas_misc.h"
 #include "atlas_lvl3.h"
 #include "atlas_prefetch.h"
 
 #if defined (DREAL) && defined(ATL_GAS_x8664) && 0
 HSA_FUNCTION
-static void Mjoin4(PATL,row2blkT_NB,NM,PHSA_FN)
+static void Mjoin4(PATL,row2blkT_NB,NM,PHSA)
    (const int M, const int N, const TYPE *A, const int lda,
     TYPE *V, const TYPE alpha);
 #else
 HSA_FUNCTION
-static void Mjoin4(PATL,row2blkT_NB,NM,PHSA_FN)
+static void Mjoin4(PATL,row2blkT_NB,NM,PHSA)
    (const int M, const int N, const TYPE *A, const int lda, TYPE *V,
     const TYPE alpha0)
 /*
@@ -90,7 +86,7 @@ L1:
 #endif
 
 HSA_FUNCTION
-static void Mjoin4(PATL,row2blkT_KB,NM,PHSA_FN)
+static void Mjoin4(PATL,row2blkT_KB,NM,PHSA)
    (const int M, const int N, const TYPE *A, const int lda, TYPE *V,
     const TYPE alpha0)
 {
@@ -117,7 +113,7 @@ static void Mjoin4(PATL,row2blkT_KB,NM,PHSA_FN)
 }
 
 HSA_FUNCTION
-void Mjoin4(PATL,row2blkT,NM,PHSA_FN)
+void Mjoin4(PATL,row2blkT,NM,PHSA)
    (const int N, const int nb, const TYPE *A, const int lda,
     TYPE *V, const SCALAR alpha)
 /*
@@ -131,17 +127,17 @@ void Mjoin4(PATL,row2blkT,NM,PHSA_FN)
 
    if (nb == NB)
       for (k=0; k != Nb; k++, A += incA, V += incV)
-         Mjoin4(PATL,row2blkT_NB,NM,PHSA_FN)(Nb, NB, A, lda, V, alpha);
+         Mjoin4(PATL,row2blkT_NB,NM,PHSA)(Nb, NB, A, lda, V, alpha);
 
    else
       for (k=0; k != Nb; k++, A += incA, V += incV)
-         Mjoin4(PATL,row2blkT_KB,NM,PHSA_FN)(nb, NB, A, lda, V, alpha);
+         Mjoin4(PATL,row2blkT_KB,NM,PHSA)(nb, NB, A, lda, V, alpha);
    if (k = N - ATL_MulByNB(Nb))
-      Mjoin4(PATL,row2blkT_KB,NM,PHSA_FN)(nb, k, A, lda, V, alpha);
+      Mjoin4(PATL,row2blkT_KB,NM,PHSA)(nb, k, A, lda, V, alpha);
 }
 
 HSA_FUNCTION
-void Mjoin4(PATL,row2blkT2,NM,PHSA_FN)
+void Mjoin4(PATL,row2blkT2,NM,PHSA)
    (const int M, const int N, const TYPE *A, const int lda,
     TYPE *V, const SCALAR alpha)
 {
@@ -155,10 +151,10 @@ void Mjoin4(PATL,row2blkT2,NM,PHSA_FN)
    for (j=Nb; j; j--)
    {
       for (i=Mb; i; i--, A += NB, v += incV)
-         Mjoin4(PATL,row2blkT_NB,NM,PHSA_FN)(NB, NB, A, lda, v, alpha);
+         Mjoin4(PATL,row2blkT_NB,NM,PHSA)(NB, NB, A, lda, v, alpha);
       if (mr)
       {
-         Mjoin4(PATL,row2blkT_KB,NM,PHSA_FN)(mr, NB, A, lda, vv, alpha);
+         Mjoin4(PATL,row2blkT_KB,NM,PHSA)(mr, NB, A, lda, vv, alpha);
          vv += incVV;
       }
       A += incA;
@@ -168,8 +164,8 @@ void Mjoin4(PATL,row2blkT2,NM,PHSA_FN)
    if (nr)
    {
       for (i=Mb; i; i--, A += NB, v += incV)
-         Mjoin4(PATL,row2blkT_KB,NM,PHSA_FN)(NB, nr, A, lda, v, alpha);
-      if (mr) Mjoin4(PATL,row2blkT_KB,NM,PHSA_FN)(mr, nr, A, lda, vv, alpha);
+         Mjoin4(PATL,row2blkT_KB,NM,PHSA)(NB, nr, A, lda, v, alpha);
+      if (mr) Mjoin4(PATL,row2blkT_KB,NM,PHSA)(mr, nr, A, lda, vv, alpha);
    }
 }
 

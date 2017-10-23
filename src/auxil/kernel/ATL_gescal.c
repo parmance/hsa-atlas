@@ -27,20 +27,17 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  */
-#ifdef DIRECTHSA /* DEVTEMP */
-#  define HSADECLS
-#endif
 #include "atlas_misc.h"
 
 HSA_FUNCTION
-void Mjoin4(PATL,gescal,BNM,PHSA_FN)
+void Mjoin4(PATL,gescal,BNM,PHSA)
    (ATL_CINT M, ATL_CINT N, const SCALAR beta0, TYPE *C, ATL_CINT ldc)
 /*
  * C <- beta * C
  */
 {
 #ifdef BETA0
-   Mjoin3(PATL,gezero,PHSA_FN)(M, N, C, ldc);
+   Mjoin3(PATL,gezero,PHSA)(M, N, C, ldc);
 #elif defined (TREAL)
 
    ATL_CINT incC = (ldc << 1), incC2 = incC - M, incC3 = ldc - M;

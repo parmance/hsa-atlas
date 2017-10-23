@@ -27,15 +27,10 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  */
-
-#ifdef DIRECTHSA
-#  define HSADECLS
-#endif
-
 #include "atlas_misc.h"
 
 HSA_FUNCTION
-void Mjoin3(PATL,gezero,PHSA_FN)(
+void Mjoin3(PATL,gezero,PHSA)(
    const int M0, const int N, TYPE *C, const int ldc0)
 /*
  * C(:,:) = 0, assign matrix C to zero

@@ -50,16 +50,7 @@
 
 #if defined(DIRECTHSA)
 #  define HSA_KERNEL __attribute__((hsa_kernel))
-/* Kludge for devel. hsa_{function,kernel} attributes that must be
- * compiled with -fdirecthsa but we are not ready for it. This is
- * issue in atlas_X.h header files since some TUs are compiled with
- * DIRECTHSA without -fdirecthsa. Now have extra guard macro. TODO:
- * remove this when not needed. */
-#  ifdef HSADECLS
-#    define HSA_FUNCTION __attribute__((hsa_function, visibility("internal")))
-#  else
-#    define HSA_FUNCTION
-#  endif
+#  define HSA_FUNCTION __attribute__((hsa_function, visibility("internal")))
 #else
 #  define HSA_KERNEL
 #  define HSA_FUNCTION
@@ -97,8 +88,7 @@
 #define Mstr2(m) # m
 #define Mstr(m) Mstr2(m)
 
-/* TODO: remove defined(HSADECLS) */
-#if defined(DIRECTHSA) && defined(HSADECLS)
+#if defined(DIRECTHSA)
 /* Cannot call functions depending on library functions (printf).  */
 #define ATL_assert(n_) n_
 #else
@@ -145,26 +135,11 @@
  * function to have same name. The PHSA macro adds postix to the
  * function name to separate HSA functions from C-functions.
  */
-/* TODO: PHSA_FN is temporary. Currently PHSA is used for code
- * compiled in C-mode. The functions with PHSA_FN are the functions
- * compiled really in directhsa mode. Piece-by-piece the gemm functions
- * are converted to real HSA-functions. When completed the PHSA_FN is
- * redundant and is removed.
- */
-  #define PHSA _hsa
-  #define PHSA_FN _hsa_function
+  #define PHSA _hsa_function
 #else
    #define HSA_LAUNCH(kern, arg) \
       ATL_assert(false && "HSA_LAUNCH is invalid without -DDIRECTHSA.");
    #define PHSA
-   #define PHSA_FN
-#endif
-
-/* For devel. TODO: remove when not needed.  */
-#ifdef HSADECLS
-#   define HSADECL PHSA_FN
-#else
-#   define HSADECL PHSA
 #endif
 
 #define ATL_QTYPE long double

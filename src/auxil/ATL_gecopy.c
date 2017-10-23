@@ -27,14 +27,10 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  */
-
-#ifdef DIRECTHSA /* DEVTEMP */
-#  define HSADECLS
-#endif
 #include "atlas_misc.h"
 
 HSA_FUNCTION
-void Mjoin3(PATL,gecopy,PHSA_FN)
+void Mjoin3(PATL,gecopy,PHSA)
    (const int M0, const int N, const TYPE *A, const int lda,
     TYPE *C, const int ldc)
 /*

@@ -27,10 +27,6 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  */
-
-#ifdef DIRECTHSA /* DEVTEMP */
-#  define HSADECLS
-#endif
 #include "atlas_misc.h"
 
 /*
@@ -51,12 +47,12 @@ static void ATL_gemoveT_aX(ATL_CINT N, ATL_CINT M, const SCALAR alpha,
    #ifdef Conj_
       Mjoin(PATL,moveConj)(M, alpha, A, 1, C, ldc);
    #else
-      Mjoin3(PATL,cpsc,PHSA_FN)(M, alpha, A, 1, C, ldc);
+      Mjoin3(PATL,cpsc,PHSA)(M, alpha, A, 1, C, ldc);
    #endif
 }
 #else
 HSA_FUNCTION
-static void Mjoin(ATL_gemoveT_a1,PHSA_FN)(
+static void Mjoin(ATL_gemoveT_a1,PHSA)(
    ATL_CINT N, ATL_CINT M, const SCALAR alpha,
    const TYPE *A, ATL_CINT lda, TYPE *C, ATL_CINT ldc)
 {
@@ -69,7 +65,7 @@ static void Mjoin(ATL_gemoveT_a1,PHSA_FN)(
          *C = *A++;
 }
 HSA_FUNCTION
-static void Mjoin(ATL_gemoveT_an1,PHSA_FN)(
+static void Mjoin(ATL_gemoveT_an1,PHSA)(
    ATL_CINT N, ATL_CINT M, const SCALAR alpha,
    const TYPE *A, ATL_CINT lda, TYPE *C, ATL_CINT ldc)
 {
@@ -82,7 +78,7 @@ static void Mjoin(ATL_gemoveT_an1,PHSA_FN)(
          *C = -(*A++);
 }
 HSA_FUNCTION
-static void Mjoin(ATL_gemoveT_aX,PHSA_FN)(
+static void Mjoin(ATL_gemoveT_aX,PHSA)(
    ATL_CINT N, ATL_CINT M, const SCALAR alpha,
    const TYPE *A, ATL_CINT lda, TYPE *C, ATL_CINT ldc)
 {
@@ -94,11 +90,11 @@ static void Mjoin(ATL_gemoveT_aX,PHSA_FN)(
          *C = alpha*(*A++);
 }
 HSA_FUNCTION
-static void Mjoin(ATL_gemoveT_a0,PHSA_FN)(
+static void Mjoin(ATL_gemoveT_a0,PHSA)(
    ATL_CINT N, ATL_CINT M, const SCALAR alpha,
    const TYPE *A, ATL_CINT lda, TYPE *C, ATL_CINT ldc)
 {
-   Mjoin3(PATL,gezero,PHSA_FN)(M, N, C, ldc);
+   Mjoin3(PATL,gezero,PHSA)(M, N, C, ldc);
 }
 #endif
 
@@ -110,7 +106,7 @@ static void Mjoin(ATL_gemoveT_a0,PHSA_FN)(
 void Mjoin(PATL,gemoveC)
 #else
 HSA_FUNCTION
-void Mjoin3(PATL,gemoveT,PHSA_FN)
+void Mjoin3(PATL,gemoveT,PHSA)
 #endif
    (ATL_CINT N, ATL_CINT M, const SCALAR alpha, const TYPE *A, ATL_CINT lda,
     TYPE *C, ATL_CINT ldc)
@@ -126,13 +122,13 @@ void Mjoin3(PATL,gemoveT,PHSA_FN)
    {
 #ifdef TREAL
       if (alpha == ATL_rzero)
-         Mjoin(ATL_gemoveT_a0,PHSA_FN)(N, M, alpha, A, lda, C, ldc);
+         Mjoin(ATL_gemoveT_a0,PHSA)(N, M, alpha, A, lda, C, ldc);
       else if (alpha == ATL_rone)
-         Mjoin(ATL_gemoveT_a1,PHSA_FN)(N, M, alpha, A, lda, C, ldc);
+         Mjoin(ATL_gemoveT_a1,PHSA)(N, M, alpha, A, lda, C, ldc);
       else if (alpha == ATL_rnone)
-         Mjoin(ATL_gemoveT_an1,PHSA_FN)(N, M, alpha, A, lda, C, ldc);
+         Mjoin(ATL_gemoveT_an1,PHSA)(N, M, alpha, A, lda, C, ldc);
       else
-         Mjoin(ATL_gemoveT_aX,PHSA_FN)(N, M, alpha, A, lda, C, ldc);
+         Mjoin(ATL_gemoveT_aX,PHSA)(N, M, alpha, A, lda, C, ldc);
 #else
       ATL_gemoveT_aX(N, M, alpha, A, lda, C, ldc);
 #endif
@@ -159,17 +155,17 @@ void Mjoin3(PATL,gemoveT,PHSA_FN)
       {
 #ifdef TREAL
          if (alpha == ATL_rzero)
-            Mjoin(ATL_gemoveT_a0,PHSA_FN)(mb, nb, alpha, A+((j+i*lda)SHIFT),
-                                          lda, C+((i+j*ldc)SHIFT), ldc);
+            Mjoin(ATL_gemoveT_a0,PHSA)(mb, nb, alpha, A+((j+i*lda)SHIFT),
+                                       lda, C+((i+j*ldc)SHIFT), ldc);
          else if (alpha == ATL_rone)
-            Mjoin(ATL_gemoveT_a1,PHSA_FN)(mb, nb, alpha, A+((j+i*lda)SHIFT),
-                                          lda, C+((i+j*ldc)SHIFT), ldc);
+            Mjoin(ATL_gemoveT_a1,PHSA)(mb, nb, alpha, A+((j+i*lda)SHIFT),
+                                       lda, C+((i+j*ldc)SHIFT), ldc);
          else if (alpha == ATL_rnone)
-            Mjoin(ATL_gemoveT_an1,PHSA_FN)(mb, nb, alpha, A+((j+i*lda)SHIFT),
-                                           lda, C+((i+j*ldc)SHIFT), ldc);
+            Mjoin(ATL_gemoveT_an1,PHSA)(mb, nb, alpha, A+((j+i*lda)SHIFT),
+                                        lda, C+((i+j*ldc)SHIFT), ldc);
          else
-            Mjoin(ATL_gemoveT_aX,PHSA_FN)(mb, nb, alpha, A+((j+i*lda)SHIFT),
-                                          lda, C+((i+j*ldc)SHIFT), ldc);
+            Mjoin(ATL_gemoveT_aX,PHSA)(mb, nb, alpha, A+((j+i*lda)SHIFT),
+                                       lda, C+((i+j*ldc)SHIFT), ldc);
 #else
          ATL_gemoveT_aX(mb, nb, alpha, A+((j+i*lda)SHIFT), lda,
                         C+((i+j*ldc)SHIFT), ldc);

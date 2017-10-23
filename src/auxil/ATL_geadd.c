@@ -27,13 +27,10 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  */
-#ifdef DIRECTHSA /* DEVTEMP */
-#  define HSADECLS
-#endif
 #include "atlas_misc.h"
 
 HSA_FUNCTION
-void Mjoin3(PATL,geadd,PHSA_FN)
+void Mjoin3(PATL,geadd,PHSA)
    (const int M, const int N, const SCALAR alpha, const TYPE *A, const int lda,
     const SCALAR beta, TYPE *C, const int ldc)
 /*
@@ -42,24 +39,24 @@ void Mjoin3(PATL,geadd,PHSA_FN)
 {
 #ifdef TREAL
    if (beta == ATL_rzero)
-      Mjoin3(PATL,gemove,PHSA_FN)(M, N, alpha, A, lda, C, ldc);
+      Mjoin3(PATL,gemove,PHSA)(M, N, alpha, A, lda, C, ldc);
    else if (alpha == ATL_rzero)
-      Mjoin3(PATL,gescal,PHSA_FN)(M, N, beta, C, ldc);
+      Mjoin3(PATL,gescal,PHSA)(M, N, beta, C, ldc);
    else if (alpha == ATL_rone)
    {
       if (beta == ATL_rone)
-         Mjoin3(PATL,geadd_a1_b1,PHSA_FN)(M, N, alpha, A, lda, beta, C, ldc);
+         Mjoin3(PATL,geadd_a1_b1,PHSA)(M, N, alpha, A, lda, beta, C, ldc);
       else if (beta == ATL_rzero)
-         Mjoin3(PATL,geadd_a1_b0,PHSA_FN)(M, N, alpha, A, lda, beta, C, ldc);
-      else Mjoin3(PATL,geadd_a1_bX,PHSA_FN)(M, N, alpha, A, lda, beta, C, ldc);
+         Mjoin3(PATL,geadd_a1_b0,PHSA)(M, N, alpha, A, lda, beta, C, ldc);
+      else Mjoin3(PATL,geadd_a1_bX,PHSA)(M, N, alpha, A, lda, beta, C, ldc);
    }
    else
    {
       if (beta == ATL_rone)
-         Mjoin3(PATL,geadd_aX_b1,PHSA_FN)(M, N, alpha, A, lda, beta, C, ldc);
+         Mjoin3(PATL,geadd_aX_b1,PHSA)(M, N, alpha, A, lda, beta, C, ldc);
       else if (beta == ATL_rzero)
-         Mjoin3(PATL,geadd_aX_b0,PHSA_FN)(M, N, alpha, A, lda, beta, C, ldc);
-      else Mjoin3(PATL,geadd_aX_bX,PHSA_FN)(M, N, alpha, A, lda, beta, C, ldc);
+         Mjoin3(PATL,geadd_aX_b0,PHSA)(M, N, alpha, A, lda, beta, C, ldc);
+      else Mjoin3(PATL,geadd_aX_bX,PHSA)(M, N, alpha, A, lda, beta, C, ldc);
    }
 #else
    const int AlphaIsReal = (alpha[1] == ATL_rzero);

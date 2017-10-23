@@ -46,7 +46,7 @@ static void MAT2BLK_ICALL(
    TYPE *V, const SCALAR alpha0)
 {
 #ifdef DIRECTHSA
-   Mjoin3(PATL,icall_MAT2BLK,HSADECL)(mat2blk, M, N, A, lda, V, alpha0);
+   Mjoin3(PATL,icall_MAT2BLK,PHSA)(mat2blk, M, N, A, lda, V, alpha0);
 #else
    mat2blk(M, N, A, lda, V, alpha0);
 #endif
@@ -59,7 +59,7 @@ static void MAT2BLK2_ICALL(
    const TYPE *A, const int lda, TYPE *C, const int ldc)
 {
 #ifdef DIRECTHSA
-   Mjoin3(PATL,icall_MAT2BLK2,HSADECL)(
+   Mjoin3(PATL,icall_MAT2BLK2,PHSA)(
       mat2blk2, M, N, alpha, A, lda, C, ldc);
 #else
    mat2blk2(M, N, alpha, A, lda, C, ldc);
@@ -72,7 +72,7 @@ static void PUTBLK_ICALL(
    PUTBLK putblk, int M, int N, TYPE *V, TYPE *C, int ldc, const SCALAR beta0)
 {
 #  ifdef DIRECTHSA
-   Mjoin3(PATL,icall_PUTBLK,HSADECL)(
+   Mjoin3(PATL,icall_PUTBLK,PHSA)(
       putblk, M, N, V, C, ldc, beta0);
 #  else
    putblk(M, N, V, C, ldc, beta0);
@@ -87,7 +87,7 @@ static void NBMM_ICALL(
    const TYPE beta, TYPE* C, const int ldc)
 {
 #ifdef DIRECTHSA
-   Mjoin3(PATL,icall_NBMM0,HSADECL)(
+   Mjoin3(PATL,icall_NBMM0,PHSA)(
       NBmm0, M, N, K, alpha, A, lda, B, ldb, beta, C, ldc);
 #else
    NBmm0(M, N, K, alpha, A, lda, B, ldb, beta, C, ldc);
@@ -102,7 +102,7 @@ static void NCMM_ICALL(
    const SCALAR beta, TYPE *C, const int ldc)
 {
 #ifdef DIRECTHSA
-   Mjoin3(PATL,icall_NCMM,HSADECL)(
+   Mjoin3(PATL,icall_NCMM,PHSA)(
       NCmm, M, N, K, alpha, A, lda, B, ldb, beta, C, ldc);
 #else
    NCmm(M, N, K, alpha, A, lda, B, ldb, beta, C, ldc);
@@ -119,7 +119,7 @@ static int MMINTR_ICALL(
    const SCALAR beta, TYPE *C, const int ldc)
 {
 #ifdef DIRECTHSA
-   return Mjoin3(PATL,icall_MMINTR,HSADECL)(
+   return Mjoin3(PATL,icall_MMINTR,PHSA)(
       mmintr, memBlob, TA, TB, M, N, K, alpha, A, lda, B ,ldb, beta, C, ldc);
 #else
    return mmintr(
@@ -134,7 +134,7 @@ static void GEADD_ICALL(
    const int lda, const SCALAR beta, TYPE *C, const int ldc)
 {
 #ifdef DIRECTHSA
-   Mjoin3(PATL,icall_GEADD,HSADECL)(geadd, M, N, alpha, A, lda, beta, C, ldc);
+   Mjoin3(PATL,icall_GEADD,PHSA)(geadd, M, N, alpha, A, lda, beta, C, ldc);
 #else
    geadd(M, N, alpha, A, lda, beta, C, ldc);
 #endif

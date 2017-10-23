@@ -30,7 +30,6 @@
 
 #ifdef DIRECTHSA /* DEVTEMP */
 #  define ATL_no_icalls
-#  define HSADECLS
 #endif
 
 #include "atlas_misc.h"
@@ -38,7 +37,7 @@
 #include "atlas_malloc.h"
 
 HSA_FUNCTION
-int Mjoin3(PATL,mmBPP,PHSA_FN)(
+int Mjoin3(PATL,mmBPP,PHSA)(
    MemBlob* memBlob,
    const enum ATLAS_TRANS TA, const enum ATLAS_TRANS TB,
    const int M, const int N, const int K,
@@ -75,7 +74,7 @@ int Mjoin3(PATL,mmBPP,PHSA_FN)(
       n = N;
    ldc = (((m*sizeof(TYPE)+ATL_Cachelen-1)/ATL_Cachelen)*ATL_Cachelen)
           / sizeof(TYPE);
-   vC = Mjoin(simple_malloc,PHSA_FN)(memBlob,
+   vC = Mjoin(simple_malloc,PHSA)(memBlob,
                                   ATL_Cachelen+ATL_MulBySize(ldc*n+KB*(m+n)));
    if (!vC) return(-1);
    pC = ATL_AlignPtr(vC);
@@ -83,29 +82,29 @@ int Mjoin3(PATL,mmBPP,PHSA_FN)(
    pB = pA + KB*m;
    if (TA == AtlasNoTrans)
    {
-      A2blk = ATL_TargetFn(Mjoin3(PATL,gemoveT,PHSA_FN));
+      A2blk = ATL_TargetFn(Mjoin3(PATL,gemoveT,PHSA));
       incA = lda*KB;
    }
    else
    {
-      A2blk = ATL_TargetFn(Mjoin3(PATL,gemove,PHSA_FN));
+      A2blk = ATL_TargetFn(Mjoin3(PATL,gemove,PHSA));
       incA = KB;
    }
    if (TB == AtlasNoTrans)
    {
-      B2blk = ATL_TargetFn(Mjoin3(PATL,gemove,PHSA_FN));
+      B2blk = ATL_TargetFn(Mjoin3(PATL,gemove,PHSA));
       incB = KB;
    }
    else
    {
-      B2blk = ATL_TargetFn(Mjoin3(PATL,gemoveT,PHSA_FN));
+      B2blk = ATL_TargetFn(Mjoin3(PATL,gemoveT,PHSA));
       incB = ldb*KB;
    }
 /*
  * If we are going to multiply zeros to avoid cleanup, zero workspace
  */
    if (m != M || n != N)
-      Mjoin3(PATL,zero,PHSA_FN)(ldc*n+KB*(m+n), pC, 1);
+      Mjoin3(PATL,zero,PHSA)(ldc*n+KB*(m+n), pC, 1);
 /*
  * See what kernel we're calling
  */
@@ -118,33 +117,33 @@ int Mjoin3(PATL,mmBPP,PHSA_FN)(
       }
       else         /* need to call N-cleanup kernel */
       {
-         NBmm0 = ATL_TargetFn(Mjoin3(PATL,pNBmm_b0,PHSA_FN));
-         NBmm1 = ATL_TargetFn(Mjoin3(PATL,pNBmm_b1,PHSA_FN));
+         NBmm0 = ATL_TargetFn(Mjoin3(PATL,pNBmm_b0,PHSA));
+         NBmm1 = ATL_TargetFn(Mjoin3(PATL,pNBmm_b1,PHSA));
       }
    }
    else if (n == NB) /* call M-cleanup kernel */
    {
-      NBmm0 = ATL_TargetFn(Mjoin3(PATL,pMBmm_b0,PHSA_FN));
-      NBmm1 = ATL_TargetFn(Mjoin3(PATL,pMBmm_b1,PHSA_FN));
+      NBmm0 = ATL_TargetFn(Mjoin3(PATL,pMBmm_b0,PHSA));
+      NBmm1 = ATL_TargetFn(Mjoin3(PATL,pMBmm_b1,PHSA));
    }
    else              /* both N & M are cleanup, call general K clean */
    {
-      NBmm0 = ATL_TargetFn(Mjoin3(PATL,pKBmm,PHSA_FN));
-      NBmm1 = ATL_TargetFn(Mjoin3(PATL,pKBmm,PHSA_FN));
+      NBmm0 = ATL_TargetFn(Mjoin3(PATL,pKBmm,PHSA));
+      NBmm1 = ATL_TargetFn(Mjoin3(PATL,pKBmm,PHSA));
       if (m == M && n == N)  /* must zero pC if not done above */
-         Mjoin3(PATL,zero,PHSA_FN)(ldc*n, pC, 1);
+         Mjoin3(PATL,zero,PHSA)(ldc*n, pC, 1);
 
    }
    nblk = K / KB;
    kr = K - nblk*KB;
    if (!nblk && kr)
-      Mjoin3(PATL,zero,PHSA_FN)(ldc*n, pC, 1);
-   Mjoin3(PATL,mmK,PHSA_FN)(M, m, N, n, nblk, kr, (kr && kr+4 >= KB) ? KB : 0,
+      Mjoin3(PATL,zero,PHSA)(ldc*n, pC, 1);
+   Mjoin3(PATL,mmK,PHSA)(M, m, N, n, nblk, kr, (kr && kr+4 >= KB) ? KB : 0,
                          ATL_rone, ATL_rone, ATL_rzero, A, lda, incA, pA, 0,
                          B, ldb, incB, pB, 0, pC, ldc,
                          A2blk, B2blk, NBmm0, NBmm1);
-   Mjoin3(PATL,geadd,PHSA_FN)(M, N, alpha, pC, ldc, beta, C, ldc0);
-   Mjoin(simple_free,PHSA_FN)(memBlob, vC);
+   Mjoin3(PATL,geadd,PHSA)(M, N, alpha, pC, ldc, beta, C, ldc0);
+   Mjoin(simple_free,PHSA)(memBlob, vC);
    return(0);
 }
 

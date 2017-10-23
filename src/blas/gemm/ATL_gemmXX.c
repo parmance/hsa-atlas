@@ -30,7 +30,6 @@
 
 #ifdef DIRECTHSA /* DEVTEMP */
 #  define ATL_no_icalls /* DEVTEMP */
-#  define HSADECLS
 #endif
 #include "atlas_misc.h"
 #include "atlas_lvl3.h"
@@ -112,7 +111,7 @@
    #elif defined(ATL_TGEMM)
       #define Cgemm__ Mjoin(Mjoin(PATL,tgemm),TATB)
    #else
-      #define Cgemm__ Mjoin4(PATL,gemm,TATB,PHSA_FN)
+      #define Cgemm__ Mjoin4(PATL,gemm,TATB,PHSA)
    #endif
 #endif
 
@@ -120,7 +119,7 @@
    #define FindingCE
 #endif
 
-#define MMINTR_ICALL Mjoin4(PATL,icall_site_MMINTR,TATB,HSADECL)
+#define MMINTR_ICALL Mjoin4(PATL,icall_site_MMINTR,TATB,PHSA)
 #include "ATL_indir_call.c"
 
 #ifdef USERGEMM
@@ -182,18 +181,18 @@ ATL_VOID Cgemm__(MemBlob* memBlob,
       mm1 = mm2 = ATL_TargetFn(Mjoin(PATL,usergemm_wrapper));
       if (N >= M)
       {
-         mm2 = ATL_TargetFn(Mjoin3(PATL,mmJIK,PHSA_FN));
-         mmNC = ATL_TargetFn(Mjoin3(PATL,NCmmJIK,PHSA_FN));
+         mm2 = ATL_TargetFn(Mjoin3(PATL,mmJIK,PHSA));
+         mmNC = ATL_TargetFn(Mjoin3(PATL,NCmmJIK,PHSA));
       }
       else
       {
-         mm2 = ATL_TargetFn(Mjoin3(PATL,mmJIK,PHSA_FN));
-         mmNC = ATL_TargetFn(Mjoin3(PATL,NCmmIJK,PHSA_FN));
+         mm2 = ATL_TargetFn(Mjoin3(PATL,mmJIK,PHSA));
+         mmNC = ATL_TargetFn(Mjoin3(PATL,NCmmIJK,PHSA));
       }
    #elif defined(FindingJITCPCE) || defined(CRBIG_MM)
-      mm2 = mm1 = ATL_TargetFn(Mjoin3(PATL,mmJITcp,PHSA_FN));
-      mmNC = (N >= M) ? ATL_TargetFn(Mjoin3(PATL,NCmmJIK,PHSA_FN)
-                      : ATL_TargetFn(Mjoin3(PATL,NCmmIJK,PHSA_FN)));
+      mm2 = mm1 = ATL_TargetFn(Mjoin3(PATL,mmJITcp,PHSA));
+      mmNC = (N >= M) ? ATL_TargetFn(Mjoin3(PATL,NCmmJIK,PHSA)
+                      : ATL_TargetFn(Mjoin3(PATL,NCmmIJK,PHSA)));
    #else
 /*
  *    Chose outside loop order based on workspace needs unless we are
@@ -201,15 +200,15 @@ ATL_VOID Cgemm__(MemBlob* memBlob,
  */
       if (N >= M || (K <= KB+KB && M > MB && N > NB))
       {
-         mm1 = ATL_TargetFn(Mjoin3(PATL,mmJIK,PHSA_FN));
-         mm2 = ATL_TargetFn(Mjoin3(PATL,mmIJK,PHSA_FN));
-         mmNC = ATL_TargetFn(Mjoin3(PATL,NCmmJIK,PHSA_FN));
+         mm1 = ATL_TargetFn(Mjoin3(PATL,mmJIK,PHSA));
+         mm2 = ATL_TargetFn(Mjoin3(PATL,mmIJK,PHSA));
+         mmNC = ATL_TargetFn(Mjoin3(PATL,NCmmJIK,PHSA));
       }
       else
       {
-         mm1 = ATL_TargetFn(Mjoin3(PATL,mmIJK,PHSA_FN));
-         mm2 = ATL_TargetFn(Mjoin3(PATL,mmJIK,PHSA_FN));
-         mmNC = ATL_TargetFn(Mjoin3(PATL,NCmmIJK,PHSA_FN));
+         mm1 = ATL_TargetFn(Mjoin3(PATL,mmIJK,PHSA));
+         mm2 = ATL_TargetFn(Mjoin3(PATL,mmJIK,PHSA));
+         mmNC = ATL_TargetFn(Mjoin3(PATL,NCmmIJK,PHSA));
       }
       #ifdef TREAL
 /*
@@ -228,15 +227,15 @@ ATL_VOID Cgemm__(MemBlob* memBlob,
       #endif
          {
             mm2 = mm1;
-            mm1 = ATL_TargetFn(Mjoin3(PATL,mmJITcp,PHSA_FN));
+            mm1 = ATL_TargetFn(Mjoin3(PATL,mmJITcp,PHSA));
          }
    #endif
    #ifdef SMALLK_MM
-         if (ATL_OOM Mjoin3(PATL,mmJKI,PHSA_FN)(
+         if (ATL_OOM Mjoin3(PATL,mmJKI,PHSA)(
                 memBlob, ETA, ETB, M, N, K, alpha,
                 A, lda, B, ldb, beta, C, ldc))
             ATL_assert(MMINTR_ICALL(mmNC, memBlob, ETA, ETB, M, N, K, alpha,
-                                       A, lda, B, ldb, beta, C, ldc) == 0);
+                                    A, lda, B, ldb, beta, C, ldc) == 0);
       return;
    #endif
 
@@ -270,8 +269,8 @@ ATL_VOID Cgemm__(MemBlob* memBlob,
  */
       if (K <= 4 && M > 40)
       {
-         if (!Mjoin3(PATL,mmJKI,PHSA_FN)(memBlob, ETA, ETB, M, N, K, alpha,
-                                         A, lda, B, ldb, beta, C, ldc))
+         if (!Mjoin3(PATL,mmJKI,PHSA)(memBlob, ETA, ETB, M, N, K, alpha,
+                                      A, lda, B, ldb, beta, C, ldc))
              return;
       }
       mm1 = mm2 = mmNC;
@@ -284,7 +283,7 @@ ATL_VOID Cgemm__(MemBlob* memBlob,
       #ifdef TREAL
          Kp = Mmin(CE_maxK, K);
       #else
-         if (mm1 == ATL_TargetFn(Mjoin3(PATL,mmJITcp,PHSA_FN)))
+         if (mm1 == ATL_TargetFn(Mjoin3(PATL,mmJITcp,PHSA)))
             Kp = Mmin(NKB_maxK, K);
          else
             Kp = Mmin(CE_maxK, K);
@@ -298,7 +297,7 @@ ATL_VOID Cgemm__(MemBlob* memBlob,
       #ifdef TREAL
       if (K == Kp)
       #else
-         if (mm1 != ATL_TargetFn(Mjoin3(PATL,mmJITcp,PHSA_FN)) && K == Kp)
+         if (mm1 != ATL_TargetFn(Mjoin3(PATL,mmJITcp,PHSA)) && K == Kp)
       #endif
       {
          Kp = (ATL_DivBySize(ATL_MaxMalloc) - MB*NB) / (MB+NB);
@@ -307,10 +306,10 @@ ATL_VOID Cgemm__(MemBlob* memBlob,
       do
       {
          if (MMINTR_ICALL(mm1, memBlob, ETA, ETB, M, N, Kp, alpha, A, lda,
-                           B, ldb, bet, C, ldc))
+                          B, ldb, bet, C, ldc))
             if (ATL_OOM MMINTR_ICALL(mm2, memBlob, ETA, ETB, M, N, Kp, alpha,
                                      A, lda, B, ldb, bet, C, ldc))
-               if (ATL_OOM Mjoin3(PATL,mmJITcp,PHSA_FN)(
+               if (ATL_OOM Mjoin3(PATL,mmJITcp,PHSA)(
                        memBlob, ETA, ETB, -M, N, Kp, alpha,
                        A, lda, B, ldb, bet, C, ldc) )
                   ATL_assert(MMINTR_ICALL(mmNC, memBlob, ETA, ETB,
@@ -328,8 +327,8 @@ ATL_VOID Cgemm__(MemBlob* memBlob,
                        beta, C, ldc))
          if (MMINTR_ICALL(mm2, memBlob, ETA, ETB, M, N, K, alpha, A, lda,
                           B, ldb, beta, C, ldc))
-            if (Mjoin3(PATL,mmJITcp,PHSA_FN)(memBlob, ETA, ETB, -M, N, K, alpha,
-                                             A, lda, B, ldb, beta, C, ldc) )
+            if (Mjoin3(PATL,mmJITcp,PHSA)(memBlob, ETA, ETB, -M, N, K, alpha,
+                                          A, lda, B, ldb, beta, C, ldc) )
                ATL_assert(MMINTR_ICALL(mmNC, memBlob, ETA, ETB, M, N, K, alpha,
                                        A, lda, B, ldb, beta, C, ldc) == 0);
    #endif

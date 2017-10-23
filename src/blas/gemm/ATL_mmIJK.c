@@ -30,26 +30,25 @@
 
 #ifdef DIRECTHSA /* DEVTEMP */
 #  define ATL_no_icalls
-#  define HSADECLS
 #endif
 
 #include "atlas_misc.h"
 #include "atlas_lvl3.h"
 #include "atlas_malloc.h"
 
-#define KBmm Mjoin3(PATL,pKBmm,PHSA_FN)
-#define IBNBmm Mjoin3(PATL,IBNBmm,PHSA_FN)
-#define NBJBmm Mjoin3(PATL,MBJBmm,PHSA_FN)
-#define IBJBmm Mjoin3(PATL,IBJBmm,PHSA_FN)
-#define col2blk Mjoin3(PATL,col2blk_a1,PHSA_FN)
+#define KBmm Mjoin3(PATL,pKBmm,PHSA)
+#define IBNBmm Mjoin3(PATL,IBNBmm,PHSA)
+#define NBJBmm Mjoin3(PATL,MBJBmm,PHSA)
+#define IBJBmm Mjoin3(PATL,IBJBmm,PHSA)
+#define col2blk Mjoin3(PATL,col2blk_a1,PHSA)
 
-#define NBMM_ICALL Mjoin3(PATL,icall_site_NBMM0,HSADECL)
-#define PUTBLK_ICALL Mjoin3(PATL,icall_site_PUTBLK,HSADECL)
-#define MAT2BLK_ICALL Mjoin3(PATL,icall_site_MAT2BLK,HSADECL)
+#define NBMM_ICALL Mjoin3(PATL,icall_site_NBMM0,PHSA)
+#define PUTBLK_ICALL Mjoin3(PATL,icall_site_PUTBLK,PHSA)
+#define MAT2BLK_ICALL Mjoin3(PATL,icall_site_MAT2BLK,PHSA)
 #include "ATL_indir_call.c"
 
 HSA_FUNCTION
-void Mjoin3(PATL,mmIJK2,PHSA_FN)(
+void Mjoin3(PATL,mmIJK2,PHSA)(
    int K, int nMb, int nNb, int nKb, int ib, int jb,
    int kb, const SCALAR alpha, const TYPE *A, int lda,
    TYPE *pA0, int incA, MAT2BLK A2blk, const TYPE *pB0,
@@ -70,7 +69,7 @@ void Mjoin3(PATL,mmIJK2,PHSA_FN)(
    if (putblk)
    {
       ldpc = NB;
-      if (!nKb && kb) Mjoin3(PATL,gezero,PHSA_FN)(MB, NB, pC, MB);
+      if (!nKb && kb) Mjoin3(PATL,gezero,PHSA)(MB, NB, pC, MB);
    }
    else ldpc = ldc;
    for (i=nMb; i; i--)    /* loop over full row panels of A */
@@ -110,7 +109,7 @@ void Mjoin3(PATL,mmIJK2,PHSA_FN)(
          }
          else
          {
-            if (ZEROC) Mjoin3(PATL,gezero,PHSA_FN)(MB, NB, pC, ldpc);
+            if (ZEROC) Mjoin3(PATL,gezero,PHSA)(MB, NB, pC, ldpc);
             if (kb)
             {
                KBmm(MB, NB, kb, ATL_rone, pA, kb, pB, kb, cubeta, pC, ldpc);
@@ -164,7 +163,7 @@ void Mjoin3(PATL,mmIJK2,PHSA_FN)(
 }
 
 HSA_FUNCTION
-int Mjoin3(PATL,mmIJK,PHSA_FN)(
+int Mjoin3(PATL,mmIJK,PHSA)(
    MemBlob* memBlob,
    const enum ATLAS_TRANS TA, const enum ATLAS_TRANS TB,
    const int M, const int N0, const int K,
@@ -206,17 +205,17 @@ int Mjoin3(PATL,mmIJK,PHSA_FN)(
    else
    {
       NBmm0 = ATL_TargetFn(NBmm_b0);
-      vC = Mjoin(simple_malloc,PHSA_FN)(memBlob,
-                                        ATL_Cachelen + ATL_MulBySize(NBNB));
+      vC = Mjoin(simple_malloc,PHSA)(memBlob,
+                                     ATL_Cachelen + ATL_MulBySize(NBNB));
       if (!vC) return(-1);
       pC = ATL_AlignPtr(vC);
       if ( SCALAR_IS_ONE(beta) )
-         putblk = ATL_TargetFn(Mjoin3(PATL,putblk_b1,PHSA_FN));
+         putblk = ATL_TargetFn(Mjoin3(PATL,putblk_b1,PHSA));
       else if ( SCALAR_IS_ZERO(beta) )
-         putblk = ATL_TargetFn(Mjoin3(PATL,putblk_b0,PHSA_FN));
+         putblk = ATL_TargetFn(Mjoin3(PATL,putblk_b0,PHSA));
       else if ( SCALAR_IS_NONE(beta) )
-         putblk = ATL_TargetFn(Mjoin3(PATL,putblk_bn1,PHSA_FN));
-      else putblk = ATL_TargetFn(Mjoin3(PATL,putblk_bX,PHSA_FN));
+         putblk = ATL_TargetFn(Mjoin3(PATL,putblk_bn1,PHSA));
+      else putblk = ATL_TargetFn(Mjoin3(PATL,putblk_bX,PHSA));
    }
 /*
  * Special case if we don't need to copy one or more input matrix
@@ -234,11 +233,11 @@ int Mjoin3(PATL,mmIJK,PHSA_FN)(
       }
       else
       {
-         vA = Mjoin(simple_malloc,PHSA_FN)(memBlob,
-                                           ATL_Cachelen + ATL_MulBySize(incK));
+         vA = Mjoin(simple_malloc,PHSA)(memBlob,
+                                        ATL_Cachelen + ATL_MulBySize(incK));
          if (!vA)
          {
-            Mjoin(simple_free,PHSA_FN)(memBlob, vC);
+            Mjoin(simple_free,PHSA)(memBlob, vC);
             return(-1);
          }
          pA = ATL_AlignPtr(vA);
@@ -246,31 +245,31 @@ int Mjoin3(PATL,mmIJK,PHSA_FN)(
          {
             incA = NB;
             if ( SCALAR_IS_ONE(alpha) )
-               A2blk = ATL_TargetFn(Mjoin3(PATL,row2blkT_a1,PHSA_FN));
-            else A2blk = ATL_TargetFn(Mjoin3(PATL,row2blkT_aX,PHSA_FN));
+               A2blk = ATL_TargetFn(Mjoin3(PATL,row2blkT_a1,PHSA));
+            else A2blk = ATL_TargetFn(Mjoin3(PATL,row2blkT_aX,PHSA));
          }
          else
          {
             incA = ATL_MulByNB(lda);
             if ( SCALAR_IS_ONE(alpha) )
-               A2blk = ATL_TargetFn(Mjoin3(PATL,col2blk_a1,PHSA_FN));
-            else A2blk = ATL_TargetFn(Mjoin3(PATL,col2blk_aX,PHSA_FN));
+               A2blk = ATL_TargetFn(Mjoin3(PATL,col2blk_a1,PHSA));
+            else A2blk = ATL_TargetFn(Mjoin3(PATL,col2blk_aX,PHSA));
          }
       }
-      Mjoin3(PATL,mmIJK2,PHSA_FN)(
+      Mjoin3(PATL,mmIJK2,PHSA)(
          K, nMb, nNb, nKb, ib, jb, kb, alpha, A, lda, pA,
          incA, A2blk, B, beta, C, ldc, pC, putblk, NBmm0);
-      if (vA) Mjoin(simple_free,PHSA_FN)(memBlob, vA);
-      if (vC) Mjoin(simple_free,PHSA_FN)(memBlob, vC);
+      if (vA) Mjoin(simple_free,PHSA)(memBlob, vA);
+      if (vC) Mjoin(simple_free,PHSA)(memBlob, vC);
       return(0);
    }
    i = ATL_Cachelen + ATL_MulBySize(N*K + incK);
-   if (i <= ATL_MaxMalloc) vA = Mjoin(simple_malloc,PHSA_FN)(memBlob, i);
+   if (i <= ATL_MaxMalloc) vA = Mjoin(simple_malloc,PHSA)(memBlob, i);
    if (!vA)
    {
       if (TA == AtlasNoTrans && TB == AtlasNoTrans)
       {
-         if (vC) Mjoin(simple_free,PHSA_FN)(memBlob, vC);
+         if (vC) Mjoin(simple_free,PHSA)(memBlob, vC);
          return(1);
       }
       if (jb) n = nNb + 1;
@@ -281,11 +280,11 @@ int Mjoin3(PATL,mmIJK,PHSA_FN)(
          if (k < 1) break;
          if (k*j < n) k++;
          h = ATL_Cachelen + ATL_MulBySize((k+1)*incK);
-         if (h <= ATL_MaxMalloc) vA = Mjoin(simple_malloc,PHSA_FN)(memBlob, h);
+         if (h <= ATL_MaxMalloc) vA = Mjoin(simple_malloc,PHSA)(memBlob, h);
       }
       if (!vA)
       {
-         if (vC) Mjoin(simple_free,PHSA_FN)(memBlob, vC);
+         if (vC) Mjoin(simple_free,PHSA)(memBlob, vC);
          return(-1);
       }
       n = ATL_MulByNB(k);
@@ -302,25 +301,25 @@ int Mjoin3(PATL,mmIJK,PHSA_FN)(
    {
       incB = ldb*n;
       if ( SCALAR_IS_ONE(alpha) )
-         B2blk = ATL_TargetFn(Mjoin3(PATL,col2blk2_a1,PHSA_FN));
-      else B2blk = ATL_TargetFn(Mjoin3(PATL,col2blk2_aX,PHSA_FN));
+         B2blk = ATL_TargetFn(Mjoin3(PATL,col2blk2_a1,PHSA));
+      else B2blk = ATL_TargetFn(Mjoin3(PATL,col2blk2_aX,PHSA));
    }
    else
    {
       incB = n;
       if ( SCALAR_IS_ONE(alpha) )
-         B2blk = ATL_TargetFn(Mjoin3(PATL,row2blkT2_a1,PHSA_FN));
-      else B2blk = ATL_TargetFn(Mjoin3(PATL,row2blkT2_aX,PHSA_FN));
+         B2blk = ATL_TargetFn(Mjoin3(PATL,row2blkT2_a1,PHSA));
+      else B2blk = ATL_TargetFn(Mjoin3(PATL,row2blkT2_aX,PHSA));
    }
    if (TA == AtlasNoTrans)
    {
       incA = NB;
-      A2blk = ATL_TargetFn(Mjoin3(PATL,row2blkT_a1,PHSA_FN));
+      A2blk = ATL_TargetFn(Mjoin3(PATL,row2blkT_a1,PHSA));
    }
    else
    {
       incA = ATL_MulByNB(lda);
-      A2blk = ATL_TargetFn(Mjoin3(PATL,col2blk_a1,PHSA_FN));
+      A2blk = ATL_TargetFn(Mjoin3(PATL,col2blk_a1,PHSA));
    }
    incC = ldc*n;
    pB = pA + incK;
@@ -329,7 +328,7 @@ int Mjoin3(PATL,mmIJK,PHSA_FN)(
    {
       if (TB == AtlasNoTrans) MAT2BLK_ICALL(B2blk, K, n, B, ldb, pB, alpha);
       else MAT2BLK_ICALL(B2blk, n, K, B, ldb, pB, alpha);
-      Mjoin3(PATL,mmIJK2,PHSA_FN)(
+      Mjoin3(PATL,mmIJK2,PHSA)(
          K, nMb, k, nKb, ib, jb2, kb, alpha, A, lda, pA,
          incA, A2blk, pB, beta, C, ldc, pC, putblk, NBmm0);
       N -= n;
@@ -346,8 +345,8 @@ int Mjoin3(PATL,mmIJK,PHSA_FN)(
    }
    while (N);
 
-   if (vC) Mjoin(simple_free,PHSA_FN)(memBlob, vC);
-   Mjoin(simple_free,PHSA_FN)(memBlob, vA);
+   if (vC) Mjoin(simple_free,PHSA)(memBlob, vC);
+   Mjoin(simple_free,PHSA)(memBlob, vA);
    return(0);
 }
 

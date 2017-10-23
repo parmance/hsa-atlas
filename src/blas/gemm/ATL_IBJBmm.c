@@ -27,16 +27,11 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  */
-
-#ifdef DIRECTHSA
-#  define HSADECLS
-#endif
-
 #include "atlas_misc.h"
 #include "atlas_lvl3.h"
 
 HSA_FUNCTION
-void Mjoin3(PATL,IBJBmm,PHSA_FN)(
+void Mjoin3(PATL,IBJBmm,PHSA)(
    int IB, int JB, int K, const TYPE *A, const TYPE *B,
    TYPE beta, TYPE *C, const int ldc)
 {
@@ -49,26 +44,26 @@ void Mjoin3(PATL,IBJBmm,PHSA_FN)(
    #endif
    int k;
 
-   if (beta == ATL_rzero) Mjoin3(PATL,gezero,PHSA_FN)(IB, JB, C, ldc);
+   if (beta == ATL_rzero) Mjoin3(PATL,gezero,PHSA)(IB, JB, C, ldc);
    if (nKb)
    {
-      Mjoin3(PATL,pKBmm,PHSA_FN)(IB, JB, KB, ATL_rone, A, NB, B, NB, beta,
-                                 C, ldc);
+      Mjoin3(PATL,pKBmm,PHSA)(IB, JB, KB, ATL_rone, A, NB, B, NB, beta,
+                              C, ldc);
       B += incB;
       A += incA;
       for (k=nKb-1; k; k--)
       {
-         Mjoin3(PATL,pKBmm,PHSA_FN)(IB, JB, KB, ATL_rone, A, NB, B, NB,
-                                    ATL_rone, C, ldc);
+         Mjoin3(PATL,pKBmm,PHSA)(IB, JB, KB, ATL_rone, A, NB, B, NB,
+                                 ATL_rone, C, ldc);
          B += incB;
          A += incA;
       }
       if (k = K-ATL_MulByNB(nKb))
-         Mjoin3(PATL,pKBmm,PHSA_FN)(IB, JB, k, ATL_rone, A, k, B, k,
-                                    ATL_rone, C, ldc);
+         Mjoin3(PATL,pKBmm,PHSA)(IB, JB, k, ATL_rone, A, k, B, k,
+                                 ATL_rone, C, ldc);
    }
    else if (k = K-ATL_MulByNB(nKb))
-      Mjoin3(PATL,pKBmm,PHSA_FN)(IB, JB, k, ATL_rone, A, k, B, k, beta,
-                                 C, ldc);
+      Mjoin3(PATL,pKBmm,PHSA)(IB, JB, k, ATL_rone, A, k, B, k, beta,
+                              C, ldc);
 }
 

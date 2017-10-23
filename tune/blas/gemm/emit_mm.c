@@ -253,27 +253,16 @@ void emit_head(int NC, FILE *fpout, char pre, int nb, int muladd, int lat,
       if (pre == 'd' || pre == 's')
       {
          fprintf(fpout, "   #ifdef DIRECTHSA\n");
-         /* TODO: remove this. Final version will have only _hsa postfix.  */
-         fprintf(fpout, "      #ifdef HSADECLS\n");
-         /* There are defines to actual HSA functions.  */
-         fprintf(fpout, "         #define NBmm %s_a1_b1_hsa_function\n", nam);
-         fprintf(fpout, "         #define NBmm_b1 %s_a1_b1_hsa_function\n", nam);
-         fprintf(fpout, "         #define NBmm_b0 %s_a1_b0_hsa_function\n", nam);
-         fprintf(fpout, "         #define NBmm_bX %s_a1_bX_hsa_function\n", nam);
-         fprintf(fpout, "      #else\n");
-         /* These are defines to HSA launcher function. */
-         fprintf(fpout, "         #define NBmm %s_a1_b1_hsa\n", nam);
-         fprintf(fpout, "         #define NBmm_b1 %s_a1_b1_hsa\n", nam);
-         fprintf(fpout, "         #define NBmm_b0 %s_a1_b0_hsa\n", nam);
-         fprintf(fpout, "         #define NBmm_bX %s_a1_bX_hsa\n", nam);
-         fprintf(fpout, "      #endif\n");
+         fprintf(fpout, "      #define NBmm %s_a1_b1_hsa_function\n", nam);
+         fprintf(fpout, "      #define NBmm_b1 %s_a1_b1_hsa_function\n", nam);
+         fprintf(fpout, "      #define NBmm_b0 %s_a1_b0_hsa_function\n", nam);
+         fprintf(fpout, "      #define NBmm_bX %s_a1_bX_hsa_function\n", nam);
          fprintf(fpout, "   #else\n");
          fprintf(fpout, "      #define NBmm %s_a1_b1\n", nam);
          fprintf(fpout, "      #define NBmm_b1 %s_a1_b1\n", nam);
          fprintf(fpout, "      #define NBmm_b0 %s_a1_b0\n", nam);
          fprintf(fpout, "      #define NBmm_bX %s_a1_bX\n", nam);
          fprintf(fpout, "   #endif\n");
-         /* HSA variants */
       }
       else
       {

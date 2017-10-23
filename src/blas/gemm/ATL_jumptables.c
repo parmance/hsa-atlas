@@ -34,38 +34,9 @@
 
 #ifdef DIRECTHSA
 
-#ifndef HSADECLS /* DEVTEMP */
-#define DBGLOG_CALLED_ONCE                       \
-   do                                            \
-   {                                             \
-      static unsigned called_once = 0;           \
-      if (!called_once)                          \
-      {                                          \
-         called_once++;                          \
-         printf ("icall-emul: %s\n", __func__);  \
-      }                                          \
-   }                                             \
-   while(0)
-
-#define DBGLOG_CALLED_UNKNOWN                           \
-   do                                                   \
-   {                                                    \
-      static unsigned called_unknown = 0;               \
-      if (!called_unknown)                              \
-      {                                                 \
-         called_unknown++;                              \
-         printf("%s: Called unknown fn", __func__);     \
-      }                                                 \
-   }                                                    \
-   while(0)
-#else
-#define DBGLOG_CALLED_ONCE
-#define DBGLOG_CALLED_UNKNOWN
-#endif
-
 #if defined(GEN_JT_MAT2BLK)
 HSA_FUNCTION
-void Mjoin3(PATL,icall_MAT2BLK,HSADECL)(
+void Mjoin3(PATL,icall_MAT2BLK,PHSA)(
    MAT2BLK mat2blk, const int M, const int N, const TYPE *A,
    const int lda, TYPE *V, const SCALAR alpha0)
 {
@@ -74,37 +45,34 @@ void Mjoin3(PATL,icall_MAT2BLK,HSADECL)(
    fn(M, N, A, lda, V, alpha0);                 \
    break
 
-   DBGLOG_CALLED_ONCE;
-
    switch (mat2blk)
    {
    default:
-      DBGLOG_CALLED_UNKNOWN;
    case MAT2BLK_null:
       ATL_assert (0);
       break;
-   case Mjoin4(PATL,col2blk_a1,HSADECL,_fnid):
-      DO_CALL(Mjoin3(PATL,col2blk_a1,HSADECL));
-   case Mjoin4(PATL,col2blk_aX,HSADECL,_fnid):
-      DO_CALL(Mjoin3(PATL,col2blk_aX,HSADECL));
-   case Mjoin4(PATL,col2blk2_a1,HSADECL,_fnid):
-      DO_CALL(Mjoin3(PATL,col2blk2_a1,HSADECL));
-   case Mjoin4(PATL,col2blk2_aX,HSADECL,_fnid):
-      DO_CALL(Mjoin3(PATL,col2blk2_aX,HSADECL));
-   case Mjoin4(PATL,row2blkT_a1,HSADECL,_fnid):
-      DO_CALL(Mjoin3(PATL,row2blkT_a1,HSADECL));
-   case Mjoin4(PATL,row2blkT_aX,HSADECL,_fnid):
-      DO_CALL(Mjoin3(PATL,row2blkT_aX,HSADECL));
-   case Mjoin4(PATL,row2blkT2_a1,HSADECL,_fnid):
-      DO_CALL(Mjoin3(PATL,row2blkT2_a1,HSADECL));
-   case Mjoin4(PATL,row2blkT2_aX,HSADECL,_fnid):
-      DO_CALL(Mjoin3(PATL,row2blkT2_aX,HSADECL));
+   case Mjoin4(PATL,col2blk_a1,PHSA,_fnid):
+      DO_CALL(Mjoin3(PATL,col2blk_a1,PHSA));
+   case Mjoin4(PATL,col2blk_aX,PHSA,_fnid):
+      DO_CALL(Mjoin3(PATL,col2blk_aX,PHSA));
+   case Mjoin4(PATL,col2blk2_a1,PHSA,_fnid):
+      DO_CALL(Mjoin3(PATL,col2blk2_a1,PHSA));
+   case Mjoin4(PATL,col2blk2_aX,PHSA,_fnid):
+      DO_CALL(Mjoin3(PATL,col2blk2_aX,PHSA));
+   case Mjoin4(PATL,row2blkT_a1,PHSA,_fnid):
+      DO_CALL(Mjoin3(PATL,row2blkT_a1,PHSA));
+   case Mjoin4(PATL,row2blkT_aX,PHSA,_fnid):
+      DO_CALL(Mjoin3(PATL,row2blkT_aX,PHSA));
+   case Mjoin4(PATL,row2blkT2_a1,PHSA,_fnid):
+      DO_CALL(Mjoin3(PATL,row2blkT2_a1,PHSA));
+   case Mjoin4(PATL,row2blkT2_aX,PHSA,_fnid):
+      DO_CALL(Mjoin3(PATL,row2blkT2_aX,PHSA));
    }
 }
 
 #elif defined(GEN_JT_MAT2BLK2)
 HSA_FUNCTION
-void Mjoin3(PATL,icall_MAT2BLK2,HSADECL)(
+void Mjoin3(PATL,icall_MAT2BLK2,PHSA)(
    MAT2BLK2 mat2blk2, const int M, const int N, const float alpha,
    const float *A, const int lda, float *C, const int ldc)
 {
@@ -113,25 +81,22 @@ void Mjoin3(PATL,icall_MAT2BLK2,HSADECL)(
    fn(M, N, alpha, A, lda, C, ldc);             \
    break
 
-   DBGLOG_CALLED_ONCE;
-
    switch (mat2blk2)
    {
    default:
-      DBGLOG_CALLED_UNKNOWN;
    case MAT2BLK2_null:
       ATL_assert (0);
       break;
-   case Mjoin4(PATL,gemoveT,HSADECL,_fnid):
-      DO_CALL(Mjoin3(PATL,gemoveT,HSADECL));
-   case Mjoin4(PATL,gemove,HSADECL,_fnid):
-      DO_CALL(Mjoin3(PATL,gemove,HSADECL));
+   case Mjoin4(PATL,gemoveT,PHSA,_fnid):
+      DO_CALL(Mjoin3(PATL,gemoveT,PHSA));
+   case Mjoin4(PATL,gemove,PHSA,_fnid):
+      DO_CALL(Mjoin3(PATL,gemove,PHSA));
    }
 }
 
 #elif defined(GEN_JT_NBMM0)
 HSA_FUNCTION
-void Mjoin3(PATL,icall_NBMM0,HSADECL)(
+void Mjoin3(PATL,icall_NBMM0,PHSA)(
    NBMM0 NBmm0, const int M, const int N, const int K, const TYPE alpha,
    const TYPE* A, const int lda, const TYPE* B, const int ldb,
    const TYPE beta, TYPE* C, const int ldc) {
@@ -141,12 +106,9 @@ void Mjoin3(PATL,icall_NBMM0,HSADECL)(
    fn(M, N, K, alpha, A, lda, B, ldb, beta, C, ldc); \
    break
 
-   DBGLOG_CALLED_ONCE;
-
    switch (NBmm0)
    {
    default:
-      DBGLOG_CALLED_UNKNOWN;
    case NBMM0_null:
       ATL_assert (0);
    case Mjoin(NBmm_b0,_fnid):
@@ -155,26 +117,26 @@ void Mjoin3(PATL,icall_NBMM0,HSADECL)(
       DO_CALL(NBmm_b1);
    case Mjoin(NBmm_bX,_fnid):
       DO_CALL(NBmm_bX);
-   case Mjoin4(PATL,pNBmm_b0,HSADECL,_fnid):
-      DO_CALL(Mjoin3(PATL,pNBmm_b0,HSADECL));
-   case Mjoin4(PATL,pNBmm_b1,HSADECL,_fnid):
-      DO_CALL(Mjoin3(PATL,pNBmm_b1,HSADECL));
-   case Mjoin4(PATL,pNBmm_bX,HSADECL,_fnid):
-      DO_CALL(Mjoin3(PATL,pNBmm_bX,HSADECL));
-   case Mjoin4(PATL,pMBmm_b0,HSADECL,_fnid):
-      DO_CALL(Mjoin3(PATL,pMBmm_b0,HSADECL));
-   case Mjoin4(PATL,pMBmm_b1,HSADECL,_fnid):
-      DO_CALL(Mjoin3(PATL,pMBmm_b1,HSADECL));
-   case Mjoin4(PATL,pMBmm_bX,HSADECL,_fnid):
-      DO_CALL(Mjoin3(PATL,pMBmm_bX,HSADECL));
-   case Mjoin4(PATL,pKBmm,HSADECL,_fnid):
-      DO_CALL(Mjoin3(PATL,pKBmm,HSADECL));
+   case Mjoin4(PATL,pNBmm_b0,PHSA,_fnid):
+      DO_CALL(Mjoin3(PATL,pNBmm_b0,PHSA));
+   case Mjoin4(PATL,pNBmm_b1,PHSA,_fnid):
+      DO_CALL(Mjoin3(PATL,pNBmm_b1,PHSA));
+   case Mjoin4(PATL,pNBmm_bX,PHSA,_fnid):
+      DO_CALL(Mjoin3(PATL,pNBmm_bX,PHSA));
+   case Mjoin4(PATL,pMBmm_b0,PHSA,_fnid):
+      DO_CALL(Mjoin3(PATL,pMBmm_b0,PHSA));
+   case Mjoin4(PATL,pMBmm_b1,PHSA,_fnid):
+      DO_CALL(Mjoin3(PATL,pMBmm_b1,PHSA));
+   case Mjoin4(PATL,pMBmm_bX,PHSA,_fnid):
+      DO_CALL(Mjoin3(PATL,pMBmm_bX,PHSA));
+   case Mjoin4(PATL,pKBmm,PHSA,_fnid):
+      DO_CALL(Mjoin3(PATL,pKBmm,PHSA));
    }
 }
 
 #elif defined(GEN_JT_PUTBLK)
 HSA_FUNCTION
-void Mjoin3(PATL,icall_PUTBLK,HSADECL)(
+void Mjoin3(PATL,icall_PUTBLK,PHSA)(
    PUTBLK putblk, int M, int N, TYPE *V, TYPE *C, int ldc, const SCALAR beta0)
 {
 #undef DO_CALL
@@ -182,28 +144,25 @@ void Mjoin3(PATL,icall_PUTBLK,HSADECL)(
    fn(M, N, V, C, ldc, beta0);                  \
    break
 
-   DBGLOG_CALLED_ONCE;
-
    switch (putblk)
    {
    default:
-      DBGLOG_CALLED_UNKNOWN;
    case PUTBLK_null:
       ATL_assert (0);
-   case Mjoin4(PATL,putblk_b0,HSADECL,_fnid):
-      DO_CALL(Mjoin3(PATL,putblk_b0,HSADECL));
-   case Mjoin4(PATL,putblk_b1,HSADECL,_fnid):
-      DO_CALL(Mjoin3(PATL,putblk_b1,HSADECL));
-   case Mjoin4(PATL,putblk_bn1,HSADECL,_fnid):
-      DO_CALL(Mjoin3(PATL,putblk_bn1,HSADECL));
-   case Mjoin4(PATL,putblk_bX,HSADECL,_fnid):
-      DO_CALL(Mjoin3(PATL,putblk_bX,HSADECL));
+   case Mjoin4(PATL,putblk_b0,PHSA,_fnid):
+      DO_CALL(Mjoin3(PATL,putblk_b0,PHSA));
+   case Mjoin4(PATL,putblk_b1,PHSA,_fnid):
+      DO_CALL(Mjoin3(PATL,putblk_b1,PHSA));
+   case Mjoin4(PATL,putblk_bn1,PHSA,_fnid):
+      DO_CALL(Mjoin3(PATL,putblk_bn1,PHSA));
+   case Mjoin4(PATL,putblk_bX,PHSA,_fnid):
+      DO_CALL(Mjoin3(PATL,putblk_bX,PHSA));
    }
 }
 
 #elif defined(GEN_JT_MMINTR)
 HSA_FUNCTION
-int Mjoin3(PATL,icall_MMINTR,HSADECL)(
+int Mjoin3(PATL,icall_MMINTR,PHSA)(
    MMINTR mmintr, MemBlob* memBlob,
    const enum ATLAS_TRANS TA, const enum ATLAS_TRANS TB,
    const int M, const int N, const int K, const SCALAR alpha,
@@ -214,25 +173,22 @@ int Mjoin3(PATL,icall_MMINTR,HSADECL)(
 #define DO_CALL(fn)                                                     \
    return fn(memBlob, TA, TB, M, N, K, alpha, A, lda, B, ldb, beta, C, ldc)
 
-   DBGLOG_CALLED_ONCE;
-
    switch (mmintr)
    {
    default:
-      DBGLOG_CALLED_UNKNOWN;
    case MMINTR_null:
       ATL_assert (0);
       return -1;
-   case Mjoin4(PATL,mmIJK,HSADECL,_fnid):
-      DO_CALL(Mjoin3(PATL,mmIJK,HSADECL));
-   case Mjoin4(PATL,mmJIK,HSADECL,_fnid):
-      DO_CALL(Mjoin3(PATL,mmJIK,HSADECL));
-   case Mjoin4(PATL,mmJITcp,HSADECL,_fnid):
-      DO_CALL(Mjoin3(PATL,mmJITcp,HSADECL));
-   case Mjoin4(PATL,NCmmIJK,HSADECL,_fnid):
-      DO_CALL(Mjoin3(PATL,NCmmIJK,HSADECL));
-   case Mjoin4(PATL,NCmmJIK,HSADECL,_fnid):
-      DO_CALL(Mjoin3(PATL,NCmmJIK,HSADECL));
+   case Mjoin4(PATL,mmIJK,PHSA,_fnid):
+      DO_CALL(Mjoin3(PATL,mmIJK,PHSA));
+   case Mjoin4(PATL,mmJIK,PHSA,_fnid):
+      DO_CALL(Mjoin3(PATL,mmJIK,PHSA));
+   case Mjoin4(PATL,mmJITcp,PHSA,_fnid):
+      DO_CALL(Mjoin3(PATL,mmJITcp,PHSA));
+   case Mjoin4(PATL,NCmmIJK,PHSA,_fnid):
+      DO_CALL(Mjoin3(PATL,NCmmIJK,PHSA));
+   case Mjoin4(PATL,NCmmJIK,PHSA,_fnid):
+      DO_CALL(Mjoin3(PATL,NCmmJIK,PHSA));
 #ifdef USERGEMM
    case Mjoin3(PATL,usergemm_wrapper,_fnid):
       DO_CALL(Mjoin(PATL,usergemm_wrapper));
@@ -242,7 +198,7 @@ int Mjoin3(PATL,icall_MMINTR,HSADECL)(
 
 #elif defined(GEN_JT_GEADD)
 HSA_FUNCTION
-void Mjoin3(PATL,icall_GEADD,HSADECL)(
+void Mjoin3(PATL,icall_GEADD,PHSA)(
    GEADD geadd, const int M, const int N, const SCALAR alpha, const TYPE *A,
    const int lda, const SCALAR beta, TYPE *C, const int ldc)
 {
@@ -254,22 +210,21 @@ void Mjoin3(PATL,icall_GEADD,HSADECL)(
    switch (geadd)
    {
    default:
-      DBGLOG_CALLED_UNKNOWN;
    case GEADD_null:
       ATL_assert (0);
       break;
-   case Mjoin5(PATL,geadd,_a1_b0,HSADECL,_fnid):
-      DO_CALL(Mjoin4(PATL,geadd,_a1_b0,HSADECL));
-   case Mjoin5(PATL,geadd,_a1_b1,HSADECL,_fnid):
-      DO_CALL(Mjoin4(PATL,geadd,_a1_b1,HSADECL));
-   case Mjoin5(PATL,geadd,_a1_bX,HSADECL,_fnid):
-      DO_CALL(Mjoin4(PATL,geadd,_a1_bX,HSADECL));
-   case Mjoin5(PATL,geadd,_aX_b0,HSADECL,_fnid):
-      DO_CALL(Mjoin4(PATL,geadd,_aX_b0,HSADECL));
-   case Mjoin5(PATL,geadd,_aX_b1,HSADECL,_fnid):
-      DO_CALL(Mjoin4(PATL,geadd,_aX_b1,HSADECL));
-   case Mjoin5(PATL,geadd,_aX_bX,HSADECL,_fnid):
-      DO_CALL(Mjoin4(PATL,geadd,_aX_bX,HSADECL));
+   case Mjoin5(PATL,geadd,_a1_b0,PHSA,_fnid):
+      DO_CALL(Mjoin4(PATL,geadd,_a1_b0,PHSA));
+   case Mjoin5(PATL,geadd,_a1_b1,PHSA,_fnid):
+      DO_CALL(Mjoin4(PATL,geadd,_a1_b1,PHSA));
+   case Mjoin5(PATL,geadd,_a1_bX,PHSA,_fnid):
+      DO_CALL(Mjoin4(PATL,geadd,_a1_bX,PHSA));
+   case Mjoin5(PATL,geadd,_aX_b0,PHSA,_fnid):
+      DO_CALL(Mjoin4(PATL,geadd,_aX_b0,PHSA));
+   case Mjoin5(PATL,geadd,_aX_b1,PHSA,_fnid):
+      DO_CALL(Mjoin4(PATL,geadd,_aX_b1,PHSA));
+   case Mjoin5(PATL,geadd,_aX_bX,PHSA,_fnid):
+      DO_CALL(Mjoin4(PATL,geadd,_aX_bX,PHSA));
    }
 }
 

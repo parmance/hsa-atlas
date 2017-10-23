@@ -386,28 +386,28 @@ ATL_sNCgemm_hsa.o : $(mySRCdir)/ATL_NCgemm.c $(sINCdep)
 	$(SKC) -o $@ -c -DDIRECTHSA $(sKCFLAGS) -DSREAL $(mySRCdir)/ATL_NCgemm.c
 
 ATL_malloc_hsa.o: $(mySRCdir)/ATL_malloc.c $(sINCdep)
-	$(KC) -o $@ -c -fdirecthsa -DDIRECTHSA -DHSADECLS $(KCFLAGS) $<
+	$(KC) -o $@ -c -fdirecthsa -DDIRECTHSA $(KCFLAGS) $<
 
 ATL_sjumptable_mat2blk_hsa.o: $(mySRCdir)/ATL_jumptables.c $(sINCdep)
-	$(SKC) -o $@ -c -fdirecthsa -DDIRECTHSA -DHSADECLS $(sKCFLAGS) -DSREAL -DGEN_JT_MAT2BLK $<
+	$(SKC) -o $@ -c -fdirecthsa -DDIRECTHSA $(sKCFLAGS) -DSREAL -DGEN_JT_MAT2BLK $<
 
 ATL_sjumptable_mat2blk2_hsa.o: $(mySRCdir)/ATL_jumptables.c $(sINCdep)
-	$(SKC) -o $@ -c -fdirecthsa -DDIRECTHSA -DHSADECLS $(sKCFLAGS) -DSREAL -DGEN_JT_MAT2BLK2 $<
+	$(SKC) -o $@ -c -fdirecthsa -DDIRECTHSA $(sKCFLAGS) -DSREAL -DGEN_JT_MAT2BLK2 $<
 
 ATL_sjumptable_nbmm0_hsa.o: $(mySRCdir)/ATL_jumptables.c $(sINCdep)
-	$(SKC) -o $@ -c -fdirecthsa -DDIRECTHSA -DHSADECLS $(sKCFLAGS) -DSREAL -DGEN_JT_NBMM0 $<
+	$(SKC) -o $@ -c -fdirecthsa -DDIRECTHSA $(sKCFLAGS) -DSREAL -DGEN_JT_NBMM0 $<
 
 ATL_sjumptable_putblk_hsa.o: $(mySRCdir)/ATL_jumptables.c $(sINCdep)
-	$(SKC) -o $@ -c -fdirecthsa -DDIRECTHSA -DHSADECLS $(sKCFLAGS) -DSREAL -DGEN_JT_PUTBLK $<
+	$(SKC) -o $@ -c -fdirecthsa -DDIRECTHSA $(sKCFLAGS) -DSREAL -DGEN_JT_PUTBLK $<
 
 ATL_sjumptable_mmintr_hsa.o: $(mySRCdir)/ATL_jumptables.c $(sINCdep)
-	$(SKC) -o $@ -c -fdirecthsa -DDIRECTHSA -DHSADECLS $(sKCFLAGS) -DSREAL -DGEN_JT_MMINTR $<
+	$(SKC) -o $@ -c -fdirecthsa -DDIRECTHSA $(sKCFLAGS) -DSREAL -DGEN_JT_MMINTR $<
 
 ATL_sjumptable_geadd_hsa.o: $(mySRCdir)/ATL_jumptables.c $(sINCdep)
-	$(SKC) -o $@ -c -fdirecthsa -DDIRECTHSA -DHSADECLS $(sKCFLAGS) -DSREAL -DGEN_JT_GEADD $<
+	$(SKC) -o $@ -c -fdirecthsa -DDIRECTHSA $(sKCFLAGS) -DSREAL -DGEN_JT_GEADD $<
 
 ATL_sNCmm_jumptables_hsa.o: $(mySRCdir)/ATL_NCmm_jumptables.c $(sINCdep)
-	$(SKC) -o $@ -c -fdirecthsa -DDIRECTHSA -DHSADECLS $(sKCFLAGS) -DSREAL $<
+	$(SKC) -o $@ -c -fdirecthsa -DDIRECTHSA $(sKCFLAGS) -DSREAL $<
 
 
 dclean :
