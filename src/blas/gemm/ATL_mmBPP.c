@@ -70,8 +70,8 @@ int Mjoin3(PATL,mmBPP,PHSA)
       n = N;
    ldc = (((m*sizeof(TYPE)+ATL_Cachelen-1)/ATL_Cachelen)*ATL_Cachelen)
           / sizeof(TYPE);
-   vC = Mjoin(simple_malloc,PHSA)(memBlob,
-                                  ATL_Cachelen+ATL_MulBySize(ldc*n+KB*(m+n)));
+   vC = Mjoin(ATL_Malloc,PHSA)(memBlob,
+                               ATL_Cachelen+ATL_MulBySize(ldc*n+KB*(m+n)));
    if (!vC)
       return -1;
    pC = ATL_AlignPtr(vC);
@@ -140,7 +140,7 @@ int Mjoin3(PATL,mmBPP,PHSA)
                          B, ldb, incB, pB, 0, pC, ldc,
                          A2blk, B2blk, NBmm0, NBmm1);
    Mjoin3(PATL,geadd,PHSA)(M, N, alpha, pC, ldc, beta, C, ldc0);
-   Mjoin(simple_free,PHSA)(memBlob, vC);
+   Mjoin(ATL_Free,PHSA)(memBlob, vC);
    return 0;
 }
 

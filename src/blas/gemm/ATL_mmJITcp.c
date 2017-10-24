@@ -114,7 +114,7 @@ int Mjoin3(PATL,mmJITcp,PHSA)
    }
    i *= sizeof(TYPE);
    if (i <= ATL_MaxMalloc || !(incAW | incBW))
-      v = Mjoin(simple_malloc,PHSA)(memBlob, ATL_Cachelen+i);
+      v = Mjoin(ATL_Malloc,PHSA)(memBlob, ATL_Cachelen+i);
    if (!v)
       return -1;
    pA = ATL_AlignPtr(v);
@@ -233,7 +233,7 @@ int Mjoin3(PATL,mmJITcp,PHSA)
             ATL_TargetFn(Mjoin3(PATL,pKBmm,PHSA)));
       }
    }
-   Mjoin(simple_free,PHSA)(memBlob, v);
+   Mjoin(ATL_Free,PHSA)(memBlob, v);
    return 0;
 }
 

@@ -210,8 +210,8 @@ int Mjoin3(PATL,mmIJK,PHSA)
    else
    {
       NBmm0 = ATL_TargetFn(NBmm_b0);
-      vC = Mjoin(simple_malloc,PHSA)(memBlob,
-                                     ATL_Cachelen + ATL_MulBySize(NBNB));
+      vC = Mjoin(ATL_Malloc,PHSA)(memBlob,
+                                  ATL_Cachelen + ATL_MulBySize(NBNB));
       if (!vC) return -1;
       pC = ATL_AlignPtr(vC);
       if ( SCALAR_IS_ONE(beta) )
@@ -239,11 +239,11 @@ int Mjoin3(PATL,mmIJK,PHSA)
       }
       else
       {
-         vA = Mjoin(simple_malloc,PHSA)(memBlob,
-                                        ATL_Cachelen + ATL_MulBySize(incK));
+         vA = Mjoin(ATL_Malloc,PHSA)(memBlob,
+                                     ATL_Cachelen + ATL_MulBySize(incK));
          if (!vA)
          {
-            Mjoin(simple_free,PHSA)(memBlob, vC);
+            Mjoin(ATL_Free,PHSA)(memBlob, vC);
             return -1;
          }
          pA = ATL_AlignPtr(vA);
@@ -267,19 +267,21 @@ int Mjoin3(PATL,mmIJK,PHSA)
       Mjoin3(PATL,mmIJK2,PHSA)(K, nMb, nNb, nKb, ib, jb, kb, alpha,
                                A, lda, pA, incA, A2blk, B, beta,
                                C, ldc, pC, putblk, NBmm0);
-      if (vA) Mjoin(simple_free,PHSA)(memBlob, vA);
-      if (vC) Mjoin(simple_free,PHSA)(memBlob, vC);
+      if (vA)
+         Mjoin(ATL_Free,PHSA)(memBlob, vA);
+      if (vC)
+         Mjoin(ATL_Free,PHSA)(memBlob, vC);
       return 0;
    }
    i = ATL_Cachelen + ATL_MulBySize(N*K + incK);
    if (i <= ATL_MaxMalloc)
-      vA = Mjoin(simple_malloc,PHSA)(memBlob, i);
+      vA = Mjoin(ATL_Malloc,PHSA)(memBlob, i);
    if (!vA)
    {
       if (TA == AtlasNoTrans && TB == AtlasNoTrans)
       {
          if (vC)
-            Mjoin(simple_free,PHSA)(memBlob, vC);
+            Mjoin(ATL_Free,PHSA)(memBlob, vC);
          return 1;
       }
       if (jb) n = nNb + 1;
@@ -291,12 +293,12 @@ int Mjoin3(PATL,mmIJK,PHSA)
          if (k*j < n) k++;
          h = ATL_Cachelen + ATL_MulBySize((k+1)*incK);
          if (h <= ATL_MaxMalloc)
-            vA = Mjoin(simple_malloc,PHSA)(memBlob, h);
+            vA = Mjoin(ATL_Malloc,PHSA)(memBlob, h);
       }
       if (!vA)
       {
          if (vC)
-            Mjoin(simple_free,PHSA)(memBlob, vC);
+            Mjoin(ATL_Free,PHSA)(memBlob, vC);
          return -1;
       }
       n = ATL_MulByNB(k);
@@ -362,8 +364,8 @@ int Mjoin3(PATL,mmIJK,PHSA)
    while (N);
 
    if (vC)
-      Mjoin(simple_free,PHSA)(memBlob, vC);
-   Mjoin(simple_free,PHSA)(memBlob, vA);
+      Mjoin(ATL_Free,PHSA)(memBlob, vC);
+   Mjoin(ATL_Free,PHSA)(memBlob, vA);
    return 0;
 }
 

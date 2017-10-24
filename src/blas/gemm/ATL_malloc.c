@@ -35,7 +35,7 @@
 #define POINTER_SIZE sizeof(void*)
 #define MAX(x, y) (x) > (y) ? (x) : (y)
 
-/* TODO describtion for simple malloc
+/* TODO describtion for ATL_Malloc
    - not thread safe.
    - Fragmentation issue.
    - User may overrun the book keeping.
@@ -153,7 +153,7 @@ static mem_block_header* Mjoin(clean_up,PHSA) (mem_block_header* tail)
 }
 
 HSA_FUNCTION
-void* Mjoin(simple_malloc,PHSA)(MemBlob* memBlob, mem_size_t size)
+void* Mjoin(ATL_Malloc,PHSA)(MemBlob* memBlob, mem_size_t size)
 {
    if (memBlob == NULL) return NULL;
 
@@ -163,7 +163,7 @@ void* Mjoin(simple_malloc,PHSA)(MemBlob* memBlob, mem_size_t size)
 #ifndef DIRECTHSA
       static unsigned fail_count = 0;
       if ((fail_count % 1000) == 0)
-         printf("simple malloc failed: "
+         printf("ATL_Malloc failed: "
                 "out of memory (tried alloc %llub, %llub left).\n",
                 size, freeMem);
       fail_count++;
@@ -195,7 +195,7 @@ void* Mjoin(simple_malloc,PHSA)(MemBlob* memBlob, mem_size_t size)
 }
 
 HSA_FUNCTION
-void Mjoin(simple_free,PHSA)(MemBlob* memBlob, void* ptr)
+void Mjoin(ATL_Free,PHSA)(MemBlob* memBlob, void* ptr)
 {
    if (ptr == NULL) /* Quick return for NULL. */
       return;

@@ -77,8 +77,8 @@ HSA_FUNCTION
 void Mjoin(init_mem_blob,PHSA)(MemBlob* memblob,
                                void* blob, mem_size_t size);
 HSA_FUNCTION
-void* Mjoin(simple_malloc,PHSA)(MemBlob* memblob, mem_size_t size);
+void* Mjoin(ATL_Malloc,PHSA)(MemBlob* memblob, mem_size_t size);
 HSA_FUNCTION
-void Mjoin(simple_free,PHSA)(MemBlob* memblob, void* prt);
+void Mjoin(ATL_Free,PHSA)(MemBlob* memblob, void* prt);
 
 #endif

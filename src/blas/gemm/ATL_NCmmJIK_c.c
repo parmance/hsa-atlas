@@ -139,8 +139,8 @@ int Mjoin3(PATL,NCmmJIK_c,PHSA)
       geadd = ATL_TargetFn(Mjoin5(PATL,geadd,_aX,_b1,PHSA));
    else
       geadd = ATL_TargetFn(Mjoin5(PATL,geadd,_aX,_bX,PHSA));
-   vp = Mjoin(simple_malloc,PHSA)(memBlob,
-                                  ATL_Cachelen + ATL_MulBySize(MB * NB));
+   vp = Mjoin(ATL_Malloc,PHSA)(memBlob,
+                               ATL_Cachelen + ATL_MulBySize(MB * NB));
    ATL_assert(vp);
    cp = ATL_AlignPtr(vp);
    if (mr || nr || kr) for (j=MB*NB, i=0; i != j; i++) cp[i] = ATL_rzero;
@@ -223,7 +223,7 @@ int Mjoin3(PATL,NCmmJIK_c,PHSA)
          GEADD_ICALL(geadd, mr, nr, alpha, cp, MB, beta, c, ldc);
       }
    }
-   Mjoin(simple_free,PHSA)(memBlob, vp);
+   Mjoin(ATL_Free,PHSA)(memBlob, vp);
    return(0);
 }
 

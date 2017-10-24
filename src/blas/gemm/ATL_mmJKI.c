@@ -171,8 +171,8 @@ int Mjoin3(PATL,mmJKI,PHSA)
  */
    if (TA != AtlasNoTrans)
    {
-      vA = Mjoin(simple_malloc,PHSA)(memBlob,
-                                     ATL_Cachelen + Mp*ATL_MulBySize(K));
+      vA = Mjoin(ATL_Malloc,PHSA)(memBlob,
+                                  ATL_Cachelen + Mp*ATL_MulBySize(K));
       if (!vA) return(-1);
       pA = ATL_AlignPtr(vA);
       alp = ATL_rone;
@@ -201,7 +201,8 @@ int Mjoin3(PATL,mmJKI,PHSA)
       pA += mp;
       C += mp;
    }
-   if (vA) Mjoin(simple_free,PHSA)(memBlob, vA);
+   if (vA)
+      Mjoin(ATL_Free,PHSA)(memBlob, vA);
    return(0);
 }
 
