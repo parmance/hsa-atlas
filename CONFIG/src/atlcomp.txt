@@ -328,6 +328,11 @@ MACH=ARM64a53 OS=ALL LVL=1000 COMPS=dmc
 MACH=ARM64a53 OS=ALL LVL=1000 COMPS=f77
    'gfortran' '-O2 -mcpu=cortex-a53'
 #
+# DHSA
+#
+MACH=ALL OS=ALL LVL=1000 COMPS=smc,dmc,skc,dkc,icc,gcc,xcc
+   'gcc' '-O2 -fomit-frame-pointer -mfpmath=sse'
+#
 # Generic defaults
 #
 MACH=ALL OS=ALL LVL=4 COMPS=smc,dmc,skc,dkc,icc,gcc,xcc
