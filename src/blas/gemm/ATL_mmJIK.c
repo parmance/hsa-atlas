@@ -43,7 +43,7 @@
 #define NBMM_ICALL Mjoin3(PATL,icall_site_NBMM0,PHSA)
 #define PUTBLK_ICALL Mjoin3(PATL,icall_site_PUTBLK,PHSA)
 #define MAT2BLK_ICALL Mjoin3(PATL,icall_site_MAT2BLK,PHSA)
-#include "ATL_indir_call.c"
+#include "ATL_icall.c"
 
 HSA_FUNCTION
 void Mjoin3(PATL,mmJIK2,PHSA)

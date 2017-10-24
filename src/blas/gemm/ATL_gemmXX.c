@@ -120,7 +120,7 @@
 #endif
 
 #define MMINTR_ICALL Mjoin4(PATL,icall_site_MMINTR,TATB,PHSA)
-#include "ATL_indir_call.c"
+#include "ATL_icall.c"
 
 #ifdef USERGEMM
 /* Wrapper for user gemm call. Cgemm__ makes calls via function

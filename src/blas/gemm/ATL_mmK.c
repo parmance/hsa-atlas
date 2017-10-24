@@ -37,7 +37,7 @@
 
 #define NBMM_ICALL Mjoin3(PATL,icall_site_NBMM0,PHSA)
 #define MAT2BLK2_ICALL Mjoin3(PATL,icall_site_MAT2BLK2,PHSA)
-#include "ATL_indir_call.c"
+#include "ATL_icall.c"
 
 HSA_FUNCTION
 void Mjoin3(PATL,mmK,PHSA)(

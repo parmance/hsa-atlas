@@ -38,7 +38,7 @@
 #include "atlas_malloc.h"
 
 #define NCMM_ICALL Mjoin3(PATL,icall_site_NCMM,PHSA)
-#include "ATL_indir_call.c"
+#include "ATL_icall.c"
 
 HSA_FUNCTION
 int Mjoin3(PATL,NCmmJIK,PHSA)

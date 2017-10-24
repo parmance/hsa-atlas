@@ -38,7 +38,7 @@
 
 #define NCMM_ICALL Mjoin3(PATL,icall_site_NCMM,PHSA)
 #define GEADD_ICALL Mjoin3(PATL,icall_site_GEADD,PHSA)
-#include "ATL_indir_call.c"
+#include "ATL_icall.c"
 
 HSA_FUNCTION
 int Mjoin3(PATL,NCmmIJK_c,PHSA)
