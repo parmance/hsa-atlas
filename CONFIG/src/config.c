@@ -1329,7 +1329,7 @@ int main(int nargs, char **args)
          free(sp);
       }
    }
-   if (!vecexts && mach != DHSA)
+   if (!vecexts)
       vecexts = ProbeVecs(verb, targarg, OS, asmb);
    else if (vecexts < 0)
       vecexts = 0;
@@ -1396,6 +1396,13 @@ int main(int nargs, char **args)
    else if (!f2cdefs) f2cdefs = sp;
    if (!f77libs)
       f77libs = ProbeF77LIB(verb, targarg, OS, mach, comps, f2cdefs, nof77);
+
+/* Allow compiler vector extension flags for the compilers but do not
+ * write -DATL_<ISA> definitions (not tested with DHSA).
+ */
+   if (mach == DHSA)
+      vecexts = 0;
+
 /*
  * If user has not specified muladd flags (which are suffixed to kernel flags),
  * add flags to keep gcc 4 from hanging, if necessary
