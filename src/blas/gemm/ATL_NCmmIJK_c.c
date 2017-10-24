@@ -27,8 +27,8 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  */
-#ifdef DIRECTHSA /* DEVTEMP */
-#  define ATL_no_icalls /* DEVTEMP */
+#ifdef DIRECTHSA
+#define ATL_NoICalls
 #endif
 #include "atlas_misc.h"
 #include Mstr(Mjoin(Mjoin(atlas_,PRE),NCmm.h))

@@ -169,7 +169,7 @@ void Mjoin5(NCmm00,0x0x0,TT,0x0x0_aX_bX,PHSA)
    #define KB NB
 #endif
 
-#ifdef ATL_no_icalls
+#ifdef ATL_NoICalls
 typedef enum NCMM_fnid {
    NCMM_null,
    Mjoin(Mjoin5(NCmm00,0x0x0,NN,0x0x0_aX_bX,PHSA),_fnid),

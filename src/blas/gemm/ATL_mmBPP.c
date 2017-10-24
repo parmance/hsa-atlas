@@ -28,8 +28,8 @@
  *
  */
 
-#ifdef DIRECTHSA /* DEVTEMP */
-#  define ATL_no_icalls
+#ifdef DIRECTHSA
+#define ATL_NoICalls
 #endif
 
 #include "atlas_misc.h"

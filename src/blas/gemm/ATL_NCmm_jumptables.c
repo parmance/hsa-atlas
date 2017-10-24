@@ -27,8 +27,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  */
-
-#define ATL_no_icalls
+#define ATL_NoICalls
 #include "atlas_misc.h"
 #include Mstr(Mjoin(Mjoin(atlas_,PRE),NCmm.h))
 #include "atlas_NCmm.h"

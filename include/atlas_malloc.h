@@ -72,7 +72,7 @@ extern MemBlob* globalMemBlob;
 
 HSA_FUNCTION
 void Mjoin(init_mem_blob,PHSA)(MemBlob* memblob,
-                                  void* blob, mem_size_t size);
+                               void* blob, mem_size_t size);
 HSA_FUNCTION
 void* Mjoin(simple_malloc,PHSA)(MemBlob* memblob, mem_size_t size);
 HSA_FUNCTION

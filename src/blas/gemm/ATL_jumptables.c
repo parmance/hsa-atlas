@@ -28,7 +28,7 @@
  *
  */
 
-#define ATL_no_icalls
+#define ATL_NoICalls
 #include "atlas_misc.h"
 #include "atlas_lvl3.h"
 

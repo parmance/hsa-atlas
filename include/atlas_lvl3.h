@@ -137,8 +137,11 @@
 typedef void (*MATSCAL)(const int, const int, const SCALAR, TYPE*, const int);
 typedef void (*NBCLEANUP)(const TYPE*, const TYPE*, TYPE*, const int);
 
-/* TODO Enable with other guard macro: ATL_NO_ICALL or similar. */
-#ifdef ATL_no_icalls
+/*
+ * Define this macro if target (i.e. DHSA) does not support indirect
+ * calls.
+ */
+#ifdef ATL_NoICalls
 
 #define ATL_TargetFn(fn) Mjoin(fn,_fnid)
 #define ATL_NullFn 0
@@ -242,8 +245,10 @@ void Mjoin3(PATL,icall_GEADD,PHSA)(
    GEADD geadd, const int M, const int N, const SCALAR alpha, const TYPE *A,
    const int lda, const SCALAR beta, TYPE *C, const int ldc);
 
-#else /* ^ ATL_no_icall ^ */
-
+#else
+/*
+ * For targets that do support indirect calls.
+ */
 #define ATL_TargetFn(fn) fn
 #define ATL_NullFn NULL
 

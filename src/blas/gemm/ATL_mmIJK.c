@@ -27,11 +27,9 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  */
-
-#ifdef DIRECTHSA /* DEVTEMP */
-#  define ATL_no_icalls
+#ifdef DIRECTHSA
+#define ATL_NoICalls
 #endif
-
 #include "atlas_misc.h"
 #include "atlas_lvl3.h"
 #include "atlas_malloc.h"
