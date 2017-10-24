@@ -213,37 +213,37 @@ typedef enum GEADD_fnid {
 } GEADD;
 
 HSA_FUNCTION
-void Mjoin3(PATL,icall_MAT2BLK,PHSA)(
-   MAT2BLK mat2blk, const int M, const int N, const TYPE *A,
-   const int lda, TYPE *V, const SCALAR alpha0);
+void Mjoin3(PATL,icall_MAT2BLK,PHSA)
+   (MAT2BLK mat2blk, const int M, const int N, const TYPE *A,
+    const int lda, TYPE *V, const SCALAR alpha0);
 
 HSA_FUNCTION
-void Mjoin3(PATL,icall_MAT2BLK2,PHSA)(
-   MAT2BLK2 mat2blk2, const int M, const int N, const float alpha,
-   const float *A, const int lda, float *C, const int ldc);
+void Mjoin3(PATL,icall_MAT2BLK2,PHSA)
+   (MAT2BLK2 mat2blk2, const int M, const int N, const float alpha,
+    const float *A, const int lda, float *C, const int ldc);
 
 HSA_FUNCTION
-void Mjoin3(PATL,icall_PUTBLK,PHSA)(
-   PUTBLK putblk, int M, int N, TYPE *V, TYPE *C, int ldc, const SCALAR beta0);
+void Mjoin3(PATL,icall_PUTBLK,PHSA)
+   (PUTBLK putblk, int M, int N, TYPE *V, TYPE *C, int ldc, const SCALAR beta0);
 
 HSA_FUNCTION
-void Mjoin3(PATL,icall_NBMM0,PHSA)(
-   NBMM0 NBmm0, const int M, const int N, const int K, const TYPE alpha,
-   const TYPE* A, const int lda, const TYPE* B, const int ldb,
-   const TYPE beta, TYPE* C, const int ldc);
+void Mjoin3(PATL,icall_NBMM0,PHSA)
+   (NBMM0 NBmm0, const int M, const int N, const int K, const TYPE alpha,
+    const TYPE* A, const int lda, const TYPE* B, const int ldb,
+    const TYPE beta, TYPE* C, const int ldc);
 
 HSA_FUNCTION
-int Mjoin3(PATL,icall_MMINTR,PHSA)(
-   MMINTR mmintr, MemBlob* memBlob,
-   const enum ATLAS_TRANS, const enum ATLAS_TRANS,
-   const int, const int, const int, const SCALAR,
-   const TYPE *, const int, const TYPE *, const int,
-   const SCALAR, TYPE *, const int);
+int Mjoin3(PATL,icall_MMINTR,PHSA)
+   (MMINTR mmintr, MemBlob* memBlob,
+    const enum ATLAS_TRANS, const enum ATLAS_TRANS,
+    const int, const int, const int, const SCALAR,
+    const TYPE *, const int, const TYPE *, const int,
+    const SCALAR, TYPE *, const int);
 
 HSA_FUNCTION
-void Mjoin3(PATL,icall_GEADD,PHSA)(
-   GEADD geadd, const int M, const int N, const SCALAR alpha, const TYPE *A,
-   const int lda, const SCALAR beta, TYPE *C, const int ldc);
+void Mjoin3(PATL,icall_GEADD,PHSA)
+   (GEADD geadd, const int M, const int N, const SCALAR alpha, const TYPE *A,
+    const int lda, const SCALAR beta, TYPE *C, const int ldc);
 
 #else
 /*
@@ -338,17 +338,17 @@ void Mjoin3(PATL,IBNBmm,PHSA)(const int M, const int K,
                               const TYPE *A, const TYPE *B,
                               const TYPE beta, TYPE *C, const int ldc);
 HSA_FUNCTION
-void Mjoin3(PATL,putblk_bX,PHSA)(
-   int M, int N, TYPE *V, TYPE *C, int ldc, const SCALAR beta);
+void Mjoin3(PATL,putblk_bX,PHSA)
+   (int M, int N, TYPE *V, TYPE *C, int ldc, const SCALAR beta);
 HSA_FUNCTION
-void Mjoin3(PATL,putblk_bn1,PHSA)(
-   int M, int N, TYPE *V, TYPE *C, int ldc, const SCALAR beta);
+void Mjoin3(PATL,putblk_bn1,PHSA)
+   (int M, int N, TYPE *V, TYPE *C, int ldc, const SCALAR beta);
 HSA_FUNCTION
-void Mjoin3(PATL,putblk_b1,PHSA)(
-   int M, int N, TYPE *V, TYPE *C, int ldc, const SCALAR beta);
+void Mjoin3(PATL,putblk_b1,PHSA)
+   (int M, int N, TYPE *V, TYPE *C, int ldc, const SCALAR beta);
 HSA_FUNCTION
-void Mjoin3(PATL,putblk_b0,PHSA)(
-   int M, int N, TYPE *V, TYPE *C, int ldc, const SCALAR beta);
+void Mjoin3(PATL,putblk_b0,PHSA)
+   (int M, int N, TYPE *V, TYPE *C, int ldc, const SCALAR beta);
 
 #ifdef TCPLX
 
@@ -491,59 +491,59 @@ int  Mjoin(PATU,usergemm)(const enum ATLAS_TRANS, const enum ATLAS_TRANS,
                           const int, const SCALAR, TYPE*, const int);
 #endif
 HSA_FUNCTION
-int Mjoin3(PATL,NCmmJIK,PHSA)(
-   MemBlob* memBlob,
-   const enum ATLAS_TRANS, const enum ATLAS_TRANS,
-   const int, const int, const int, const SCALAR,
-   const TYPE*, const int, const TYPE*,
-   const int, const SCALAR, TYPE*, const int);
+int Mjoin3(PATL,NCmmJIK,PHSA)
+   (MemBlob* memBlob,
+    const enum ATLAS_TRANS, const enum ATLAS_TRANS,
+    const int, const int, const int, const SCALAR,
+    const TYPE*, const int, const TYPE*,
+    const int, const SCALAR, TYPE*, const int);
 HSA_FUNCTION
-int Mjoin3(PATL,NCmmIJK,PHSA)(
-   MemBlob* memBlob,
-   const enum ATLAS_TRANS, const enum ATLAS_TRANS,
-   const int, const int, const int, const SCALAR,
-   const TYPE*, const int, const TYPE*,
-   const int, const SCALAR, TYPE*, const int);
+int Mjoin3(PATL,NCmmIJK,PHSA)
+   (MemBlob* memBlob,
+    const enum ATLAS_TRANS, const enum ATLAS_TRANS,
+    const int, const int, const int, const SCALAR,
+    const TYPE*, const int, const TYPE*,
+    const int, const SCALAR, TYPE*, const int);
 HSA_FUNCTION
-int Mjoin3(PATL,NCmmJIK_c,PHSA)(
-   MemBlob* memBlob,
-   const enum ATLAS_TRANS, const enum ATLAS_TRANS,
-   const int, const int, const int, const SCALAR,
-   const TYPE*, const int, const TYPE*,
-   const int, const SCALAR, TYPE*, const int);
+int Mjoin3(PATL,NCmmJIK_c,PHSA)
+   (MemBlob* memBlob,
+    const enum ATLAS_TRANS, const enum ATLAS_TRANS,
+    const int, const int, const int, const SCALAR,
+    const TYPE*, const int, const TYPE*,
+    const int, const SCALAR, TYPE*, const int);
 HSA_FUNCTION
-int Mjoin3(PATL,NCmmIJK_c,PHSA)(
-   MemBlob* memBlob,
-   const enum ATLAS_TRANS, const enum ATLAS_TRANS,
-   const int, const int, const int, const SCALAR,
-   const TYPE*, const int, const TYPE*,
-   const int, const SCALAR, TYPE*, const int);
+int Mjoin3(PATL,NCmmIJK_c,PHSA)
+   (MemBlob* memBlob,
+    const enum ATLAS_TRANS, const enum ATLAS_TRANS,
+    const int, const int, const int, const SCALAR,
+    const TYPE*, const int, const TYPE*,
+    const int, const SCALAR, TYPE*, const int);
 
 HSA_FUNCTION
-void Mjoin3(PATL,row2blkT2_aX,PHSA)(
-   int, int, const TYPE*, int, TYPE*, const SCALAR);
+void Mjoin3(PATL,row2blkT2_aX,PHSA)
+   (int, int, const TYPE*, int, TYPE*, const SCALAR);
 HSA_FUNCTION
-void Mjoin3(PATL,row2blkT_aX,PHSA)(
-   int, int, const TYPE*, int, TYPE*, const SCALAR);
+void Mjoin3(PATL,row2blkT_aX,PHSA)
+   (int, int, const TYPE*, int, TYPE*, const SCALAR);
 HSA_FUNCTION
-void Mjoin3(PATL,col2blk2_aX,PHSA)(
-   int, int, const TYPE*, int, TYPE*, const SCALAR);
+void Mjoin3(PATL,col2blk2_aX,PHSA)
+   (int, int, const TYPE*, int, TYPE*, const SCALAR);
 HSA_FUNCTION
-void Mjoin3(PATL,col2blk_aX,PHSA)(
-   int, int, const TYPE*, int, TYPE*, const SCALAR);
+void Mjoin3(PATL,col2blk_aX,PHSA)
+   (int, int, const TYPE*, int, TYPE*, const SCALAR);
 void Mjoin(PATL,row2blkT2_an1)(int, int, const TYPE*, int, TYPE*,
                                const SCALAR);
 void Mjoin(PATL,row2blkT_an1)(int, int, const TYPE*, int, TYPE*, const SCALAR);
 void Mjoin(PATL,col2blk2_an1)(int, int, const TYPE*, int, TYPE*, const SCALAR);
 void Mjoin(PATL,col2blk_an1)(int, int, const TYPE*, int, TYPE*, const SCALAR);
-void Mjoin3(PATL,row2blkT2_a1,PHSA)(
-   int, int, const TYPE*, int, TYPE*, const SCALAR);
-void Mjoin3(PATL,row2blkT_a1,PHSA)(
-   int, int, const TYPE*, int, TYPE*, const SCALAR);
-void Mjoin3(PATL,col2blk2_a1,PHSA)(
-   int, int, const TYPE*, int, TYPE*, const SCALAR);
-void Mjoin3(PATL,col2blk_a1,PHSA)(
-   int, int, const TYPE*, int, TYPE*, const SCALAR);
+void Mjoin3(PATL,row2blkT2_a1,PHSA)
+   (int, int, const TYPE*, int, TYPE*, const SCALAR);
+void Mjoin3(PATL,row2blkT_a1,PHSA)
+   (int, int, const TYPE*, int, TYPE*, const SCALAR);
+void Mjoin3(PATL,col2blk2_a1,PHSA)
+   (int, int, const TYPE*, int, TYPE*, const SCALAR);
+void Mjoin3(PATL,col2blk_a1,PHSA)
+   (int, int, const TYPE*, int, TYPE*, const SCALAR);
 
 #ifdef TREAL
 int Mjoin(PATL,vrankK)(const enum ATLAS_TRANS TA, const enum ATLAS_TRANS TB,
@@ -551,35 +551,34 @@ int Mjoin(PATL,vrankK)(const enum ATLAS_TRANS TA, const enum ATLAS_TRANS TB,
                        const TYPE *A, ATL_CINT lda, const TYPE *B,
                        ATL_CINT ldb, const SCALAR beta, TYPE *C, ATL_CINT ldc);
 #endif
-int Mjoin3(PATL,mmJITcp,PHSA)(
-   MemBlob* memBlob,
-   const enum ATLAS_TRANS TA, const enum ATLAS_TRANS TB,
-   const int M, const int N, const int K,
-   const SCALAR alpha, const TYPE *A, const int lda,
-   const TYPE *B, const int ldb, const SCALAR beta,
-   TYPE *C, const int ldc);
-int Mjoin3(PATL,mmJIK,PHSA)(
-   MemBlob* memBlob,
-   const enum ATLAS_TRANS TA, const enum ATLAS_TRANS TB,
-   const int M, const int N, const int K,
-   const SCALAR alpha, const TYPE *A, const int lda,
-   const TYPE *B, const int ldb, const SCALAR beta,
-   TYPE *C, const int ldc);
-int Mjoin3(PATL,mmIJK,PHSA)(
-   MemBlob* memBlob,
-   const enum ATLAS_TRANS TA, const enum ATLAS_TRANS TB,
-   const int M, const int N, const int K,
-   const SCALAR alpha, const TYPE *A, const int lda,
-   const TYPE *B, const int ldb, const SCALAR beta,
-   TYPE *C, const int ldc);
-int Mjoin3(PATL,mmJKI,PHSA)(
-   MemBlob* memBlob,
-   const enum ATLAS_TRANS TA,
-   const enum ATLAS_TRANS TB,
-   const int M, const int N, const int K,
-   const SCALAR alpha, const TYPE *A, const int lda,
-   const TYPE *B, const int ldb, const SCALAR beta,
-   TYPE *C, const int ldc);
+int Mjoin3(PATL,mmJITcp,PHSA)
+   (MemBlob* memBlob,
+    const enum ATLAS_TRANS TA, const enum ATLAS_TRANS TB,
+    const int M, const int N, const int K,
+    const SCALAR alpha, const TYPE *A, const int lda,
+    const TYPE *B, const int ldb, const SCALAR beta,
+    TYPE *C, const int ldc);
+int Mjoin3(PATL,mmJIK,PHSA)
+   (MemBlob* memBlob,
+    const enum ATLAS_TRANS TA, const enum ATLAS_TRANS TB,
+    const int M, const int N, const int K,
+    const SCALAR alpha, const TYPE *A, const int lda,
+    const TYPE *B, const int ldb, const SCALAR beta,
+    TYPE *C, const int ldc);
+int Mjoin3(PATL,mmIJK,PHSA)
+   (MemBlob* memBlob,
+    const enum ATLAS_TRANS TA, const enum ATLAS_TRANS TB,
+    const int M, const int N, const int K,
+    const SCALAR alpha, const TYPE *A, const int lda,
+    const TYPE *B, const int ldb, const SCALAR beta,
+    TYPE *C, const int ldc);
+int Mjoin3(PATL,mmJKI,PHSA)
+   (MemBlob* memBlob,
+    const enum ATLAS_TRANS TA, const enum ATLAS_TRANS TB,
+    const int M, const int N, const int K,
+    const SCALAR alpha, const TYPE *A, const int lda,
+    const TYPE *B, const int ldb, const SCALAR beta,
+    TYPE *C, const int ldc);
 
 void Mjoin3(PATL,mmK,PHSA)
    (int M, int m, int N, int n, int nblk, int kr, int KR, const SCALAR alphaA,
@@ -588,14 +587,13 @@ void Mjoin3(PATL,mmK,PHSA)
     const int incB, TYPE *pB, const int incBW, TYPE *C, const int ldc,
     MAT2BLK2 A2blk, MAT2BLK2 B2blk, NBMM0 NBmm0, NBMM0 NBmm1);
 
-int Mjoin3(PATL,mmBPP,PHSA)(
-   MemBlob* memBlob,
-   const enum ATLAS_TRANS TA, const enum ATLAS_TRANS TB,
-   const int M, const int N, const int K,
-   const SCALAR alpha, const TYPE *A, const int lda,
-   const TYPE *B, const int ldb, const SCALAR beta,
-   TYPE *C, const int ldc);
-
+int Mjoin3(PATL,mmBPP,PHSA)
+   (MemBlob* memBlob,
+    const enum ATLAS_TRANS TA, const enum ATLAS_TRANS TB,
+    const int M, const int N, const int K,
+    const SCALAR alpha, const TYPE *A, const int lda,
+    const TYPE *B, const int ldb, const SCALAR beta,
+    TYPE *C, const int ldc);
 
 void Mjoin(PATL,gemmTT)
    (MemBlob* memBlob, const int M, const int N, const int K, const SCALAR alpha,

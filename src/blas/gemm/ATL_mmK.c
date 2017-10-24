@@ -123,8 +123,10 @@ void Mjoin3(PATL,mmK,PHSA)(
       }
       else
       {
-         if (B) MAT2BLK2_ICALL(B2blk, kr, N, alphaB, B, ldb, pB, kr);
-         if (A) MAT2BLK2_ICALL(A2blk, kr, M, alphaA, A, lda, pA, kr);
+         if (B)
+            MAT2BLK2_ICALL(B2blk, kr, N, alphaB, B, ldb, pB, kr);
+         if (A)
+            MAT2BLK2_ICALL(A2blk, kr, M, alphaA, A, lda, pA, kr);
          Mjoin3(PATL,pKBmm,PHSA)(M, N, kr, ATL_rone, pA, kr, pB, kr,
                                  nblk ? ATL_rone : beta, C, ldc);
       }

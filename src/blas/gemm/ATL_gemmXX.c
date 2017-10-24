@@ -123,9 +123,11 @@
 #include "ATL_icall.c"
 
 #ifdef USERGEMM
-/* Wrapper for user gemm call. Cgemm__ makes calls via function
-   pointer with memBlob argument (for dynamic mem allocation) which is
-   not needed by user gemm. */
+/*
+ * Wrapper for user gemm call. Cgemm__ makes calls via function
+ * pointer with memBlob argument (for dynamic mem allocation) which is
+ * not needed by user gemm.
+ */
 int Mjoin(PATL,usergemm_wrapper)
    (MemBlob*,
     const enum ATLAS_TRANS, const enum ATLAS_TRANS,
@@ -133,8 +135,8 @@ int Mjoin(PATL,usergemm_wrapper)
     const TYPE *A, const int lda, const TYPE *B, const int ldb,
     const SCALAR beta, TYPE *C, const int ldc)
 {
-        return Mjoin(PATU,usergemm)(ETA, ETB, M, N, K,
-                                    alpha, A, lda, B, ldb, beta, C, ldc);
+   return Mjoin(PATU,usergemm)(ETA, ETB, M, N, K,
+                               alpha, A, lda, B, ldb, beta, C, ldc);
 }
 #endif
 
@@ -297,7 +299,7 @@ ATL_VOID Cgemm__(MemBlob* memBlob,
       #ifdef TREAL
       if (K == Kp)
       #else
-         if (mm1 != ATL_TargetFn(Mjoin3(PATL,mmJITcp,PHSA)) && K == Kp)
+      if (mm1 != ATL_TargetFn(Mjoin3(PATL,mmJITcp,PHSA)) && K == Kp)
       #endif
       {
          Kp = (ATL_DivBySize(ATL_MaxMalloc) - MB*NB) / (MB+NB);

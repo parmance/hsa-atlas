@@ -129,13 +129,15 @@ int Mjoin3(PATL,NCmmIJK_c,PHSA)
          geadd = ATL_TargetFn(Mjoin5(PATL,geadd,_a1,_b0,PHSA));
       else if (beta == ATL_rone)
          geadd = ATL_TargetFn(Mjoin5(PATL,geadd,_a1,_b1,PHSA));
-      else geadd = ATL_TargetFn(Mjoin5(PATL,geadd,_a1,_bX,PHSA));
+      else
+         geadd = ATL_TargetFn(Mjoin5(PATL,geadd,_a1,_bX,PHSA));
    }
    else if (beta == ATL_rzero)
       geadd = ATL_TargetFn(Mjoin5(PATL,geadd,_aX,_b0,PHSA));
    else if (beta == ATL_rone)
       geadd = ATL_TargetFn(Mjoin5(PATL,geadd,_aX,_b1,PHSA));
-   else geadd = ATL_TargetFn(Mjoin5(PATL,geadd,_aX,_bX,PHSA));
+   else
+      geadd = ATL_TargetFn(Mjoin5(PATL,geadd,_aX,_bX,PHSA));
    vp = Mjoin(simple_malloc,PHSA)(memBlob,
                                   ATL_Cachelen + ATL_MulBySize(MB * NB));
    ATL_assert(vp);

@@ -52,9 +52,9 @@ static void ATL_gemoveT_aX(ATL_CINT N, ATL_CINT M, const SCALAR alpha,
 }
 #else
 HSA_FUNCTION
-static void Mjoin(ATL_gemoveT_a1,PHSA)(
-   ATL_CINT N, ATL_CINT M, const SCALAR alpha,
-   const TYPE *A, ATL_CINT lda, TYPE *C, ATL_CINT ldc)
+static void Mjoin(ATL_gemoveT_a1,PHSA)
+   (ATL_CINT N, ATL_CINT M, const SCALAR alpha,
+    const TYPE *A, ATL_CINT lda, TYPE *C, ATL_CINT ldc)
 {
    ATL_INT i, j;
    ATL_CINT incA = lda - M;
@@ -65,9 +65,9 @@ static void Mjoin(ATL_gemoveT_a1,PHSA)(
          *C = *A++;
 }
 HSA_FUNCTION
-static void Mjoin(ATL_gemoveT_an1,PHSA)(
-   ATL_CINT N, ATL_CINT M, const SCALAR alpha,
-   const TYPE *A, ATL_CINT lda, TYPE *C, ATL_CINT ldc)
+static void Mjoin(ATL_gemoveT_an1,PHSA)
+   (ATL_CINT N, ATL_CINT M, const SCALAR alpha,
+    const TYPE *A, ATL_CINT lda, TYPE *C, ATL_CINT ldc)
 {
    ATL_INT i, j;
    ATL_CINT incA = lda - M;
@@ -78,9 +78,9 @@ static void Mjoin(ATL_gemoveT_an1,PHSA)(
          *C = -(*A++);
 }
 HSA_FUNCTION
-static void Mjoin(ATL_gemoveT_aX,PHSA)(
-   ATL_CINT N, ATL_CINT M, const SCALAR alpha,
-   const TYPE *A, ATL_CINT lda, TYPE *C, ATL_CINT ldc)
+static void Mjoin(ATL_gemoveT_aX,PHSA)
+   (ATL_CINT N, ATL_CINT M, const SCALAR alpha,
+    const TYPE *A, ATL_CINT lda, TYPE *C, ATL_CINT ldc)
 {
    ATL_INT i, j;
    ATL_CINT incA = lda - M, incC = 1 - ldc*M;
@@ -90,9 +90,9 @@ static void Mjoin(ATL_gemoveT_aX,PHSA)(
          *C = alpha*(*A++);
 }
 HSA_FUNCTION
-static void Mjoin(ATL_gemoveT_a0,PHSA)(
-   ATL_CINT N, ATL_CINT M, const SCALAR alpha,
-   const TYPE *A, ATL_CINT lda, TYPE *C, ATL_CINT ldc)
+static void Mjoin(ATL_gemoveT_a0,PHSA)
+   (ATL_CINT N, ATL_CINT M, const SCALAR alpha,
+    const TYPE *A, ATL_CINT lda, TYPE *C, ATL_CINT ldc)
 {
    Mjoin3(PATL,gezero,PHSA)(M, N, C, ldc);
 }

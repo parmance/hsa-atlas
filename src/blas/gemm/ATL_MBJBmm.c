@@ -31,9 +31,9 @@
 #include "atlas_lvl3.h"
 
 HSA_FUNCTION
-void Mjoin3(PATL,MBJBmm,PHSA)(
-   const int N, const int K, const TYPE *A, const TYPE *B,
-   const TYPE beta, TYPE *C, const int ldc)
+void Mjoin3(PATL,MBJBmm,PHSA)
+   (const int N, const int K, const TYPE *A, const TYPE *B,
+    const TYPE beta, TYPE *C, const int ldc)
 {
    const int nKb = ATL_DivByNB(K);
    #ifdef TREAL
@@ -73,7 +73,8 @@ void Mjoin3(PATL,MBJBmm,PHSA)(
    }
    else if (k = K - ATL_MulByNB(nKb))
    {
-      if (beta == ATL_rzero) Mjoin3(PATL,gezero,PHSA)(MB, N, C, ldc);
+      if (beta == ATL_rzero)
+         Mjoin3(PATL,gezero,PHSA)(MB, N, C, ldc);
       Mjoin3(PATL,pKBmm,PHSA)(MB, N, k, ATL_rone, A, k, B, k, beta, C, ldc);
    }
 }

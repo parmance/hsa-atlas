@@ -130,13 +130,15 @@ int Mjoin3(PATL,NCmmJIK_c,PHSA)
          geadd = ATL_TargetFn(Mjoin5(PATL,geadd,_a1,_b0,PHSA));
       else if (beta == ATL_rone)
          geadd = ATL_TargetFn(Mjoin5(PATL,geadd,_a1,_b1,PHSA));
-      else geadd = ATL_TargetFn(Mjoin5(PATL,geadd,_a1,_bX,PHSA));
+      else
+         geadd = ATL_TargetFn(Mjoin5(PATL,geadd,_a1,_bX,PHSA));
    }
    else if (beta == ATL_rzero)
       geadd = ATL_TargetFn(Mjoin5(PATL,geadd,_aX,_b0,PHSA));
    else if (beta == ATL_rone)
       geadd = ATL_TargetFn(Mjoin5(PATL,geadd,_aX,_b1,PHSA));
-   else geadd = ATL_TargetFn(Mjoin5(PATL,geadd,_aX,_bX,PHSA));
+   else
+      geadd = ATL_TargetFn(Mjoin5(PATL,geadd,_aX,_bX,PHSA));
    vp = Mjoin(simple_malloc,PHSA)(memBlob,
                                   ATL_Cachelen + ATL_MulBySize(MB * NB));
    ATL_assert(vp);
@@ -170,10 +172,9 @@ int Mjoin3(PATL,NCmmJIK_c,PHSA)
       }
    }
    if (mr && N != nr)
-      ATL_assert(Mjoin3(PATL,NCmmIJK,PHSA)(
-                    memBlob, TA, TB, mr, N-nr, K, alpha,
-                    A+Mb*(incAm+Kb*incAk), lda, B, ldb,
-                    beta, C+Mb*MB, ldc) ==0);
+      ATL_assert(Mjoin3(PATL,NCmmIJK,PHSA)(memBlob, TA, TB, mr, N-nr, K, alpha,
+                                           A+Mb*(incAm+Kb*incAk), lda, B, ldb,
+                                           beta, C+Mb*MB, ldc) ==0);
    if (nr)
    {
       for (i=Mb; i; i--, a += incAm, b += incBm, c += incCm)

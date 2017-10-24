@@ -36,9 +36,9 @@
 
 #if defined(GEN_JT_MAT2BLK)
 HSA_FUNCTION
-void Mjoin3(PATL,icall_MAT2BLK,PHSA)(
-   MAT2BLK mat2blk, const int M, const int N, const TYPE *A,
-   const int lda, TYPE *V, const SCALAR alpha0)
+void Mjoin3(PATL,icall_MAT2BLK,PHSA)
+   (MAT2BLK mat2blk, const int M, const int N, const TYPE *A,
+    const int lda, TYPE *V, const SCALAR alpha0)
 {
 #undef DO_CALL
 #define DO_CALL(fn)                             \
@@ -72,9 +72,9 @@ void Mjoin3(PATL,icall_MAT2BLK,PHSA)(
 
 #elif defined(GEN_JT_MAT2BLK2)
 HSA_FUNCTION
-void Mjoin3(PATL,icall_MAT2BLK2,PHSA)(
-   MAT2BLK2 mat2blk2, const int M, const int N, const float alpha,
-   const float *A, const int lda, float *C, const int ldc)
+void Mjoin3(PATL,icall_MAT2BLK2,PHSA)
+   (MAT2BLK2 mat2blk2, const int M, const int N, const float alpha,
+    const float *A, const int lda, float *C, const int ldc)
 {
 #undef DO_CALL
 #define DO_CALL(fn)                             \
@@ -96,10 +96,10 @@ void Mjoin3(PATL,icall_MAT2BLK2,PHSA)(
 
 #elif defined(GEN_JT_NBMM0)
 HSA_FUNCTION
-void Mjoin3(PATL,icall_NBMM0,PHSA)(
-   NBMM0 NBmm0, const int M, const int N, const int K, const TYPE alpha,
-   const TYPE* A, const int lda, const TYPE* B, const int ldb,
-   const TYPE beta, TYPE* C, const int ldc) {
+void Mjoin3(PATL,icall_NBMM0,PHSA)
+   (NBMM0 NBmm0, const int M, const int N, const int K, const TYPE alpha,
+    const TYPE* A, const int lda, const TYPE* B, const int ldb,
+    const TYPE beta, TYPE* C, const int ldc) {
 
 #undef DO_CALL
 #define DO_CALL(fn)                                  \
@@ -136,8 +136,8 @@ void Mjoin3(PATL,icall_NBMM0,PHSA)(
 
 #elif defined(GEN_JT_PUTBLK)
 HSA_FUNCTION
-void Mjoin3(PATL,icall_PUTBLK,PHSA)(
-   PUTBLK putblk, int M, int N, TYPE *V, TYPE *C, int ldc, const SCALAR beta0)
+void Mjoin3(PATL,icall_PUTBLK,PHSA)
+   (PUTBLK putblk, int M, int N, TYPE *V, TYPE *C, int ldc, const SCALAR beta0)
 {
 #undef DO_CALL
 #define DO_CALL(fn)                             \
@@ -162,12 +162,12 @@ void Mjoin3(PATL,icall_PUTBLK,PHSA)(
 
 #elif defined(GEN_JT_MMINTR)
 HSA_FUNCTION
-int Mjoin3(PATL,icall_MMINTR,PHSA)(
-   MMINTR mmintr, MemBlob* memBlob,
-   const enum ATLAS_TRANS TA, const enum ATLAS_TRANS TB,
-   const int M, const int N, const int K, const SCALAR alpha,
-   const TYPE *A, const int lda, const TYPE *B, const int ldb,
-   const SCALAR beta, TYPE *C, const int ldc)
+int Mjoin3(PATL,icall_MMINTR,PHSA)
+   (MMINTR mmintr, MemBlob* memBlob,
+    const enum ATLAS_TRANS TA, const enum ATLAS_TRANS TB,
+    const int M, const int N, const int K, const SCALAR alpha,
+    const TYPE *A, const int lda, const TYPE *B, const int ldb,
+    const SCALAR beta, TYPE *C, const int ldc)
 {
 #undef DO_CALL
 #define DO_CALL(fn)                                                     \
@@ -198,9 +198,9 @@ int Mjoin3(PATL,icall_MMINTR,PHSA)(
 
 #elif defined(GEN_JT_GEADD)
 HSA_FUNCTION
-void Mjoin3(PATL,icall_GEADD,PHSA)(
-   GEADD geadd, const int M, const int N, const SCALAR alpha, const TYPE *A,
-   const int lda, const SCALAR beta, TYPE *C, const int ldc)
+void Mjoin3(PATL,icall_GEADD,PHSA)
+   (GEADD geadd, const int M, const int N, const SCALAR alpha, const TYPE *A,
+    const int lda, const SCALAR beta, TYPE *C, const int ldc)
 {
 #undef DO_CALL
 #define DO_CALL(fn)                                 \

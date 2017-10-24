@@ -48,7 +48,8 @@ void Mjoin3(PATL,geadd,PHSA)
          Mjoin3(PATL,geadd_a1_b1,PHSA)(M, N, alpha, A, lda, beta, C, ldc);
       else if (beta == ATL_rzero)
          Mjoin3(PATL,geadd_a1_b0,PHSA)(M, N, alpha, A, lda, beta, C, ldc);
-      else Mjoin3(PATL,geadd_a1_bX,PHSA)(M, N, alpha, A, lda, beta, C, ldc);
+      else
+         Mjoin3(PATL,geadd_a1_bX,PHSA)(M, N, alpha, A, lda, beta, C, ldc);
    }
    else
    {
@@ -56,7 +57,8 @@ void Mjoin3(PATL,geadd,PHSA)
          Mjoin3(PATL,geadd_aX_b1,PHSA)(M, N, alpha, A, lda, beta, C, ldc);
       else if (beta == ATL_rzero)
          Mjoin3(PATL,geadd_aX_b0,PHSA)(M, N, alpha, A, lda, beta, C, ldc);
-      else Mjoin3(PATL,geadd_aX_bX,PHSA)(M, N, alpha, A, lda, beta, C, ldc);
+      else
+         Mjoin3(PATL,geadd_aX_bX,PHSA)(M, N, alpha, A, lda, beta, C, ldc);
    }
 #else
    const int AlphaIsReal = (alpha[1] == ATL_rzero);

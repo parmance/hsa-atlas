@@ -35,13 +35,13 @@
 #include "atlas_malloc.h"
 
 HSA_FUNCTION
-int Mjoin3(PATL,mmJITcp,PHSA)(
-   MemBlob* memBlob,
-   const enum ATLAS_TRANS TA, const enum ATLAS_TRANS TB,
-   const int M0, const int N, const int K,
-   const SCALAR alpha, const TYPE *A, const int lda,
-   const TYPE *B, const int ldb, const SCALAR beta,
-   TYPE *C, const int ldc)
+int Mjoin3(PATL,mmJITcp,PHSA)
+   (MemBlob* memBlob,
+    const enum ATLAS_TRANS TA, const enum ATLAS_TRANS TB,
+    const int M0, const int N, const int K,
+    const SCALAR alpha, const TYPE *A, const int lda,
+    const TYPE *B, const int ldb, const SCALAR beta,
+    TYPE *C, const int ldc)
 /*
  * Copy matmul algorithm, copies A and B on-the-fly
  * If M < 0, allocates only (MB+NB)*KB workspace
@@ -63,8 +63,8 @@ int Mjoin3(PATL,mmJITcp,PHSA)(
  * can sometimes avoid doing cleanup forall cases
  */
    if (M <= MB && N <= NB && (M != MB || N != NB))
-      return (Mjoin3(PATL,mmBPP,PHSA)(memBlob, TA, TB, M, N, K, alpha,
-                                      A, lda, B, ldb, beta, C, ldc));
+      return Mjoin3(PATL,mmBPP,PHSA)(memBlob, TA, TB, M, N, K, alpha,
+                                     A, lda, B, ldb, beta, C, ldc);
 /*
  * If these workspace increments are 0, we do JIT NBxNB copies instead of
  * copying entire array/panel.  Don't copy mat if you can't reuse it.
@@ -115,7 +115,8 @@ int Mjoin3(PATL,mmJITcp,PHSA)(
    i *= sizeof(TYPE);
    if (i <= ATL_MaxMalloc || !(incAW | incBW))
       v = Mjoin(simple_malloc,PHSA)(memBlob, ATL_Cachelen+i);
-   if (!v) return(-1);
+   if (!v)
+      return -1;
    pA = ATL_AlignPtr(v);
    pB0 = pA + (incAW ? bigK*MB : KB*MB);
    if (TA == AtlasNoTrans)
@@ -233,6 +234,6 @@ int Mjoin3(PATL,mmJITcp,PHSA)(
       }
    }
    Mjoin(simple_free,PHSA)(memBlob, v);
-   return(0);
+   return 0;
 }
 

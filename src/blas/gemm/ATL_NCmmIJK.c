@@ -118,18 +118,22 @@ int Mjoin3(PATL,NCmmIJK,PHSA)
          if (TB == AtlasNoTrans)
          {
             mm_b1 = ATL_TargetFn(Mjoin5(NCmm0,NN,0x0x0,_a1_b1,PHSA));
-            if (beta == ATL_rone) mm_bX = mm_b1;
+            if (beta == ATL_rone)
+               mm_bX = mm_b1;
             else if (beta == ATL_rzero)
                mm_bX = ATL_TargetFn(Mjoin5(NCmm0,NN,0x0x0,_a1_b0,PHSA));
-            else mm_bX = ATL_TargetFn(Mjoin5(NCmm0,NN,0x0x0,_a1_bX,PHSA));
+            else
+               mm_bX = ATL_TargetFn(Mjoin5(NCmm0,NN,0x0x0,_a1_bX,PHSA));
          }
          else
          {
             mm_b1 = ATL_TargetFn(Mjoin5(NCmm0,NT,0x0x0,_a1_b1,PHSA));
-            if (beta == ATL_rone) mm_bX = mm_b1;
+            if (beta == ATL_rone)
+               mm_bX = mm_b1;
             else if (beta == ATL_rzero)
                mm_bX = ATL_TargetFn(Mjoin5(NCmm0,NT,0x0x0,_a1_b0,PHSA));
-            else mm_bX = ATL_TargetFn(Mjoin5(NCmm0,NT,0x0x0,_a1_bX,PHSA));
+            else
+               mm_bX = ATL_TargetFn(Mjoin5(NCmm0,NT,0x0x0,_a1_bX,PHSA));
          }
       }
       else
@@ -137,18 +141,22 @@ int Mjoin3(PATL,NCmmIJK,PHSA)
          if (TB == AtlasNoTrans)
          {
             mm_b1 = ATL_TargetFn(Mjoin5(NCmm0,TN,0x0x0,_a1_b1,PHSA));
-            if (beta == ATL_rone) mm_bX = mm_b1;
+            if (beta == ATL_rone)
+               mm_bX = mm_b1;
             else if (beta == ATL_rzero)
                mm_bX = ATL_TargetFn(Mjoin5(NCmm0,TN,0x0x0,_a1_b0,PHSA));
-            else mm_bX = ATL_TargetFn(Mjoin5(NCmm0,TN,0x0x0,_a1_bX,PHSA));
+            else
+               mm_bX = ATL_TargetFn(Mjoin5(NCmm0,TN,0x0x0,_a1_bX,PHSA));
          }
          else
          {
             mm_b1 = ATL_TargetFn(Mjoin5(NCmm0,TT,0x0x0,_a1_b1,PHSA));
-            if (beta == ATL_rone) mm_bX = mm_b1;
+            if (beta == ATL_rone)
+               mm_bX = mm_b1;
             else if (beta == ATL_rzero)
                mm_bX = ATL_TargetFn(Mjoin5(NCmm0,TT,0x0x0,_a1_b0,PHSA));
-            else mm_bX = ATL_TargetFn(Mjoin5(NCmm0,TT,0x0x0,_a1_bX,PHSA));
+            else
+               mm_bX = ATL_TargetFn(Mjoin5(NCmm0,TT,0x0x0,_a1_bX,PHSA));
          }
       }
    }
@@ -160,9 +168,8 @@ int Mjoin3(PATL,NCmmIJK,PHSA)
  *    If needed, call version that uses temp C to handle alpha & beta safely
  */
       if (Kb >= ATL_MaxMMalpha || Mabs(alpha) < btmp)
-         return (Mjoin(Mjoin(PATL,NCmmIJK_c),PHSA)(
-                    memBlob, TA, TB, M, N, K, alpha,
-                    A, lda, B, ldb, beta, C, ldc));
+         return Mjoin3(PATL,NCmmIJK_c,PHSA)(memBlob, TA, TB, M, N, K, alpha,
+                                            A, lda, B, ldb, beta, C, ldc);
       if (TA == AtlasNoTrans)
       {
          if (TB == AtlasNoTrans)
@@ -212,7 +219,8 @@ int Mjoin3(PATL,NCmmIJK,PHSA)
          }
          else if (kr)
          {
-            if (BetaIsZero) Mjoin3(PATL,gezero,PHSA)(MB, NB, c, ldc);
+            if (BetaIsZero)
+               Mjoin3(PATL,gezero,PHSA)(MB, NB, c, ldc);
             NCMM_ICALL(mmcu, MB, NB, kr, alpha, a, lda, b, ldb, beta, c, ldc);
          }
       }
@@ -221,7 +229,8 @@ int Mjoin3(PATL,NCmmIJK,PHSA)
    {
       for (j=Nb; j; j--, a += incAn, b += incBn, c += incCn)
       {
-         if (BetaIsZero) Mjoin3(PATL,gezero,PHSA)(mr, NB, c, ldc);
+         if (BetaIsZero)
+            Mjoin3(PATL,gezero,PHSA)(mr, NB, c, ldc);
          if (Kb)
          {
             NCMM_ICALL(mm_fixedKcu, mr, NB, KB, alpha, a, lda, b, ldb, beta,
@@ -239,10 +248,9 @@ int Mjoin3(PATL,NCmmIJK,PHSA)
       }
    }
    if (nr)
-      ATL_assert(Mjoin3(PATL,NCmmJIK,PHSA)(
-                    memBlob, TA, TB, M, nr, K, alpha, A, lda,
-                    B+Nb*(incBn+Kb*incBk), ldb,
-                    beta, C+Nb*NB*ldc, ldc) == 0);
+      ATL_assert(Mjoin3(PATL,NCmmJIK,PHSA)(memBlob, TA, TB, M, nr, K, alpha,
+                                           A, lda, B+Nb*(incBn+Kb*incBk), ldb,
+                                           beta, C+Nb*NB*ldc, ldc) == 0);
    return(0);
 }
 

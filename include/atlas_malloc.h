@@ -31,10 +31,9 @@
 #ifndef ATLAS_MALLOC_H
 #define ATLAS_MALLOC_H
 
-
-/* TODO: fix for code style. */
-
-/* Copied from atlas_lvl3.h */
+/*
+ * Copied from atlas_lvl3.h
+ */
 #ifndef ATL_MaxMalloc
    #ifdef ATL_MaxMalloc_MB
       #define ATL_MaxMalloc (((size_t)(ATL_MaxMalloc_MB))<<20)
@@ -45,26 +44,30 @@
 
 typedef unsigned mem_size_t;
 
-/* TODO make this opaque. */
 typedef struct {
-  /* Block from the memory is allocated. */
+  /*
+   * Block from the memory is allocated.
+   */
   void* blob;
-  /* Size of the memory block. */
+  /*
+   * Size of the memory block.
+   */
   mem_size_t size;
   /* Pointer to last allocated block. Only NULL if no memory has been
-     allocated */
+   * allocated
+   */
   void* tail;
 } MemBlob;
 
-/* Include here because of MemBlob declaration. */
+/*
+ * nclude here because of MemBlob declaration.
+ */
 #include "atlas_misc.h"
 
 #ifndef DIRECTHSA
 extern MemBlob* globalMemBlob;
 #endif
 
-/* Kludge. PHSA macro is not what is wanted because no
- * -DSREAL is not given.  */
 #if defined(DIRECTHSA)
 #undef PHSA
 #define PHSA _hsa_function

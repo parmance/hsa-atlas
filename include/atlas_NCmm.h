@@ -204,16 +204,16 @@ typedef enum NCMM_fnid {
 
 HSA_FUNCTION
 void Mjoin3(PATL,icall_NCMM,PHSA)(
-   NCMM NCmm, const int M, const int N, const int K, const SCALAR alpha,
-   const TYPE *A, const int lda, const TYPE *B, const int ldb,
-   const SCALAR beta, TYPE *C, const int ldc);
+   (NCMM NCmm, const int M, const int N, const int K, const SCALAR alpha,
+    const TYPE *A, const int lda, const TYPE *B, const int ldb,
+    const SCALAR beta, TYPE *C, const int ldc);
 
 #else
 
-typedef void (*NCMM)(const int M, const int N, const int K, const SCALAR alpha,
-                     const TYPE *A, const int lda, const TYPE *B, const int ldb,
-                     const SCALAR beta, TYPE *C, const int ldc);
-#endif
+typedef void (*NCMM)
+   (const int M, const int N, const int K, const SCALAR alpha,
+    const TYPE *A, const int lda, const TYPE *B, const int ldb,
+    const SCALAR beta, TYPE *C, const int ldc);
 
-
 #endif
+#endif /* ATLAS_NCMM_H */

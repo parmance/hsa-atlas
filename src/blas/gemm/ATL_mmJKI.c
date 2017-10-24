@@ -117,13 +117,13 @@ void Mjoin3(PATL,mm_axpy,PHSA)
 }
 
 HSA_FUNCTION
-int Mjoin3(PATL,mmJKI,PHSA)(
-   MemBlob* memBlob,
-   const enum ATLAS_TRANS TA, const enum ATLAS_TRANS TB,
-   const int M, const int N, const int K,
-   const SCALAR alpha, const TYPE *A, const int lda,
-   const TYPE *B, const int ldb, const SCALAR beta,
-   TYPE *C, const int ldc)
+int Mjoin3(PATL,mmJKI,PHSA)
+   (MemBlob* memBlob,
+    const enum ATLAS_TRANS TA, const enum ATLAS_TRANS TB,
+    const int M, const int N, const int K,
+    const SCALAR alpha, const TYPE *A, const int lda,
+    const TYPE *B, const int ldb, const SCALAR beta,
+    TYPE *C, const int ldc)
 /*
  * This gemm is for small K, so we build gemm out of AXPY (outer product)
  * rather than dot (inner product).

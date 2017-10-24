@@ -51,24 +51,24 @@ void ATL_strsetU(ATL_CINT M, ATL_CINT N, const float alpha,
                  const float beta, float *A, ATL_CINT lda);
 float ATL_sgemaxnrm(ATL_CINT M, ATL_CINT N, float *A, ATL_CINT lda);
 HSA_FUNCTION
-void Mjoin(ATL_sgeadd,PHSA)(
-   const int M, const int N, const float alpha,
-   const float *A, const int lda, const float beta,
-   float *C, const int ldc);
+void Mjoin(ATL_sgeadd,PHSA)
+   (const int M, const int N, const float alpha,
+    const float *A, const int lda, const float beta,
+    float *C, const int ldc);
 HSA_FUNCTION
-void Mjoin(ATL_sgemove,PHSA)(
-   const int M, const int N, const float alpha,
-   const float *A, const int lda, float *C, const int ldc);
+void Mjoin(ATL_sgemove,PHSA)
+   (const int M, const int N, const float alpha,
+    const float *A, const int lda, float *C, const int ldc);
 HSA_FUNCTION
-void Mjoin(ATL_sgemoveT,PHSA)(
-   const int N, const int M, const float alpha,
-   const float *A, const int lda, float *C, const int ldc);
+void Mjoin(ATL_sgemoveT,PHSA)
+   (const int N, const int M, const float alpha,
+    const float *A, const int lda, float *C, const int ldc);
 void ATL_ssyreflect(const enum ATLAS_UPLO Uplo, const int N,
                     float *C, const int ldc);
 HSA_FUNCTION
-void Mjoin(ATL_sgecopy,PHSA)(
-   const int M, const int N, const float *A, const int lda,
-   float *C, const int ldc);
+void Mjoin(ATL_sgecopy,PHSA)
+   (const int M, const int N, const float *A, const int lda,
+    float *C, const int ldc);
 
 HSA_FUNCTION
 void Mjoin(ATL_sgescal,PHSA)(const int M, const int N, const float beta,
@@ -98,22 +98,25 @@ void ATL_sgeswapT(ATL_CINT M, ATL_CINT N, float *A, ATL_CINT lda,
                   float *B, ATL_CINT ldb);
 void ATL_ssqtrans(ATL_CINT N, float *C, ATL_CINT ldc);
 
+HSA_FUNCTION
 void Mjoin(ATL_szero,PHSA)(const int N, float *X, const int incX);
 void ATL_sset(const int N, const float alpha, float *X, const int incX);
 void ATL_sscal(const int N, const float alpha, float *X, const int incX);
 void ATL_scopy(const int N, const float *X, const int incX,
                float *Y, const int incY);
-void Mjoin(ATL_scpsc,PHSA)(
-   const int N, const float alpha, const float *X,
-   const int incX, float *Y, const int incY);
-void Mjoin(ATL_saxpy,PHSA)(
-   const int N, const float alpha, const float *X,
-   const int incX, float *Y, const int incY);
+HSA_FUNCTION
+void Mjoin(ATL_scpsc,PHSA)
+   (const int N, const float alpha, const float *X,
+    const int incX, float *Y, const int incY);
+HSA_FUNCTION
+void Mjoin(ATL_saxpy,PHSA)
+   (const int N, const float alpha, const float *X,
+    const int incX, float *Y, const int incY);
 void ATL_saxpy_x1_y1(const int N, const float alpha, const float *X,
                      const int incX, float *Y, const int incY);
-void Mjoin(ATL_saxpby,PHSA)(
-   const int N, const float alpha, const float *X,
-   const int incX, const float beta, float *Y, const int incY);
+void Mjoin(ATL_saxpby,PHSA)
+   (const int N, const float alpha, const float *X,
+    const int incX, const float beta, float *Y, const int incY);
 
 HSA_FUNCTION
 void Mjoin(ATL_sgeadd_a1_b1,PHSA)

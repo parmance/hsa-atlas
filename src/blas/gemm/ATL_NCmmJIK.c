@@ -120,18 +120,22 @@ int Mjoin3(PATL,NCmmJIK,PHSA)
          if (TB == AtlasNoTrans)
          {
             mm_b1 = ATL_TargetFn(Mjoin5(NCmm0,NN,0x0x0,_a1_b1,PHSA));
-            if (beta == ATL_rone) mm_bX = mm_b1;
+            if (beta == ATL_rone)
+               mm_bX = mm_b1;
             else if (beta == ATL_rzero)
                mm_bX = ATL_TargetFn(Mjoin5(NCmm0,NN,0x0x0,_a1_b0,PHSA));
-            else mm_bX = ATL_TargetFn(Mjoin5(NCmm0,NN,0x0x0,_a1_bX,PHSA));
+            else
+               mm_bX = ATL_TargetFn(Mjoin5(NCmm0,NN,0x0x0,_a1_bX,PHSA));
          }
          else
          {
             mm_b1 = ATL_TargetFn(Mjoin5(NCmm0,NT,0x0x0,_a1_b1,PHSA));
-            if (beta == ATL_rone) mm_bX = mm_b1;
+            if (beta == ATL_rone)
+               mm_bX = mm_b1;
             else if (beta == ATL_rzero)
                mm_bX = ATL_TargetFn(Mjoin5(NCmm0,NT,0x0x0,_a1_b0,PHSA));
-            else mm_bX = ATL_TargetFn(Mjoin5(NCmm0,NT,0x0x0,_a1_bX,PHSA));
+            else
+               mm_bX = ATL_TargetFn(Mjoin5(NCmm0,NT,0x0x0,_a1_bX,PHSA));
          }
       }
       else
@@ -139,18 +143,22 @@ int Mjoin3(PATL,NCmmJIK,PHSA)
          if (TB == AtlasNoTrans)
          {
             mm_b1 = ATL_TargetFn(Mjoin5(NCmm0,TN,0x0x0,_a1_b1,PHSA));
-            if (beta == ATL_rone) mm_bX = mm_b1;
+            if (beta == ATL_rone)
+               mm_bX = mm_b1;
             else if (beta == ATL_rzero)
                mm_bX = ATL_TargetFn(Mjoin5(NCmm0,TN,0x0x0,_a1_b0,PHSA));
-            else mm_bX = ATL_TargetFn(Mjoin5(NCmm0,TN,0x0x0,_a1_bX,PHSA));
+            else
+               mm_bX = ATL_TargetFn(Mjoin5(NCmm0,TN,0x0x0,_a1_bX,PHSA));
          }
          else
          {
             mm_b1 = ATL_TargetFn(Mjoin5(NCmm0,TT,0x0x0,_a1_b1,PHSA));
-            if (beta == ATL_rone) mm_bX = mm_b1;
+            if (beta == ATL_rone)
+               mm_bX = mm_b1;
             else if (beta == ATL_rzero)
                mm_bX = ATL_TargetFn(Mjoin5(NCmm0,TT,0x0x0,_a1_b0,PHSA));
-            else mm_bX = ATL_TargetFn(Mjoin5(NCmm0,TT,0x0x0,_a1_bX,PHSA));
+            else
+               mm_bX = ATL_TargetFn(Mjoin5(NCmm0,TT,0x0x0,_a1_bX,PHSA));
          }
       }
    }
@@ -162,8 +170,8 @@ int Mjoin3(PATL,NCmmJIK,PHSA)
  *    If needed, call version that uses temp C to handle alpha & beta safely
  */
       if (Kb >= ATL_MaxMMalpha || Mabs(alpha) < btmp)
-         return (Mjoin3(PATL,NCmmJIK_c,PHSA)(memBlob,TA, TB, M, N, K, alpha,
-                                             A, lda, B, ldb, beta, C, ldc));
+         return Mjoin3(PATL,NCmmJIK_c,PHSA)(memBlob,TA, TB, M, N, K, alpha,
+                                            A, lda, B, ldb, beta, C, ldc);
       if (TA == AtlasNoTrans)
       {
          if (TB == AtlasNoTrans)
@@ -213,25 +221,26 @@ int Mjoin3(PATL,NCmmJIK,PHSA)
          }
          else if (kr)
          {
-            if (BetaIsZero) Mjoin3(PATL,gezero,PHSA)(MB, NB, c, ldc);
+            if (BetaIsZero)
+               Mjoin3(PATL,gezero,PHSA)(MB, NB, c, ldc);
             NCMM_ICALL(mmcu, MB, NB, kr, alpha, a, lda, b, ldb, beta, c, ldc);
          }
       }
    }
    if (mr && N != nr)
-      ATL_assert(Mjoin3(PATL,NCmmIJK,PHSA)(
-                    memBlob, TA, TB, mr, N-nr, K, alpha,
-                    A+Mb*(incAm+Kb*incAk), lda, B, ldb,
-                    beta, C+Mb*MB, ldc) ==0);
+      ATL_assert(Mjoin3(PATL,NCmmIJK,PHSA)(memBlob, TA, TB, mr, N-nr, K, alpha,
+                                           A+Mb*(incAm+Kb*incAk), lda, B, ldb,
+                                           beta, C+Mb*MB, ldc) ==0);
    if (nr)
    {
       for (i=Mb; i; i--, a += incAm, b += incBm, c += incCm)
       {
-         if (BetaIsZero) Mjoin3(PATL,gezero,PHSA)(MB, nr, c, ldc);
+         if (BetaIsZero)
+            Mjoin3(PATL,gezero,PHSA)(MB, nr, c, ldc);
          if (Kb)
          {
             NCMM_ICALL(mm_fixedKcu, MB, nr, KB, alpha, a, lda, b, ldb, beta,
-                        c, ldc);
+                       c, ldc);
             a += incAk;  b += incBk;
             for (k=Kb-1; k; k--, a += incAk, b += incBk)
                NCMM_ICALL(mm_fixedKcu, MB, nr, KB, alpha, a, lda, b, ldb,
@@ -248,7 +257,8 @@ int Mjoin3(PATL,NCmmJIK,PHSA)
          c = C + Mb*MB + ldc*Nb*NB;
          a = A + Mb*(incAm+Kb*incAk);
          b = B + Nb*( incBn+(Mb*(incBm+Kb*incBk)) );
-         if (BetaIsZero) Mjoin3(PATL,gezero,PHSA)(mr, nr, c, ldc);
+         if (BetaIsZero)
+            Mjoin3(PATL,gezero,PHSA)(mr, nr, c, ldc);
          if (Kb)
          {
             NCMM_ICALL(mm_fixedKcu, mr, nr, KB, alpha, a, lda, b, ldb, beta,
@@ -265,6 +275,6 @@ int Mjoin3(PATL,NCmmJIK,PHSA)
             NCMM_ICALL(mmcu, mr, nr, kr, alpha, a, lda, b, ldb, beta, c, ldc);
       }
    }
-   return(0);
+   return 0;
 }
 

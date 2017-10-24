@@ -38,9 +38,12 @@ void Mjoin3(PATL,gemove,PHSA)
  */
 {
 #ifdef TREAL
-   if (alpha == ATL_rone) Mjoin3(PATL,gecopy,PHSA)(M, N, A, lda, C, ldc);
-   else if (alpha == ATL_rzero) Mjoin3(PATL,gezero,PHSA)(M, N, C, ldc);
-   else Mjoin3(PATL,gemove_aX,PHSA)(M, N, alpha, A, lda, C, ldc);
+   if (alpha == ATL_rone)
+      Mjoin3(PATL,gecopy,PHSA)(M, N, A, lda, C, ldc);
+   else if (alpha == ATL_rzero)
+      Mjoin3(PATL,gezero,PHSA)(M, N, C, ldc);
+   else
+      Mjoin3(PATL,gemove_aX,PHSA)(M, N, alpha, A, lda, C, ldc);
 #else
    TYPE ralpha = *alpha;
 

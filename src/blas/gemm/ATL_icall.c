@@ -28,7 +28,8 @@
  *
  */
 
-/* Architecture/target depend indirect call interfaces
+/*
+ * Architecture/target depend indirect call interfaces
  *
  * For now, only HSA (DirectHSA) target has alternate indirect call
  * implementation. See ATL_jumptables.c for the implementation
@@ -41,9 +42,9 @@
  */
 
 #ifdef MAT2BLK_ICALL
-static void MAT2BLK_ICALL(
-   MAT2BLK mat2blk, const int M, const int N, const TYPE *A, const int lda,
-   TYPE *V, const SCALAR alpha0)
+static void MAT2BLK_ICALL
+   (MAT2BLK mat2blk, const int M, const int N, const TYPE *A, const int lda,
+    TYPE *V, const SCALAR alpha0)
 {
 #ifdef DIRECTHSA
    Mjoin3(PATL,icall_MAT2BLK,PHSA)(mat2blk, M, N, A, lda, V, alpha0);
@@ -54,9 +55,9 @@ static void MAT2BLK_ICALL(
 #endif
 
 #ifdef MAT2BLK2_ICALL
-static void MAT2BLK2_ICALL(
-   MAT2BLK2 mat2blk2, const int M, const int N, const TYPE alpha,
-   const TYPE *A, const int lda, TYPE *C, const int ldc)
+static void MAT2BLK2_ICALL
+   (MAT2BLK2 mat2blk2, const int M, const int N, const TYPE alpha,
+    const TYPE *A, const int lda, TYPE *C, const int ldc)
 {
 #ifdef DIRECTHSA
    Mjoin3(PATL,icall_MAT2BLK2,PHSA)(
@@ -68,8 +69,8 @@ static void MAT2BLK2_ICALL(
 #endif
 
 #ifdef PUTBLK_ICALL
-static void PUTBLK_ICALL(
-   PUTBLK putblk, int M, int N, TYPE *V, TYPE *C, int ldc, const SCALAR beta0)
+static void PUTBLK_ICALL
+   (PUTBLK putblk, int M, int N, TYPE *V, TYPE *C, int ldc, const SCALAR beta0)
 {
 #  ifdef DIRECTHSA
    Mjoin3(PATL,icall_PUTBLK,PHSA)(
@@ -81,10 +82,10 @@ static void PUTBLK_ICALL(
 #endif
 
 #ifdef NBMM_ICALL
-static void NBMM_ICALL(
-   NBMM0 NBmm0, const int M, const int N, const int K, const TYPE alpha,
-   const TYPE* A, const int lda, const TYPE* B, const int ldb,
-   const TYPE beta, TYPE* C, const int ldc)
+static void NBMM_ICALL
+   (NBMM0 NBmm0, const int M, const int N, const int K, const TYPE alpha,
+    const TYPE* A, const int lda, const TYPE* B, const int ldb,
+    const TYPE beta, TYPE* C, const int ldc)
 {
 #ifdef DIRECTHSA
    Mjoin3(PATL,icall_NBMM0,PHSA)(
@@ -96,10 +97,10 @@ static void NBMM_ICALL(
 #endif
 
 #ifdef NCMM_ICALL
-static void NCMM_ICALL(
-   NCMM NCmm, const int M, const int N, const int K, const SCALAR alpha,
-   const TYPE *A, const int lda, const TYPE *B, const int ldb,
-   const SCALAR beta, TYPE *C, const int ldc)
+static void NCMM_ICALL
+   (NCMM NCmm, const int M, const int N, const int K, const SCALAR alpha,
+    const TYPE *A, const int lda, const TYPE *B, const int ldb,
+    const SCALAR beta, TYPE *C, const int ldc)
 {
 #ifdef DIRECTHSA
    Mjoin3(PATL,icall_NCMM,PHSA)(
@@ -111,12 +112,12 @@ static void NCMM_ICALL(
 #endif
 
 #ifdef MMINTR_ICALL
-static int MMINTR_ICALL(
-   MMINTR mmintr, MemBlob* memBlob,
-   const enum ATLAS_TRANS TA, const enum ATLAS_TRANS TB,
-   const int M, const int N, const int K, const SCALAR alpha,
-   const TYPE *A, const int lda, const TYPE *B, const int ldb,
-   const SCALAR beta, TYPE *C, const int ldc)
+static int MMINTR_ICALL
+   (MMINTR mmintr, MemBlob* memBlob,
+    const enum ATLAS_TRANS TA, const enum ATLAS_TRANS TB,
+    const int M, const int N, const int K, const SCALAR alpha,
+    const TYPE *A, const int lda, const TYPE *B, const int ldb,
+    const SCALAR beta, TYPE *C, const int ldc)
 {
 #ifdef DIRECTHSA
    return Mjoin3(PATL,icall_MMINTR,PHSA)(
@@ -129,9 +130,9 @@ static int MMINTR_ICALL(
 #endif
 
 #ifdef GEADD_ICALL
-static void GEADD_ICALL(
-   GEADD geadd, const int M, const int N, const SCALAR alpha, const TYPE *A,
-   const int lda, const SCALAR beta, TYPE *C, const int ldc)
+static void GEADD_ICALL
+   (GEADD geadd, const int M, const int N, const SCALAR alpha, const TYPE *A,
+    const int lda, const SCALAR beta, TYPE *C, const int ldc)
 {
 #ifdef DIRECTHSA
    Mjoin3(PATL,icall_GEADD,PHSA)(geadd, M, N, alpha, A, lda, beta, C, ldc);

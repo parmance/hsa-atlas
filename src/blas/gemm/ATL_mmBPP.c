@@ -37,13 +37,13 @@
 #include "atlas_malloc.h"
 
 HSA_FUNCTION
-int Mjoin3(PATL,mmBPP,PHSA)(
-   MemBlob* memBlob,
-   const enum ATLAS_TRANS TA, const enum ATLAS_TRANS TB,
-   const int M, const int N, const int K,
-   const SCALAR alpha, const TYPE *A, const int lda,
-   const TYPE *B, const int ldb, const SCALAR beta,
-   TYPE *C, const int ldc0)
+int Mjoin3(PATL,mmBPP,PHSA)
+   (MemBlob* memBlob,
+    const enum ATLAS_TRANS TA, const enum ATLAS_TRANS TB,
+    const int M, const int N, const int K,
+    const SCALAR alpha, const TYPE *A, const int lda,
+    const TYPE *B, const int ldb, const SCALAR beta,
+    TYPE *C, const int ldc0)
 /*
  * Copy algorithm, assuming M <= MB && N <= NB, K large (shape: block, panel,
  * panel); copies A and B on-the-fly
@@ -51,10 +51,6 @@ int Mjoin3(PATL,mmBPP,PHSA)(
 {
    void *vC;
    TYPE *pA, *pB, *pC;
-   /* void (*A2blk)(int N, int M, const SCALAR alpha, const TYPE *A, int lda, */
-   /*               TYPE *C, int ldc); */
-   /* void (*B2blk)(int N, int M, const SCALAR alpha, const TYPE *A, int lda, */
-   /*               TYPE *C, int ldc); */
    MAT2BLK2 A2blk = ATL_NullFn;
    MAT2BLK2 B2blk = ATL_NullFn;
    NBMM0 NBmm0 = ATL_NullFn;
@@ -63,7 +59,7 @@ int Mjoin3(PATL,mmBPP,PHSA)(
    int m, n, nblk, k, kr;
 
    if (M > MB || N > NB)  /* don't handle multiple M/N blocks */
-      return(1);
+      return 1;
    if (M < MB && M+ATL_mmMU >= MB)
       m = MB;
    else
@@ -76,7 +72,8 @@ int Mjoin3(PATL,mmBPP,PHSA)(
           / sizeof(TYPE);
    vC = Mjoin(simple_malloc,PHSA)(memBlob,
                                   ATL_Cachelen+ATL_MulBySize(ldc*n+KB*(m+n)));
-   if (!vC) return(-1);
+   if (!vC)
+      return -1;
    pC = ATL_AlignPtr(vC);
    pA = pC + ldc*n;
    pB = pA + KB*m;
@@ -144,6 +141,6 @@ int Mjoin3(PATL,mmBPP,PHSA)(
                          A2blk, B2blk, NBmm0, NBmm1);
    Mjoin3(PATL,geadd,PHSA)(M, N, alpha, pC, ldc, beta, C, ldc0);
    Mjoin(simple_free,PHSA)(memBlob, vC);
-   return(0);
+   return 0;
 }
 

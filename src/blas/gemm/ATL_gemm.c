@@ -174,7 +174,8 @@
 
 #endif
 
-typedef struct Mjoin(PATL,gemm_args_s) {
+typedef struct Mjoin(PATL,gemm_args_s)
+{
    MemBlob* memBlob;
    const enum ATLAS_TRANS TA;
    const enum ATLAS_TRANS TB;
@@ -192,8 +193,7 @@ typedef struct Mjoin(PATL,gemm_args_s) {
 } Mjoin(PATL,gemm_args_t);
 
 HSA_KERNEL
-static void Mjoin3(Cgemm,_kernel,PHSA)(
-   Mjoin(PATL,gemm_args_t)* args)
+static void Mjoin3(Cgemm,_kernel,PHSA)(Mjoin(PATL,gemm_args_t)* args)
 /*
  * Actual function to do work.
  */
@@ -217,17 +217,20 @@ static void Mjoin3(Cgemm,_kernel,PHSA)(
    if ( SCALAR_IS_ZERO(alpha) || !K)
    {
       #ifdef TREAL
-      if (beta == ATL_rzero) Mjoin3(PATL,gezero,PHSA)(M, N, C, ldc);
+      if (beta == ATL_rzero)
+         Mjoin3(PATL,gezero,PHSA)(M, N, C, ldc);
       else if (beta != ATL_rone)
          Mjoin3(PATL,gescal_bX,PHSA)(M, N, beta, C, ldc);
       #else
          if (beta[1] == ATL_rzero)
          {
-            if (*beta == ATL_rzero) Mjoin3(PATL,gezero,PHSA)(M, N, C, ldc);
+            if (*beta == ATL_rzero)
+               Mjoin3(PATL,gezero,PHSA)(M, N, C, ldc);
             else if (*beta != ATL_rone)
                Mjoin3(PATL,gescal_bXi0,PHSA)(M, N, beta, C, ldc);
          }
-         else Mjoin3(PATL,gescal_bX,PHSA)(M, N, beta, C, ldc);
+         else
+            Mjoin3(PATL,gescal_bX,PHSA)(M, N, beta, C, ldc);
       #endif
       return;
    }
@@ -274,11 +277,10 @@ static MemBlob Mjoin(Cgemm,DynMemBlobData) = {
 static MemBlob* Mjoin(Cgemm,DynMemBlob) = &Mjoin(Cgemm,DynMemBlobData);
 #endif
 
-void Cgemm(
-   const enum ATLAS_TRANS TA, const enum ATLAS_TRANS TB,
-   const int M, const int N, const int K, const SCALAR alpha,
-   const TYPE *A, const int lda, const TYPE *B, const int ldb,
-   const SCALAR beta, TYPE *C, const int ldc)
+void Cgemm(const enum ATLAS_TRANS TA, const enum ATLAS_TRANS TB,
+           const int M, const int N, const int K, const SCALAR alpha,
+           const TYPE *A, const int lda, const TYPE *B, const int ldb,
+           const SCALAR beta, TYPE *C, const int ldc)
 /*
  * Entry to gemm function. Error checks have been done by interface routine
  */
