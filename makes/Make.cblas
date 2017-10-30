@@ -54,7 +54,7 @@ zptlvl1obj = catlas_zptaxpby.o catlas_zptset.o cblas_dzptasum.o \
              cblas_zdptscal.o cblas_zptaxpy.o cblas_zptcopy.o cblas_zptdotc.o \
              cblas_zptdotu.o cblas_zptrotg.o cblas_zptscal.o cblas_zptswap.o
 slvl3obj = cblas_sgemm.o cblas_ssymm.o cblas_ssyr2k.o cblas_ssyrk.o \
-           cblas_strmm.o cblas_strsm.o
+           cblas_strmm.o cblas_strsm.o cblas_sgemm_cpu.o
 dlvl3obj = cblas_dgemm.o cblas_dsymm.o cblas_dsyr2k.o cblas_dsyrk.o \
            cblas_dtrmm.o cblas_dtrsm.o
 
@@ -622,6 +622,8 @@ cblas_dsptdot.o : $(mySRCdir)/cblas_dsdot.c $(INCPTdep)
 	$(ICC) -o $@ -c $(ICCFLAGS) -DATL_USEPTHREADS $(mySRCdir)/cblas_dsdot.c
 cblas_sgemm.o : $(mySRCdir)/cblas_sgemm.c $(INCdep)
 	$(KC) -o $@ -c $(KCFLAGS)  $(mySRCdir)/cblas_sgemm.c
+cblas_sgemm_cpu.o : $(mySRCdir)/cblas_sgemm_cpu.c $(INCdep)
+	$(KC) -o $@ -c $(KCFLAGS)  $(mySRCdir)/cblas_sgemm_cpu.c
 cblas_strsm.o : $(mySRCdir)/cblas_strsm.c $(INCdep)
 	$(KC) -o $@ -c $(KCFLAGS)  $(mySRCdir)/cblas_strsm.c
 cblas_strmm.o : $(mySRCdir)/cblas_strmm.c $(INCdep)

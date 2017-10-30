@@ -33,7 +33,7 @@ sobj = ATL_sMBJBmm.o ATL_sIBNBmm.o ATL_sIBJBmm.o ATL_sGetNB.o \
 stobj = ATL_stgemmNN.o ATL_stgemmNT.o ATL_stgemmTN.o ATL_stgemmTT.o
 
 # Object compiled with -fdirecthsa -DDIRECTHSA
-sHSAobj = ATL_sgemm_hsa.o \
+sHSAobj = ATL_sgemm_hsa.o ATL_sgemm_cpu.o \
           ATL_sMBJBmm_hsa.o ATL_sIBNBmm_hsa.o ATL_sIBJBmm_hsa.o \
           ATL_sGetNB_hsa.o ATL_sGetNCNB_hsa.o ATL_sgemmNN_hsa.o \
           ATL_sgemmNT_hsa.o ATL_sgemmTN_hsa.o ATL_sgemmTT_hsa.o \
@@ -380,6 +380,11 @@ ATL_sputblk_b0_hsa.o : $(mySRCdir)/ATL_putblk.c $(sINCdep)
 ATL_sgemm_hsa.o : $(mySRCdir)/ATL_gemm.c $(mySRCdir)/ATL_gemmXX.c $(sINCdep) \
                   $(INCAdir)/atlas_cacheedge.h $(INCAdir)/sXover.h
 	$(SKC) -o $@ -c -fdirecthsa $(sKCFLAGS) -DDIRECTHSA -DSREAL -DATLGEMM -I./ \
+                $(mySRCdir)/ATL_gemm.c
+
+ATL_sgemm_cpu.o : $(mySRCdir)/ATL_gemm.c $(mySRCdir)/ATL_gemmXX.c $(sINCdep) \
+                  $(INCAdir)/atlas_cacheedge.h $(INCAdir)/sXover.h
+	$(SKC) -o $@ -c $(sKCFLAGS) -DSREAL -DATLGEMM_CPU_REF -I./ \
                 $(mySRCdir)/ATL_gemm.c
 
 ATL_sNCgemm_hsa.o : $(mySRCdir)/ATL_NCgemm.c $(sINCdep)

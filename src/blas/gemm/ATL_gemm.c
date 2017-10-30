@@ -55,6 +55,9 @@
    #define Cgemm Mjoin(PATL,FindCE_mm)
 #elif defined (ATLGEMM)
 #   define Cgemm Mjoin(PATL,gemm)
+#elif defined (ATLGEMM_CPU_REF)
+#   define Cgemm Mjoin(PATL,gemm_cpu)
+#   define ATLGEMM
 #elif defined (ALIASED_GEMM)
 #   define Cgemm Mjoin(PATL,aliased_gemm)
 #endif

@@ -45,6 +45,10 @@ void ATL_sgemm(const enum ATLAS_TRANS TransA, const enum ATLAS_TRANS TransB,
                const int M, const int N, const int K, const float alpha,
                const float *A, const int lda, const float *B, const int ldb,
                const float beta, float *C, const int ldc);
+void ATL_sgemm_cpu(const enum ATLAS_TRANS TransA, const enum ATLAS_TRANS TransB,
+                   const int M, const int N, const int K, const float alpha,
+                   const float *A, const int lda, const float *B, const int ldb,
+                   const float beta, float *C, const int ldc);
 void ATL_ssymm(const enum ATLAS_SIDE Side, const enum ATLAS_UPLO Uplo,
                const int M, const int N, const float alpha,
                const float *A, const int lda, const float *B, const int ldb,
