@@ -22,7 +22,7 @@ sINCdep = $(INCSdir)/atlas_misc.h $(INCAdir)/atlas_type.h \
           $(INCSdir)/atlas_malloc.h
 
 # ATL_sgemm.o
-sobj = ATL_sMBJBmm.o ATL_sIBNBmm.o ATL_sIBJBmm.o ATL_sGetNB.o \
+sobj = ATL_sgemm_cpu.o ATL_sMBJBmm.o ATL_sIBNBmm.o ATL_sIBJBmm.o ATL_sGetNB.o \
        ATL_sGetNCNB.o ATL_sgemmNN.o ATL_sgemmNT.o ATL_sgemmTN.o ATL_sgemmTT.o \
        ATL_sNCmmIJK.o ATL_sNCmmJIK.o ATL_sNCmmIJK_c.o ATL_sNCmmJIK_c.o \
        ATL_saliased_gemm.o ATL_sAgemmNN.o ATL_sAgemmNT.o ATL_sAgemmTN.o \
@@ -33,7 +33,7 @@ sobj = ATL_sMBJBmm.o ATL_sIBNBmm.o ATL_sIBJBmm.o ATL_sGetNB.o \
 stobj = ATL_stgemmNN.o ATL_stgemmNT.o ATL_stgemmTN.o ATL_stgemmTT.o
 
 # Object compiled with -fdirecthsa -DDIRECTHSA
-sHSAobj = ATL_sgemm_hsa.o ATL_sgemm_cpu.o \
+sHSAobj = ATL_sgemm_hsa.o \
           ATL_sMBJBmm_hsa.o ATL_sIBNBmm_hsa.o ATL_sIBJBmm_hsa.o \
           ATL_sGetNB_hsa.o ATL_sGetNCNB_hsa.o ATL_sgemmNN_hsa.o \
           ATL_sgemmNT_hsa.o ATL_sgemmTN_hsa.o ATL_sgemmTT_hsa.o \
